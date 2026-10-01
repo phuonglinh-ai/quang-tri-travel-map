@@ -1,0 +1,21 @@
+{
+  "layer": "ocop",
+  "name": "Cafe Khe Sanh",
+  "nameEn": "Khe Sanh Coffee",
+  "latLng": "16.629929537886827, 106.74158459337572",
+  "summary": "Vượt quốc lộ 9A Việt - Lào lên cửa khẩu quốc tế Lao Bảo, đến Khe Sanh vùng đất được biết đến bởi “thủ phủ” của thương hiệu cà phê Arabica (cà phê chè) nức tiếng ra cả những khách hàng trên vùng lãnh thổ, vì thế nên được du khách từ Mỹ tìm đến để mua trọn gói 2 tấn vận chuyển về New York nước Mỹ.",
+  "images": [
+    {
+      "src": "/images/places/cafe-khe-sanh-5f3ffba0ea08.webp",
+      "alt": "Cafe Khe Sanh",
+      "credit": "Báo Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn"
+    }
+  ],
+  "months": [
+    3,
+    4
+  ],
+  "isSample": true
+}
