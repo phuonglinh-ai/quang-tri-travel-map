@@ -1,0 +1,16 @@
+{
+  "layer": "trai-nghiem",
+  "name": "Trường THPT chuyên Võ Nguyên Giáp",
+  "latLng": "17.475697327551895, 106.60706572359466",
+  "summary": "Trường THPT chuyên Võ Nguyên Giáp là trường trung học phổ thông chuyên trọng điểm của tỉnh Quảng Bình, tiền thân là trường THPT Năng khiếu Quảng Bình thành lập năm 1996",
+  "images": [
+    {
+      "src": "/images/places/truong-thpt-chuyen-vo-nguyen-giap-e5c60adef92e.webp",
+      "alt": "Trường THPT chuyên Võ Nguyên Giáp",
+      "credit": "Trường THPT chuyên Võ Nguyên Giáp",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://chuyen-vonguyengiapqb.edu.vn/"
+    }
+  ],
+  "isSample": true
+}
