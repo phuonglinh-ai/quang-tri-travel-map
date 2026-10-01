@@ -1,0 +1,20 @@
+{
+  "layer": "am-thuc",
+  "name": "Bánh bột lọc Mỹ Chánh, Quảng Trị",
+  "latLng": "16.631236967014114, 107.30414461814807",
+  "summary": "Bánh bột lọc là món ăn rất phổ biến ở Quảng Trị, đặc biệt là bánh lọc Mỹ Chánh. Bánh Lọc Mỹ Chánh được làm từ tinh chất của cây sắn, nhân bánh được làm từ nhiều nguyên liệu khác nhau như thịt lợn, thịt gà, tôm, đậu xanh. Nhưng ngon và phù hợp hơn cả vẫn là tôm tươi cùng thịt lợn thái nhỏ ướp gia vị, xào chín tới. Bánh bột lọc nho nhỏ, trong suốt phô bày con tôm và lát thịt đỏ au ăn với trái ớt xanh, cay vô kể nhưng cứ bắt người ta phải nhớ.",
+  "images": [
+    {
+      "src": "/images/places/banh-bot-loc-my-chanh-quang-tri-9e21e4c5d79b.webp",
+      "alt": "Bánh bột lọc Mỹ Chánh, Quảng Trị",
+      "credit": "Tỉnh Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn"
+    }
+  ],
+  "months": [
+    3,
+    4
+  ],
+  "isSample": true
+}
