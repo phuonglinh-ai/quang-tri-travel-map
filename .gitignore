@@ -7,3 +7,5 @@ dist/
 .claude/settings.local.json
 # Ảnh cho web được build từ content/images/ (npm run places)
 public/images/places/
+# Sinh từ content/ bởi `npm run places` (chạy trong build và predev); CMS chỉ commit content/
+public/data/places.json

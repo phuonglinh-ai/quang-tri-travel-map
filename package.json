@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "predev": "npm run places",
     "dev": "vite",
     "build": "npm run places && tsc --noEmit && vite build",
     "preview": "vite preview",

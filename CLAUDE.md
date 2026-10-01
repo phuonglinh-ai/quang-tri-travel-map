@@ -280,7 +280,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 | `npm run data:fetch` | Tải nguồn vào `.cache/` (gitignore): sparse checkout repo ranh giới, Overpass, Natural Earth, glyph font |
 | `npm run data:build` | Xử lý thành `public/data/` rồi tự chạy `data:verify` |
 | `npm run data:verify` | Kiểm tra: đủ 78 xã, không mất polygon > 1.000 m², Cồn Cỏ, Hoàng Sa, nhãn "Lào"/"Biển Đông" đặt đúng chỗ |
-| `npm run places` | Sinh `public/admin/config.json` (cấu hình CMS) + kiểm tra `content/places/*.json` → `public/data/places.json` (tự gán `wardCode`, dừng nếu sai quy tắc) + tạo ảnh web từ `content/images/` vào `public/images/places/`. Được gọi trong `npm run build` và tự chạy khi `content/` thay đổi lúc `npm run dev` |
+| `npm run places` | Sinh `public/admin/config.json` (cấu hình CMS) + kiểm tra `content/places/*.json` → `public/data/places.json` (tự gán `wardCode`, dừng nếu sai quy tắc) + tạo ảnh web từ `content/images/` vào `public/images/places/`. Được gọi trong `npm run build`, khi khởi động `npm run dev` (`predev`) và tự chạy khi `content/` thay đổi lúc `npm run dev` |
 | `npm run osm:pois` | Tải gợi ý POI từ OSM vào `.cache/osm-pois.geojson` (chỉ để biên tập, không đưa thẳng lên web) |
 | `npm run images:find <id>…` | Tìm ảnh ứng viên trên Wikimedia Commons → `.cache/image-candidates.json` (có truy vấn/mã Wikidata chỉ định cho từng điểm trong script) |
 | `npm run images` | Tải ảnh Commons theo `content/image-selection.json` vào `content/images/<id>.jpg` (ảnh tải về giữ ở `.cache/images-orig/`), ghi `images` vào `content/places/<id>.json` (giữ ảnh không phải Commons). Chạy `npm run places` sau đó |
@@ -288,7 +288,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 **Cấu trúc thư mục thực tế:**
 
 ```
-content/            places.json (nguồn biên tập), image-selection.json, README.md (hướng dẫn biên tập)
+content/            places/<id>.json, images/, featured.json (nguồn biên tập, sửa qua CMS), image-selection.json, README.md (hướng dẫn biên tập)
 scripts/            fetch-*.mjs (tải nguồn), build-*.mjs (xử lý), verify-data.mjs, find-images.mjs, lib.mjs
 public/data/        GeoJSON + places.json đã xử lý, SOURCES.md (nguồn & giấy phép)
 public/fonts/       glyph Noto Sans (+ OFL.txt)
@@ -307,7 +307,7 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 **Quy ước và bài học kỹ thuật:**
 
 - `src/config/province.data.json` là nguồn cấu hình dùng chung cho **cả script Node lẫn app**. `province.ts` bổ sung phần chỉ app dùng (Fast Travel, bbox). Bảng màu nằm ở `src/config/theme.ts`.
-- `public/data/` và `public/fonts/` **được commit** để deploy không cần chạy pipeline dữ liệu (`public/images/places/` thì không, xem mục ảnh bên dưới). Riêng `public/data/places.json` trong repo có thể **chậm hơn** `content/`, vì CMS chỉ commit `content/`; điều này không ảnh hưởng bản deploy do `npm run build` luôn chạy `npm run places` để sinh lại file. Quy trình đồng bộ máy ↔ GitHub ↔ CMS (pull --rebase trước khi sửa và trước khi push, không `--force`, xử lý xung đột `places.json` bằng cách sinh lại) ghi ở mục "Đồng bộ giữa máy, GitHub và CMS" của `README.md`. Đề xuất chưa được duyệt: bỏ theo dõi `places.json` (đưa vào `.gitignore`, thêm `predev`), để hết lệch và hết xung đột. `.cache/`, `dist/`, `node_modules/` không commit (đã có trong `.gitignore`).
+- `public/data/` (trừ `places.json`) và `public/fonts/` **được commit** để deploy không cần chạy pipeline dữ liệu. **Không commit** (đã có trong `.gitignore`, người dùng duyệt 01/10/2026): `public/data/places.json` và `public/images/places/`, vì đều sinh từ `content/` bởi `npm run places`, chạy tự động trong `build` và `predev`. CMS chỉ commit `content/`, nên nếu lưu file sinh ra trong git thì file đó sẽ cũ dần và gây xung đột. Quy trình đồng bộ máy ↔ GitHub ↔ CMS (pull --rebase trước khi sửa và trước khi push, không `--force`) ghi ở mục "Đồng bộ giữa máy, GitHub và CMS" của `README.md`. `.cache/`, `dist/`, `node_modules/` không commit (đã có trong `.gitignore`).
 - **Viền tỉnh được dựng bằng dissolve các xã**, không dùng file tỉnh chính thức. File tỉnh chính thức đã lược bỏ các đảo ven bờ (4 đảo ở Phú Trạch, 1 đảo ở Mỹ Thuỷ), và độ chi tiết của nó thấp hơn nhiều so với file xã (3.600 điểm so với 175.000 điểm).
 - **`keep-shapes` của mapshaper KHÔNG bảo vệ từng phần của MultiPolygon.** Đảo nhỏ nằm chung feature với đất liền vẫn có thể bị xóa (đã xảy ra với Thanh Hóa). Luôn đơn giản hóa qua `simplifyKeepingIslands()` trong `scripts/lib.mjs` (explode → simplify → dissolve theo mã).
 - Vùng ngữ cảnh / `maxBounds` = bbox tỉnh ± `viewPaddingDeg` (2°). Nếu vùng này quá hẹp, MapLibre buộc phải phóng to trên màn hình dọc và làm cắt mất tỉnh. Mọi tỉnh Việt Nam giao với vùng này phải có trong `neighbors`; phần đất còn lại lấy từ Natural Earth, chỉ hình học. Vùng hiện tại kết thúc ở 109,4°E, chưa chạm Hoàng Sa. Nếu mở rộng vùng về phía đông thì Đà Nẵng (đã gồm Hoàng Sa) đã có sẵn, nhưng phải thêm Khánh Hòa nếu vùng chạm tới Trường Sa.

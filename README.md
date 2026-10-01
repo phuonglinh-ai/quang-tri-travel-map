@@ -44,7 +44,7 @@ scripts/          Pipeline dữ liệu (Node.js + mapshaper)
   verify-data.mjs Kiểm tra tự động; thoát với mã lỗi nếu vi phạm
 content/          Nguồn nội dung để biên tập (sửa qua CMS): places/<id>.json, images/, featured.json
 public/admin/     Trang quản trị Sveltia CMS (/admin/); config.json sinh tự động, không sửa tay
-public/data/      GeoJSON và places.json đã xử lý (xem SOURCES.md)
+public/data/      GeoJSON đã xử lý (xem SOURCES.md); places.json sinh tự động, không lưu trong git
 public/fonts/     Glyph Noto Sans tự lưu trữ cho nhãn bản đồ
 src/config/       Cấu hình tỉnh, lớp địa điểm, bảng màu
 src/map/          MapLibre: style nền, lớp địa điểm (gom cụm), icon ghim
@@ -61,7 +61,7 @@ src/main.ts       Nối store ↔ bản đồ ↔ panel ↔ URL
 - **Bản gốc là nhánh `main` trên GitHub.** Máy tính chỉ là một bản sao.
 - **CMS trên web** (`/admin/`) lưu thẳng lên `main`: mỗi lần bấm **Save** là một commit (tên tác giả là chủ token, ví dụ "Phương Linh AI"). Vercel tự deploy sau mỗi commit.
 - **CMS chỉ ghi vào thư mục `content/`.** Sửa code thì ghi vào `src/`, `scripts/`, `public/`… Vì hai bên sửa các file khác nhau, git ghép được cả hai mà không mất phần nào, **miễn là luôn kéo về trước khi đẩy lên**.
-- `public/data/places.json` là **file sinh ra** từ `content/` (bằng `npm run places`). CMS không cập nhật file này, nên sau khi kéo nội dung mới về, file trên máy sẽ thay đổi khi chạy `npm run places`. Đây là chuyện bình thường; cứ commit file này cùng lần commit kế tiếp. Bản deploy không phụ thuộc vào file này trong repo, vì `npm run build` luôn sinh lại nó.
+- `public/data/places.json` (dữ liệu địa điểm cho bản đồ) là **file sinh ra** từ `content/` và **không lưu trong git** (đã khai báo trong `.gitignore`). File được tạo lại tự động khi chạy `npm run dev`, `npm run build` (kể cả trên Vercel) hoặc `npm run places`, nên không bao giờ phải commit hay đồng bộ file này.
 - **Không bao giờ dùng `git push --force`.** Lệnh này ghi đè GitHub bằng bản trên máy và **xóa mất các nội dung đã lưu từ CMS** mà máy chưa kéo về.
 
 **Thiết lập một lần (khuyên dùng):** để `git pull` luôn đặt commit trên máy lên sau commit mới từ CMS (không tạo commit "Merge…"), và tự cất tạm thay đổi chưa commit:
@@ -84,12 +84,8 @@ Làm mỗi khi đã sửa nội dung trên `/admin/`, và **luôn làm trước 
 git pull --rebase --autostash
 ```
 
-```bash
-npm run places
-```
-
-- Lệnh thứ nhất tải các commit của CMS về. Nếu trên máy đang có thay đổi chưa commit, git tự cất tạm rồi trả lại sau khi kéo.
-- Lệnh thứ hai sinh lại `public/data/places.json` và ảnh cho web từ nội dung mới (`npm run dev` chỉ tự làm việc này khi `content/` thay đổi **trong lúc** dev server đang chạy, không làm khi khởi động, nên sau khi kéo về vẫn phải chạy lệnh này).
+- Lệnh này tải các commit của CMS về. Nếu trên máy đang có thay đổi chưa commit, git tự cất tạm rồi trả lại sau khi kéo.
+- Bản đồ trên máy tự cập nhật theo nội dung mới: `npm run dev` sinh lại dữ liệu địa điểm và ảnh khi khởi động, và cả khi `content/` thay đổi lúc đang chạy.
 - Kiểm tra: `git log --oneline -5` phải thấy các commit "Cập nhật địa điểm …" mới nhất, và `git status` báo `Your branch is up to date with 'origin/main'`.
 
 ### B. Sửa code rồi commit và đẩy lên toàn bộ
@@ -103,7 +99,7 @@ npm run places
    ```bash
    npm run build
    ```
-4. **Xem lại danh sách file thay đổi.** Chỉ nên có các file anh/chị đã sửa, cộng thêm `public/data/places.json` nếu có. Nếu thấy file lạ (đặc biệt file chứa token, mật khẩu, `.env`) thì **không** commit file đó.
+4. **Xem lại danh sách file thay đổi.** Chỉ nên có các file anh/chị đã sửa. Nếu thấy file lạ (đặc biệt file chứa token, mật khẩu, `.env`) thì **không** commit file đó.
    ```bash
    git status
    ```
@@ -140,16 +136,6 @@ Trong thời gian sửa cục bộ, **không sửa cùng địa điểm đó tr�
 
 Xung đột chỉ xảy ra khi máy và CMS cùng sửa một file. `git pull` sẽ dừng lại và `git status` liệt kê file bị xung đột.
 
-- **`public/data/places.json`:** file sinh ra, không cần sửa tay. Sinh lại rồi tiếp tục:
-  ```bash
-  npm run places
-  ```
-  ```bash
-  git add public/data/places.json
-  ```
-  ```bash
-  git rebase --continue
-  ```
 - **File trong `content/`** (cùng một địa điểm bị sửa ở cả hai nơi): mở file, tìm đoạn giữa `<<<<<<<` và `>>>>>>>`, giữ lại nội dung đúng, xóa các dòng đánh dấu, rồi chạy `git add <file>` và `git rebase --continue`.
 - **Muốn hủy và quay về trạng thái trước khi kéo:**
   ```bash
@@ -160,7 +146,7 @@ Xung đột chỉ xảy ra khi máy và CMS cùng sửa một file. `git pull` s
 
 | Tình huống | Lệnh |
 |---|---|
-| Vừa sửa trên CMS web, cần cập nhật máy | `git pull --rebase --autostash` → `npm run places` |
+| Vừa sửa trên CMS web, cần cập nhật máy | `git pull --rebase --autostash` (rồi `npm run dev` nếu muốn xem) |
 | Bắt đầu sửa code | `git pull --rebase --autostash` |
 | Sửa code xong | `npm run build` → `git status` → `git add -A` → `git commit -m "…"` → `git pull --rebase --autostash` → `git push` |
 | `git push` bị từ chối | `git pull --rebase --autostash` → `git push` (không dùng `--force`) |
