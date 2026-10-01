@@ -3,6 +3,19 @@
   "name": "Mường Thanh Grand Quang Tri Hotel",
   "latLng": "16.818936, 107.105452",
   "summary": "Cơ sở lưu trú tại khu vực Đông Hà. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/muong-thanh-quang-tri-126146fb3da5.webp",
+      "alt": "Mường Thanh Quảng Trị Hotel",
+      "credit": "Tập đoàn Mường Thanh",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://booking.muongthanh.com/khach-san-muong-thanh-grand-quang-tri"
+    }
+  ],
+  "months": [
+    5,
+    6
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4714980122",
