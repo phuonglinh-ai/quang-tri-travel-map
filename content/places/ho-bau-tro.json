@@ -1,8 +1,18 @@
 {
   "layer": "di-tich",
   "name": "Hồ Bàu Tró",
+  "nameEn": "Bau Tro Lake",
   "latLng": "17.493281, 106.621704",
   "summary": "Hồ nước ngọt sát biển ở Đồng Hới, đồng thời là nơi phát hiện di chỉ khảo cổ thời tiền sử.",
+  "images": [
+    {
+      "src": "/images/places/ho-bau-tro-e95e0d4784d5.webp",
+      "alt": "Hồ Bầu Tró",
+      "credit": "Báo Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/142081876",
