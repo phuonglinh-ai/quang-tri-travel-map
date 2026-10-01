@@ -1,5 +1,5 @@
 // Lớp địa điểm: nguồn GeoJSON có gom cụm (cluster) ở mức zoom thấp, ghim theo lớp, vòng chọn.
-import type { GeoJSONSource, Map as MlMap } from 'maplibre-gl';
+import type { ExpressionSpecification, GeoJSONSource, Map as MlMap } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
 import { assetPath, type Place } from '../data/places';
 import { LAYER_BY_ID } from '../config/layers';
@@ -9,7 +9,21 @@ import { addPhotoPin, addPinImage, photoKey } from './icons';
 const SOURCE = 'places';
 export const PLACE_LAYERS = { cluster: 'place-cluster', clusterCount: 'place-cluster-count', pin: 'place-pin', selected: 'place-selected' };
 
+// Bán kính bong bóng cụm theo số địa điểm: [số tối thiểu, bán kính px], tăng dần.
+const CLUSTER_RADII: [number, number][] = [[0, 15], [10, 19], [30, 24]];
+const CLUSTER_STROKE = 2.5;
+const stepByCount = (values: number[]) =>
+  ['step', ['get', 'point_count'], values[0], ...CLUSTER_RADII.slice(1).flatMap(([n], i) => [n, values[i + 1]])] as ExpressionSpecification;
+
+// Lớp circle không tham gia xét va chạm nhãn, nên biển số đường có thể nằm dưới bong bóng cụm.
+// Gắn vào lớp số đếm một ảnh trong suốt đúng cỡ bong bóng để nó chiếm chỗ trong chỉ mục va chạm.
+const FOOTPRINT = 'cluster-footprint';
+const FOOTPRINT_PX = 2 * (CLUSTER_RADII[CLUSTER_RADII.length - 1][1] + CLUSTER_STROKE);
+
 export function addPlacesLayer(map: MlMap) {
+  if (!map.hasImage(FOOTPRINT)) {
+    map.addImage(FOOTPRINT, { width: FOOTPRINT_PX, height: FOOTPRINT_PX, data: new Uint8Array(FOOTPRINT_PX * FOOTPRINT_PX * 4) });
+  }
   map.addSource(SOURCE, {
     type: 'geojson',
     data: { type: 'FeatureCollection', features: [] },
@@ -27,8 +41,8 @@ export function addPlacesLayer(map: MlMap) {
       'circle-color': COLORS.brand,
       'circle-opacity': 0.92,
       'circle-stroke-color': '#ffffff',
-      'circle-stroke-width': 2.5,
-      'circle-radius': ['step', ['get', 'point_count'], 15, 10, 19, 30, 24],
+      'circle-stroke-width': CLUSTER_STROKE,
+      'circle-radius': stepByCount(CLUSTER_RADII.map(([, r]) => r)),
     },
   });
   map.addLayer({
@@ -36,7 +50,16 @@ export function addPlacesLayer(map: MlMap) {
     type: 'symbol',
     source: SOURCE,
     filter: ['has', 'point_count'],
-    layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-font': FONTS.medium, 'text-size': 13, 'text-allow-overlap': true },
+    layout: {
+      'text-field': ['get', 'point_count_abbreviated'],
+      'text-font': FONTS.medium,
+      'text-size': 13,
+      'text-allow-overlap': true,
+      'icon-image': FOOTPRINT,
+      'icon-size': stepByCount(CLUSTER_RADII.map(([, r]) => (2 * (r + CLUSTER_STROKE)) / FOOTPRINT_PX)),
+      'icon-allow-overlap': true,
+      'icon-padding': 0,
+    },
     paint: { 'text-color': '#ffffff' },
   });
   map.addLayer({

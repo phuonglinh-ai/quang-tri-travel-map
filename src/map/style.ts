@@ -179,7 +179,8 @@ export function buildStyle(): StyleSpecification {
           // Biển số dựng đứng nên độ cong của đường không ảnh hưởng; bỏ giới hạn góc để tuyến quanh co
           // (đường Hồ Chí Minh, QL.9 qua núi) vẫn có biển số.
           'text-max-angle': 180,
-          'text-padding': 4,
+          'text-padding': 2,
+          'icon-padding': 0,
         },
         paint: {
           'text-color': ['match', ['get', 'net'], 'ct', SHIELDS.ct.text, 'ql', SHIELDS.ql.text, 'hcm', SHIELDS.hcm.text, SHIELDS.dt.text],
