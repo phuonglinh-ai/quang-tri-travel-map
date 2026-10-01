@@ -22,8 +22,8 @@ Người dùng (chủ dự án) làm trong lĩnh vực giáo dục và chính s�
 
 ## 2. Trạng thái hiện tại
 
-- **Đã xong Phase 0, Phase 1 (MVP) và phần ảnh địa điểm** (30/09–01/10/2026). Chi tiết ở mục 11.
-- **Git:** repo đã `git init` (nhánh `master`) nhưng **chưa có commit nào**. Người dùng yêu cầu chưa commit; chỉ commit khi được yêu cầu.
+- **Đã xong Phase 0, Phase 1 (MVP), phần ảnh địa điểm và trang quản trị Sveltia CMS** (30/09–01/10/2026). Chi tiết ở mục 11.
+- **Git:** nhánh `main`, đã commit lần đầu (01/10/2026) và đẩy lên GitHub (xem mục 10.7). Các commit có tác giả "Phương Linh AI" do CMS tạo khi sửa nội dung trên `/admin/`; trước khi sửa code nên `git pull` để lấy các thay đổi này. Claude chỉ commit/push khi người dùng yêu cầu.
 - **Tỉnh đã chọn: Quảng Trị** — tỉnh mới, sáp nhập từ Quảng Bình cũ và Quảng Trị cũ (xem hồ sơ tỉnh ở mục 5.4).
 - Toàn bộ code vẫn phải tham số hóa theo tỉnh thông qua một file cấu hình (`src/config/province.ts`). **Không** hard-code tên tỉnh trong component, để sau này có thể mở rộng sang tỉnh khác hoặc cấp vùng.
 
@@ -271,7 +271,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 
 ## 11. Lệnh và quy ước
 
-**Trạng thái:** Phase 0 và Phase 1 (MVP) đã xong (30/09/2026); bổ sung ảnh thật cho 22 địa điểm và ghim ảnh trên bản đồ (01/10/2026). Bước tiếp theo: Phase 2. Stack: Vite 8, TypeScript, MapLibre GL JS 6, UI vanilla TS.
+**Trạng thái:** Phase 0 và Phase 1 (MVP) đã xong (30/09/2026); bổ sung ảnh thật và ghim ảnh trên bản đồ, trang quản trị Sveltia CMS, dải Nổi bật quản lý trong CMS, commit và deploy Vercel (01/10/2026). Bước tiếp theo: Phase 2. Stack: Vite 8, TypeScript, MapLibre GL JS 6, UI vanilla TS.
 
 | Lệnh | Việc làm |
 |---|---|
@@ -302,12 +302,12 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 .claude/launch.json        cấu hình server dev (5173) và preview (4173) cho khung trình duyệt
 ```
 
-**Số liệu hiện tại:** 78 xã/phường/đặc khu; 96 địa điểm mẫu (Địa chỉ đỏ 23, Danh thắng 19, Lưu trú 12, Làng nghề 11, Di tích 9, Giao thông 9, Bảo tàng/thư viện 7, Trường học 6), 11 điểm nổi bật, 22 điểm có ảnh. Các lớp Lễ hội, Ẩm thực, Nông sản (3 lớp), Trải nghiệm STEM hiện trong giao diện nhưng làm mờ với ghi chú "Chờ dữ liệu chính thức". Đã bỏ điểm trùng "Đài tưởng niệm trận Thành cổ" (cách Thành cổ 3 m).
+**Số liệu hiện tại (rà soát 01/10/2026):** 78 xã/phường/đặc khu; 96 địa điểm, tất cả vẫn là mẫu `isSample: true` (Địa chỉ đỏ 23, Danh thắng 19, Lưu trú 12, Làng nghề 11, Di tích 9, Giao thông 9, Bảo tàng/thư viện 7, Trường học 6); 12 điểm nổi bật (`content/featured.json`); 24 điểm có ảnh (22 ảnh Commons, 2 ảnh "Do cơ quan cung cấp, có văn bản đồng ý": Nghĩa trang Quốc gia Đường 9, Nghĩa trang Hướng Hóa); 2 điểm đã nhập `months` (hai nghĩa trang trên, tháng 7) nhưng giao diện chưa dùng trường này. Các lớp Lễ hội, Ẩm thực, Nông sản (3 lớp), Trải nghiệm STEM hiện trong giao diện nhưng làm mờ với ghi chú "Chờ dữ liệu chính thức". Đã bỏ điểm trùng "Đài tưởng niệm trận Thành cổ" (cách Thành cổ 3 m).
 
 **Quy ước và bài học kỹ thuật:**
 
 - `src/config/province.data.json` là nguồn cấu hình dùng chung cho **cả script Node lẫn app**. `province.ts` bổ sung phần chỉ app dùng (Fast Travel, bbox). Bảng màu nằm ở `src/config/theme.ts`.
-- `public/data/`, `public/fonts/` và `public/images/` **sẽ được commit** để deploy không cần chạy pipeline dữ liệu. `.cache/`, `dist/`, `node_modules/` không commit (đã có trong `.gitignore`).
+- `public/data/` và `public/fonts/` **được commit** để deploy không cần chạy pipeline dữ liệu (`public/images/places/` thì không, xem mục ảnh bên dưới). Riêng `public/data/places.json` trong repo có thể **chậm hơn** `content/`, vì CMS chỉ commit `content/`; điều này không ảnh hưởng bản deploy do `npm run build` luôn chạy `npm run places` để sinh lại file. Quy trình đồng bộ máy ↔ GitHub ↔ CMS (pull --rebase trước khi sửa và trước khi push, không `--force`, xử lý xung đột `places.json` bằng cách sinh lại) ghi ở mục "Đồng bộ giữa máy, GitHub và CMS" của `README.md`. Đề xuất chưa được duyệt: bỏ theo dõi `places.json` (đưa vào `.gitignore`, thêm `predev`), để hết lệch và hết xung đột. `.cache/`, `dist/`, `node_modules/` không commit (đã có trong `.gitignore`).
 - **Viền tỉnh được dựng bằng dissolve các xã**, không dùng file tỉnh chính thức. File tỉnh chính thức đã lược bỏ các đảo ven bờ (4 đảo ở Phú Trạch, 1 đảo ở Mỹ Thuỷ), và độ chi tiết của nó thấp hơn nhiều so với file xã (3.600 điểm so với 175.000 điểm).
 - **`keep-shapes` của mapshaper KHÔNG bảo vệ từng phần của MultiPolygon.** Đảo nhỏ nằm chung feature với đất liền vẫn có thể bị xóa (đã xảy ra với Thanh Hóa). Luôn đơn giản hóa qua `simplifyKeepingIslands()` trong `scripts/lib.mjs` (explode → simplify → dissolve theo mã).
 - Vùng ngữ cảnh / `maxBounds` = bbox tỉnh ± `viewPaddingDeg` (2°). Nếu vùng này quá hẹp, MapLibre buộc phải phóng to trên màn hình dọc và làm cắt mất tỉnh. Mọi tỉnh Việt Nam giao với vùng này phải có trong `neighbors`; phần đất còn lại lấy từ Natural Earth, chỉ hình học. Vùng hiện tại kết thúc ở 109,4°E, chưa chạm Hoàng Sa. Nếu mở rộng vùng về phía đông thì Đà Nẵng (đã gồm Hoàng Sa) đã có sẵn, nhưng phải thêm Khánh Hòa nếu vùng chạm tới Trường Sa.
@@ -338,12 +338,13 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 - Địa điểm dạng vùng rộng dùng `mapZoom` (vườn quốc gia 9.5) thay cho zoom mặc định 13.
 
 - **Ảnh (30/09/2026):** 22 địa điểm có ảnh Wikimedia Commons (CC BY, CC BY-SA hoặc Public domain). Ảnh được chọn bằng cách xem từng ảnh bằng mắt, vì tìm theo tên thường ra ảnh sai (núi ở Iran, chùa ở Vũng Tàu, nghĩa trang ở Bỉ, Cửa Lò lẫn vào Nhật Lệ). Không dùng ảnh tư liệu chiến tranh chụp lính nước ngoài làm ảnh đại diện cho địa chỉ đỏ. Ghi công hiển thị trên ảnh ở thẻ địa điểm và trong mục "Nguồn ảnh". `build-places` báo lỗi nếu ảnh thiếu tác giả, giấy phép hoặc nguồn. Trang duyệt ảnh chỉ dùng khi dev: `/tools/review-images.html`.
-- Chưa có ảnh phù hợp trên Commons: Nghĩa trang Đường 9, Nhà tù Lao Bảo, Làng Vây, Dốc Miếu, Hang Tám Cô, Suối Nước Moọc, Cồn Cỏ, Giếng cổ Gio An, Bàu Tró, Vũng Chùa. Những điểm này cần ảnh tự chụp hoặc ảnh do tỉnh cung cấp.
+- Chưa có ảnh phù hợp trên Commons: Nhà tù Lao Bảo, Làng Vây, Dốc Miếu, Hang Tám Cô, Suối Nước Moọc, Cồn Cỏ, Giếng cổ Gio An, Bàu Tró, Vũng Chùa. Những điểm này cần ảnh tự chụp hoặc ảnh do tỉnh cung cấp.
 
-**Việc còn treo:**
-- Commit lần đầu: chờ người dùng yêu cầu.
-- Link góp ý/báo lỗi: chưa có địa chỉ nhận. Cần hỏi người dùng (email, form hay GitHub Issues), không tự dùng email cá nhân.
-- Dữ liệu mẫu (đặc biệt mô tả các Địa chỉ đỏ) cần người dùng hoặc tỉnh xác minh trước khi coi là thật.
-- `npm audit` báo lỗ hổng trong chuỗi phụ thuộc của mapshaper/sharp (chỉ là công cụ build chạy trên máy, không có trong bản web). Không chạy `npm audit fix --force` vì sẽ hạ mapshaper xuống phiên bản cũ.
-- Dung lượng `wards.geojson` (885 KB, gzip khoảng 250 KB) có thể cần chia tile nếu thấy chậm trên điện thoại.
-- Phase 2: lịch mùa vụ/lễ hội (`months`), tuyến trải nghiệm, song ngữ.
+**Việc còn treo (rà soát 01/10/2026):**
+- Link góp ý/báo lỗi: **chưa làm**, giao diện chưa có link nào. Cần hỏi người dùng địa chỉ nhận (email, form hay GitHub Issues của repo công khai), không tự dùng email cá nhân.
+- Xác minh dữ liệu mẫu: **chưa làm**, cả 96 địa điểm vẫn `isSample: true`. Cần người dùng hoặc tỉnh xác minh (đặc biệt mô tả các Địa chỉ đỏ) trước khi bỏ cờ mẫu.
+- Ảnh cho các điểm còn thiếu (danh sách ở mục Ảnh phía trên): chờ ảnh tự chụp hoặc ảnh do tỉnh cung cấp, nhập qua CMS.
+- `npm audit`: 8 mục (1 critical, 4 high, 3 moderate), **tất cả nằm trong devDependencies**; `npm audit --omit=dev` báo 0. Hai gốc: `mapshaper` (kéo theo `adm-zip`, `fflate`, `@xmldom/xmldom`, `@ngageoint/geopackage` → `file-type`, `image-size`) và `osmtogeojson` (kéo theo `@xmldom/xmldom` 0.8.3). `sharp` không liên quan. Hai gói này chỉ chạy trong `data:build` / `data:fetch` trên máy, với dữ liệu tải từ nguồn đã biết; app web chỉ import `maplibre-gl` và `@fontsource`. Không chạy `npm audit fix --force` vì sẽ hạ mapshaper xuống 0.6.13 và osmtogeojson xuống 2.2.12 (đổi phiên bản lớn). Chờ hai gói này cập nhật phụ thuộc.
+- Dung lượng `wards.geojson` (906 KB, gzip khoảng 230 KB): chưa chia tile; chỉ làm nếu thấy chậm trên điện thoại.
+- Phase 2: **chưa bắt đầu**. Lịch mùa vụ/lễ hội (`months` đã có trong mô hình dữ liệu và CMS, mới 2 điểm có giá trị, chưa có thanh trượt tháng), tuyến trải nghiệm, song ngữ (chuỗi đã gom ở `src/i18n.ts`, chưa có bản tiếng Anh).
+- Phân công quản trị nội dung theo trụ cột (mục 10.6): chưa có; hiện chỉ chủ dự án sửa qua CMS.
