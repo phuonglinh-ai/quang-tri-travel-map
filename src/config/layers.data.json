@@ -1,0 +1,24 @@
+{
+  "groups": [
+    { "id": "du-lich", "label": "Du lịch" },
+    { "id": "nong-san", "label": "Nông sản" },
+    { "id": "giao-duc", "label": "Giáo dục" },
+    { "id": "ha-tang", "label": "Hạ tầng" }
+  ],
+  "layers": [
+    { "id": "di-tich", "group": "du-lich", "label": "Di tích lịch sử – văn hóa", "icon": "🏛️", "color": "#8a5a2b" },
+    { "id": "danh-thang", "group": "du-lich", "label": "Danh lam thắng cảnh, thiên nhiên", "icon": "🏞️", "color": "#2f7d4f" },
+    { "id": "lang-nghe", "group": "du-lich", "label": "Làng nghề", "icon": "🧺", "color": "#a0671c" },
+    { "id": "le-hoi", "group": "du-lich", "label": "Lễ hội", "icon": "🎎", "color": "#b5476b" },
+    { "id": "luu-tru", "group": "du-lich", "label": "Lưu trú", "icon": "🏨", "color": "#5a6b8c" },
+    { "id": "am-thuc", "group": "du-lich", "label": "Ẩm thực đặc sản", "icon": "🍜", "color": "#c2562a" },
+    { "id": "ocop", "group": "nong-san", "label": "Sản phẩm OCOP", "icon": "⭐", "color": "#c79a1b", "pendingNote": "Chờ danh mục sản phẩm OCOP chính thức" },
+    { "id": "vung-trong", "group": "nong-san", "label": "Vùng trồng, chỉ dẫn địa lý", "icon": "🌾", "color": "#9a8a2a", "pendingNote": "Chờ danh mục chỉ dẫn địa lý chính thức" },
+    { "id": "htx-trang-trai", "group": "nong-san", "label": "HTX, trang trại trải nghiệm", "icon": "🚜", "color": "#6f8a2a", "pendingNote": "Chờ dữ liệu chính thức" },
+    { "id": "truong-hoc", "group": "giao-duc", "label": "Trường đại học, cao đẳng, nghề", "icon": "🎓", "color": "#2c5f9e" },
+    { "id": "bao-tang-thu-vien", "group": "giao-duc", "label": "Thư viện, bảo tàng", "icon": "📚", "color": "#4a58a8" },
+    { "id": "dia-chi-do", "group": "giao-duc", "label": "Địa chỉ đỏ, giáo dục truyền thống", "icon": "🚩", "color": "#b3261e" },
+    { "id": "trai-nghiem", "group": "giao-duc", "label": "Trải nghiệm STEM, nông nghiệp cho học sinh", "icon": "🔬", "color": "#2a8a8a" },
+    { "id": "giao-thong", "group": "ha-tang", "label": "Sân bay, ga, bến xe, cửa khẩu", "icon": "🚉", "color": "#5f6368" }
+  ]
+}

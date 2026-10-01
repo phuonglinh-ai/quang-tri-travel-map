@@ -1,0 +1,29 @@
+{
+  "code": "44",
+  "codeName": "quang_tri",
+  "neighbors": [
+    "38_thanh_hoa",
+    "40_nghe_an",
+    "42_ha_tinh",
+    "46_hue",
+    "48_da_nang",
+    "51_quang_ngai",
+    "52_gia_lai"
+  ],
+  "viewPaddingDeg": 2,
+  "wardCount": 78,
+  "neighborCountryLabel": {
+    "text": "Lào",
+    "coordinates": [
+      105.75,
+      16.85
+    ]
+  },
+  "seaLabel": {
+    "text": "Biển Đông",
+    "coordinates": [
+      107.15,
+      17.85
+    ]
+  }
+}

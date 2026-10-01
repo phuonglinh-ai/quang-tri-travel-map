@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Duyệt ảnh địa điểm</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #22211e; background: #f6f1e7; }
+    body { margin: 0 auto; max-width: 1200px; padding: 16px; }
+    h1 { color: #1f5c4a; margin: 8px 0 4px; }
+    .note { color: #6a645a; margin: 0 0 16px; line-height: 1.5; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgb(0 0 0 / .08); }
+    .card img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+    .body { padding: 10px 12px 12px; font-size: 14px; line-height: 1.45; }
+    .body h2 { font-size: 16px; margin: 0 0 2px; }
+    .muted { color: #6a645a; font-size: 13px; }
+    a { color: #1f5c4a; }
+    code { font-size: 12px; background: #f1ece2; padding: 1px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Duyệt ảnh địa điểm</h1>
+  <p class="note">Trang nội bộ (chỉ chạy khi <code>npm run dev</code>). Kiểm tra từng ảnh có <strong>đúng địa điểm</strong> không.
+    Muốn đổi hoặc bỏ ảnh: sửa <code>content/image-selection.json</code> rồi chạy <code>npm run images</code> và <code>npm run places</code>.</p>
+  <div class="grid" id="grid"></div>
+  <script type="module">
+    const places = await (await fetch('/data/places.json')).json();
+    const withImg = places.filter((p) => p.images?.length);
+    document.title = `Duyệt ảnh (${withImg.length})`;
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    document.getElementById('grid').innerHTML = withImg.map((p) => {
+      const i = p.images[0];
+      return `<article class="card">
+        <img src="/${esc(i.src)}" alt="${esc(i.alt)}" loading="lazy">
+        <div class="body">
+          <h2>${esc(p.name)}</h2>
+          <div class="muted">${esc(p.wardName ?? '')} · <code>${esc(p.id)}</code></div>
+          <div>Ảnh: <a href="${esc(i.sourceUrl)}" target="_blank" rel="noopener">${esc(i.credit)}</a> · ${esc(i.license)}</div>
+          <div class="muted"><a href="/?place=${esc(p.id)}" target="_blank">Xem trên bản đồ ↗</a></div>
+        </div>
+      </article>`;
+    }).join('');
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "name": "travel-map",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "data:fetch": "node scripts/fetch-boundaries.mjs && node scripts/fetch-osm.mjs && node scripts/fetch-land.mjs && node scripts/fetch-fonts.mjs",
+    "data:build": "node scripts/build-boundaries.mjs && node scripts/build-basemap.mjs && node scripts/build-places.mjs && node scripts/verify-data.mjs",
+    "places": "node scripts/build-places.mjs",
+    "osm:pois": "node scripts/fetch-osm-pois.mjs",
+    "images:find": "node scripts/find-images.mjs",
+    "images": "node scripts/fetch-images.mjs",
+    "data:verify": "node scripts/verify-data.mjs",
+    "data": "npm run data:fetch && npm run data:build"
+  },
+  "dependencies": {
+    "@fontsource/be-vietnam-pro": "^5.3.0",
+    "maplibre-gl": "^6.11.2"
+  },
+  "devDependencies": {
+    "@turf/boolean-point-in-polygon": "^7.4.0",
+    "@turf/point-to-polygon-distance": "^7.4.0",
+    "@types/geojson": "^7946.0.16",
+    "mapshaper": "^0.7.70",
+    "osmtogeojson": "^3.0.0-beta.5",
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1"
+  }
+}
