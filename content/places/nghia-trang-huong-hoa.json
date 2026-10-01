@@ -1,8 +1,21 @@
 {
   "layer": "dia-chi-do",
   "name": "Nghĩa trang Liệt sĩ Hướng Hóa",
+  "nameEn": "Hướng Hóa District Martyrs’ Cemetery",
   "latLng": "16.62446, 106.73835",
   "summary": "Nghĩa trang liệt sĩ tại khu vực Khe Sanh, nơi tưởng niệm và tri ân các liệt sĩ.",
+  "images": [
+    {
+      "src": "/images/places/nghia-trang-huong-hoa-79f055dc10e7.webp",
+      "alt": "Nghĩa trang liệt sĩ Hướng Hóa Quảng Trị",
+      "credit": "Tỉnh Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://huonghoa.quangtri.gov.vn"
+    }
+  ],
+  "months": [
+    7
+  ],
   "isSample": true,
   "source": {
     "osm": "way/866849202",
