@@ -1,0 +1,24 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Địa đạo Vịnh Mốc",
+  "nameEn": "Vinh Moc Tunnels",
+  "latLng": "17.07467, 107.112798",
+  "summary": "Làng hầm ngầm nơi người dân sinh sống và chiến đấu trong những năm chiến tranh. Phù hợp cho các chuyến tham quan học tập ngoại khóa.",
+  "images": [
+    {
+      "src": "/images/places/dia-dao-vinh-moc.jpg",
+      "alt": "Địa đạo Vịnh Mốc",
+      "credit": "LÊ TẤN LỘC",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Entrance_to_Vinh_Moc_Tunnels.JPG"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 2,
+  "isSample": true,
+  "source": {
+    "osm": "node/1016630582",
+    "osmName": "Vịnh Mốc Tunnels Museum"
+  }
+}

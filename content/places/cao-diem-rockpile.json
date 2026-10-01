@@ -1,0 +1,22 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Cao điểm đồi Rockpile",
+  "latLng": "16.779722, 106.852668",
+  "summary": "Núi đá vôi dựng đứng từng là vị trí quân sự trong chiến tranh, dễ nhận ra từ Quốc lộ 9.",
+  "images": [
+    {
+      "src": "/images/places/cao-diem-rockpile.jpg",
+      "alt": "Cao điểm đồi Rockpile",
+      "credit": "Bút Chiến at Vietnamese Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Rockpile.JPG"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/4408992191",
+    "osmName": "Cao điểm đồi Rockpile"
+  }
+}

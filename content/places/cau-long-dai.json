@@ -1,0 +1,12 @@
+{
+  "layer": "di-tich",
+  "name": "Cầu Long Đại",
+  "latLng": "17.324795, 106.623748",
+  "summary": "Cầu bắc qua sông Long Đại, gắn với trọng điểm giao thông trên tuyến đường Trường Sơn thời chiến.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/5334861321",
+    "osmName": "Cầu Long Đại"
+  }
+}

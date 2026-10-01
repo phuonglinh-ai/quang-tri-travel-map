@@ -78,3 +78,51 @@ export function distanceKm([x1, y1], [x2, y2]) {
   const a = Math.sin(r(y2 - y1) / 2) ** 2 + Math.cos(r(y1)) * Math.cos(r(y2)) * Math.sin(r(x2 - x1) / 2) ** 2;
   return 12742 * Math.asin(Math.sqrt(a));
 }
+
+// ---- Nội dung địa điểm: content/places/<id>.json (mỗi địa điểm một file, tên file là id) ----
+export const PLACES_DIR = path.join(ROOT, 'content', 'places');
+/** Ảnh gốc do người biên tập tải lên (Sveltia CMS) hoặc lấy từ Commons; bản cho web được build ra public/. */
+export const IMAGES_SRC_DIR = path.join(ROOT, 'content', 'images');
+/** Đường dẫn công khai của ảnh lưu trong file địa điểm, ví dụ "/images/places/thanh-co-quang-tri.jpg". */
+export const IMAGES_PUBLIC_PREFIX = '/images/places/';
+
+/**
+ * Tọa độ nhập theo kiểu Google Maps "vĩ độ, kinh độ" (ví dụ "16.75393, 107.189536")
+ * → [kinh độ, vĩ độ] như GeoJSON. Trả về null nếu sai định dạng.
+ */
+export function parseLatLng(s) {
+  const m = /^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/.exec(s ?? '');
+  return m ? [Number(m[2]), Number(m[1])] : null;
+}
+export const formatLatLng = ([lon, lat]) => `${lat}, ${lon}`;
+
+/** Đọc tất cả địa điểm, sắp theo id. Mỗi phần tử: { id, file, data } với data là nội dung file. */
+export function readPlaces() {
+  return fs
+    .readdirSync(PLACES_DIR)
+    .filter((f) => f.endsWith('.json'))
+    .sort()
+    .map((f) => ({ id: f.slice(0, -5), file: path.join(PLACES_DIR, f), data: readJson(path.join(PLACES_DIR, f)) }));
+}
+export function writePlace(id, data) {
+  fs.mkdirSync(PLACES_DIR, { recursive: true });
+  fs.writeFileSync(path.join(PLACES_DIR, `${id}.json`), `${JSON.stringify(data, null, 2)}\n`);
+}
+
+/**
+ * Giấy phép ảnh chọn được trong CMS. `url` dùng để tự điền licenseUrl khi trống.
+ * `ownSource: true` = ảnh tự chụp / do cơ quan cung cấp: không bắt buộc liên kết nguồn,
+ * nhưng phải lưu lại sự đồng ý của tác giả/cơ quan ngoài hệ thống.
+ */
+export const LICENSES = [
+  { name: 'CC BY 4.0', url: 'https://creativecommons.org/licenses/by/4.0' },
+  { name: 'CC BY-SA 4.0', url: 'https://creativecommons.org/licenses/by-sa/4.0' },
+  { name: 'CC BY 3.0', url: 'https://creativecommons.org/licenses/by/3.0' },
+  { name: 'CC BY-SA 3.0', url: 'https://creativecommons.org/licenses/by-sa/3.0' },
+  { name: 'CC BY 2.0', url: 'https://creativecommons.org/licenses/by/2.0' },
+  { name: 'CC BY-SA 2.0', url: 'https://creativecommons.org/licenses/by-sa/2.0' },
+  { name: 'CC0', url: 'https://creativecommons.org/publicdomain/zero/1.0' },
+  { name: 'Public domain', url: null },
+  { name: 'Ảnh tự chụp, tác giả đồng ý cho sử dụng', url: null, ownSource: true },
+  { name: 'Do cơ quan cung cấp, có văn bản đồng ý', url: null, ownSource: true },
+];

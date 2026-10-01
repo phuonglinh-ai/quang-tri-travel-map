@@ -1,0 +1,29 @@
+{
+  "layer": "danh-thang",
+  "name": "Động Thiên Đường",
+  "nameEn": "Paradise Cave",
+  "latLng": "17.519201, 106.223045",
+  "summary": "Hang động khô có hệ thống thạch nhũ đẹp, có lối đi bộ tham quan bên trong.",
+  "images": [
+    {
+      "src": "/images/places/dong-thien-duong.jpg",
+      "alt": "Động Thiên Đường",
+      "credit": "Genghiskhan",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:ThienDuongCave1.jpg"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia",
+      "url": "https://vi.wikipedia.org/wiki/Hang_Thiên_Đường"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/3499295493",
+    "osmName": "Động Thiên Đường"
+  }
+}

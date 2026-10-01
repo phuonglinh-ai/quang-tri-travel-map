@@ -1,0 +1,12 @@
+{
+  "layer": "danh-thang",
+  "name": "Bãi biển Đá Nhảy",
+  "latLng": "17.655376, 106.518813",
+  "summary": "Bãi biển có những bãi đá ven bờ, cảnh quan kết hợp giữa núi và biển.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/10133138818",
+    "osmName": "Plage de da nhai"
+  }
+}

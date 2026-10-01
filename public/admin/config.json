@@ -1,0 +1,393 @@
+{
+  "backend": {
+    "name": "github",
+    "repo": "phuonglinh-ai/quang-tri-travel-map",
+    "branch": "main",
+    "auth_methods": [
+      "token"
+    ],
+    "commit_messages": {
+      "create": "Thêm địa điểm {{slug}}",
+      "update": "Cập nhật địa điểm {{slug}}",
+      "delete": "Xóa địa điểm {{slug}}",
+      "uploadMedia": "Tải ảnh {{path}}",
+      "deleteMedia": "Xóa ảnh {{path}}"
+    }
+  },
+  "app_title": "Quản trị nội dung – Khám phá Quảng Trị",
+  "site_url": "https://dulichquangtri.vercel.app",
+  "logo": {
+    "src": "/favicon.svg"
+  },
+  "media_folder": "content/images",
+  "public_folder": "/images/places",
+  "media_libraries": {
+    "default": {
+      "config": {
+        "max_file_size": 31457280,
+        "filename_template": "{{slug}}-{{uuid_short}}",
+        "transformations": {
+          "raster_image": {
+            "format": "webp",
+            "quality": 82,
+            "width": 1600,
+            "height": 1600
+          }
+        }
+      }
+    }
+  },
+  "slug": {
+    "encoding": "ascii",
+    "clean_accents": true
+  },
+  "output": {
+    "omit_empty_optional_fields": true,
+    "json": {
+      "indent_style": "space",
+      "indent_size": 2
+    }
+  },
+  "editor": {
+    "preview": false
+  },
+  "collections": [
+    {
+      "name": "places",
+      "label": "Địa điểm",
+      "label_singular": "địa điểm",
+      "folder": "content/places",
+      "format": "json",
+      "extension": "json",
+      "create": true,
+      "delete": true,
+      "identifier_field": "name",
+      "slug": {
+        "template": "{{name}}",
+        "editable": [
+          "create"
+        ]
+      },
+      "summary": "{{name}}",
+      "sortable_fields": [
+        "name",
+        "layer"
+      ],
+      "view_groups": [
+        {
+          "label": "Lớp",
+          "field": "layer"
+        }
+      ],
+      "thumbnail": "images.*.src",
+      "preview_path": "/?place={{slug}}",
+      "fields": [
+        {
+          "name": "layer",
+          "label": "Lớp",
+          "widget": "select",
+          "options": [
+            {
+              "label": "🏛️ Du lịch – Di tích lịch sử – văn hóa",
+              "value": "di-tich"
+            },
+            {
+              "label": "🏞️ Du lịch – Danh lam thắng cảnh, thiên nhiên",
+              "value": "danh-thang"
+            },
+            {
+              "label": "🧺 Du lịch – Làng nghề",
+              "value": "lang-nghe"
+            },
+            {
+              "label": "🎎 Du lịch – Lễ hội",
+              "value": "le-hoi"
+            },
+            {
+              "label": "🏨 Du lịch – Lưu trú",
+              "value": "luu-tru"
+            },
+            {
+              "label": "🍜 Du lịch – Ẩm thực đặc sản",
+              "value": "am-thuc"
+            },
+            {
+              "label": "⭐ Nông sản – Sản phẩm OCOP",
+              "value": "ocop"
+            },
+            {
+              "label": "🌾 Nông sản – Vùng trồng, chỉ dẫn địa lý",
+              "value": "vung-trong"
+            },
+            {
+              "label": "🚜 Nông sản – HTX, trang trại trải nghiệm",
+              "value": "htx-trang-trai"
+            },
+            {
+              "label": "🎓 Giáo dục – Trường đại học, cao đẳng, nghề",
+              "value": "truong-hoc"
+            },
+            {
+              "label": "📚 Giáo dục – Thư viện, bảo tàng",
+              "value": "bao-tang-thu-vien"
+            },
+            {
+              "label": "🚩 Giáo dục – Địa chỉ đỏ, giáo dục truyền thống",
+              "value": "dia-chi-do"
+            },
+            {
+              "label": "🔬 Giáo dục – Trải nghiệm STEM, nông nghiệp cho học sinh",
+              "value": "trai-nghiem"
+            },
+            {
+              "label": "🚉 Hạ tầng – Sân bay, ga, bến xe, cửa khẩu",
+              "value": "giao-thong"
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "label": "Tên",
+          "widget": "string"
+        },
+        {
+          "name": "nameEn",
+          "label": "Tên tiếng Anh",
+          "widget": "string",
+          "required": false
+        },
+        {
+          "name": "latLng",
+          "label": "Tọa độ (vĩ độ, kinh độ)",
+          "widget": "string",
+          "hint": "Cách lấy: trên Google Maps, nhấp chuột phải vào địa điểm, bấm vào dòng số đầu tiên để sao chép, rồi dán vào đây. Ví dụ: `16.75393, 107.189536`. Xã/phường được tự tính theo tọa độ.",
+          "pattern": [
+            "^\\s*-?\\d+(\\.\\d+)?\\s*,\\s*-?\\d+(\\.\\d+)?\\s*$",
+            "Cần dạng \"vĩ độ, kinh độ\", ví dụ 16.75393, 107.189536"
+          ]
+        },
+        {
+          "name": "summary",
+          "label": "Mô tả ngắn",
+          "widget": "text",
+          "hint": "1–2 câu: vì sao nên đến. Không ghi giá vé, giờ mở cửa, số điện thoại khi chưa được xác minh."
+        },
+        {
+          "name": "images",
+          "label": "Ảnh",
+          "label_singular": "ảnh",
+          "widget": "list",
+          "required": false,
+          "collapsed": "auto",
+          "summary": "{{fields.credit}} · {{fields.license}}",
+          "thumbnail": "src",
+          "hint": "Ảnh đầu tiên được dùng làm ảnh đại diện. Nên dùng ảnh ngang. Ảnh được tự thu nhỏ khi tải lên.",
+          "fields": [
+            {
+              "name": "src",
+              "label": "File ảnh",
+              "widget": "image",
+              "choose_url": false
+            },
+            {
+              "name": "alt",
+              "label": "Mô tả nội dung ảnh",
+              "widget": "string",
+              "hint": "Cho người dùng trình đọc màn hình, ví dụ \"Cổng chính Thành cổ Quảng Trị\"."
+            },
+            {
+              "name": "credit",
+              "label": "Tác giả",
+              "widget": "string",
+              "hint": "Tên người chụp hoặc đơn vị cung cấp. Bắt buộc ghi theo giấy phép."
+            },
+            {
+              "name": "license",
+              "label": "Giấy phép",
+              "widget": "select",
+              "options": [
+                "CC BY 4.0",
+                "CC BY-SA 4.0",
+                "CC BY 3.0",
+                "CC BY-SA 3.0",
+                "CC BY 2.0",
+                "CC BY-SA 2.0",
+                "CC0",
+                "Public domain",
+                "Ảnh tự chụp, tác giả đồng ý cho sử dụng",
+                "Do cơ quan cung cấp, có văn bản đồng ý"
+              ],
+              "default": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+            },
+            {
+              "name": "sourceUrl",
+              "label": "Liên kết nguồn",
+              "widget": "string",
+              "type": "url",
+              "required": false,
+              "hint": "Trang gốc của ảnh (bắt buộc với ảnh lấy từ Internet). Ảnh tự chụp hoặc do cơ quan cung cấp có thể để trống, nhưng cần lưu lại văn bản/email đồng ý ngoài hệ thống.",
+              "pattern": [
+                "^https://\\S+$",
+                "Liên kết phải bắt đầu bằng https://"
+              ]
+            },
+            {
+              "name": "licenseUrl",
+              "label": "Liên kết giấy phép",
+              "widget": "string",
+              "type": "url",
+              "required": false,
+              "hint": "Để trống: tự điền theo giấy phép đã chọn."
+            }
+          ]
+        },
+        {
+          "name": "links",
+          "label": "Liên kết",
+          "label_singular": "liên kết",
+          "widget": "list",
+          "required": false,
+          "collapsed": "auto",
+          "summary": "{{fields.label}}",
+          "fields": [
+            {
+              "name": "label",
+              "label": "Tên hiển thị",
+              "widget": "string"
+            },
+            {
+              "name": "url",
+              "label": "Địa chỉ",
+              "widget": "string",
+              "type": "url",
+              "pattern": [
+                "^https://\\S+$",
+                "Liên kết phải bắt đầu bằng https://"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "months",
+          "label": "Tháng nổi bật",
+          "widget": "select",
+          "multiple": true,
+          "required": false,
+          "options": [
+            {
+              "label": "Tháng 1",
+              "value": 1
+            },
+            {
+              "label": "Tháng 2",
+              "value": 2
+            },
+            {
+              "label": "Tháng 3",
+              "value": 3
+            },
+            {
+              "label": "Tháng 4",
+              "value": 4
+            },
+            {
+              "label": "Tháng 5",
+              "value": 5
+            },
+            {
+              "label": "Tháng 6",
+              "value": 6
+            },
+            {
+              "label": "Tháng 7",
+              "value": 7
+            },
+            {
+              "label": "Tháng 8",
+              "value": 8
+            },
+            {
+              "label": "Tháng 9",
+              "value": 9
+            },
+            {
+              "label": "Tháng 10",
+              "value": 10
+            },
+            {
+              "label": "Tháng 11",
+              "value": 11
+            },
+            {
+              "label": "Tháng 12",
+              "value": 12
+            }
+          ],
+          "hint": "Mùa vụ, lễ hội. Dùng cho lịch mùa vụ (Phase 2)."
+        },
+        {
+          "name": "featured",
+          "label": "Hiện trong dải \"Nổi bật\"",
+          "widget": "boolean",
+          "default": false
+        },
+        {
+          "name": "featuredOrder",
+          "label": "Thứ tự trong dải \"Nổi bật\"",
+          "widget": "number",
+          "value_type": "int",
+          "min": 1,
+          "required": false,
+          "hint": "Số nhỏ đứng trước."
+        },
+        {
+          "name": "isSample",
+          "label": "Dữ liệu minh họa",
+          "widget": "boolean",
+          "default": true,
+          "hint": "Chỉ tắt khi thông tin **đã được cơ quan có thẩm quyền xác minh**. Khi bật, thẻ địa điểm có nhãn \"Dữ liệu minh họa\"."
+        },
+        {
+          "name": "mapZoom",
+          "label": "Mức zoom khi mở",
+          "widget": "number",
+          "value_type": "float",
+          "min": 6,
+          "max": 17,
+          "step": 0.5,
+          "required": false,
+          "hint": "Cho địa điểm dạng vùng rộng, ví dụ vườn quốc gia 9.5. Để trống: 13."
+        },
+        {
+          "name": "icon",
+          "label": "Icon riêng",
+          "widget": "string",
+          "required": false,
+          "hint": "Một emoji thay icon mặc định của lớp, ví dụ ✈️."
+        },
+        {
+          "name": "source",
+          "label": "Nguồn dữ liệu OpenStreetMap",
+          "widget": "object",
+          "required": false,
+          "collapsed": true,
+          "fields": [
+            {
+              "name": "osm",
+              "label": "Mã đối tượng OSM",
+              "widget": "string",
+              "required": false,
+              "hint": "Ví dụ way/1189797496"
+            },
+            {
+              "name": "osmName",
+              "label": "Tên trong OSM",
+              "widget": "string",
+              "required": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "layer": "giao-thong",
+  "name": "Bến xe Nam Lý",
+  "latLng": "17.468149, 106.604019",
+  "summary": "Bến xe khách tại Đồng Hới.",
+  "featured": false,
+  "isSample": true,
+  "icon": "🚌",
+  "source": {
+    "osm": "node/4406339389",
+    "osmName": "Bến Xe Nam Lý"
+  }
+}

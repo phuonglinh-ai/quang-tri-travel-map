@@ -1,0 +1,21 @@
+{
+  "layer": "danh-thang",
+  "name": "Động Tiên Sơn",
+  "latLng": "17.580253, 106.282071",
+  "summary": "Hang động khô nằm gần động Phong Nha, có nhiều nhũ đá đẹp.",
+  "images": [
+    {
+      "src": "/images/places/dong-tien-son.jpg",
+      "alt": "Động Tiên Sơn",
+      "credit": "Genghiskhanviet",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Phongnhakebang16.jpg"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/3499399985",
+    "osmName": "Động Tiên Sơn"
+  }
+}

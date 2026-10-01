@@ -1,0 +1,13 @@
+{
+  "layer": "danh-thang",
+  "name": "Hệ thống hang Tú Làn",
+  "latLng": "17.764496, 106.069003",
+  "summary": "Hệ thống hang động và thung lũng ở vùng Tân Hóa, dành cho các tour thám hiểm, bơi hang.",
+  "featured": false,
+  "isSample": true,
+  "mapZoom": 11.5,
+  "source": {
+    "osm": "node/14226656801",
+    "osmName": "Tú Làn Caves System"
+  }
+}

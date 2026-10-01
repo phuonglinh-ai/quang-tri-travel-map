@@ -1,0 +1,12 @@
+{
+  "layer": "danh-thang",
+  "name": "Mũi Lay",
+  "latLng": "17.08453, 107.116505",
+  "summary": "Mũi đất đỏ bazan nhô ra biển gần Địa đạo Vịnh Mốc, có cảnh quan biển đẹp.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/1336602595",
+    "osmName": "Mũi Lay"
+  }
+}

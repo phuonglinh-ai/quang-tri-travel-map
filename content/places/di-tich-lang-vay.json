@@ -1,0 +1,12 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Di tích chiến thắng Làng Vây",
+  "latLng": "16.600476, 106.668215",
+  "summary": "Di tích gắn với trận đánh cứ điểm Làng Vây năm 1968 trong chiến dịch Đường 9 – Khe Sanh.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/4409014090",
+    "osmName": "Di tích chiến thắng Làng Vây"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "layer": "truong-hoc",
+  "name": "Trường Trung cấp nghề Quảng Trị",
+  "latLng": "17.466657, 106.586297",
+  "summary": "Cơ sở đào tạo nghề tại Đồng Hới.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "way/880797450",
+    "osmName": "Trường Trung cấp nghề Quảng Trị"
+  }
+}

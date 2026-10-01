@@ -1,0 +1,13 @@
+{
+  "layer": "giao-thong",
+  "name": "Bến xe khách Ba Đồn",
+  "latLng": "17.752954, 106.425217",
+  "summary": "Bến xe khách tại Ba Đồn.",
+  "featured": false,
+  "isSample": true,
+  "icon": "🚌",
+  "source": {
+    "osm": "node/9891849455",
+    "osmName": "Bến xe khách Ba Đồn"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "layer": "danh-thang",
+  "name": "Hang Sơn Đoòng",
+  "nameEn": "Son Doong Cave",
+  "latLng": "17.456944, 106.2875",
+  "summary": "Một trong những hang động tự nhiên lớn nhất thế giới. Chỉ tham quan được theo các tour thám hiểm được cấp phép.",
+  "images": [
+    {
+      "src": "/images/places/hang-son-doong.jpg",
+      "alt": "Hang Sơn Đoòng",
+      "credit": "Dave Bunnell",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Son_Doong_Cave_DB_(3).jpg"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia",
+      "url": "https://vi.wikipedia.org/wiki/Hang_Sơn_Đoòng"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 9,
+  "isSample": true,
+  "source": {
+    "osm": "node/3157796075",
+    "osmName": "Hang Sơn Đoòng"
+  }
+}

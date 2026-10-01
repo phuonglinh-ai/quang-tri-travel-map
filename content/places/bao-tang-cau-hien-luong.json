@@ -1,0 +1,22 @@
+{
+  "layer": "bao-tang-thu-vien",
+  "name": "Bảo tàng lịch sử Cầu Hiền Lương",
+  "latLng": "17.006028, 107.051366",
+  "summary": "Bảo tàng trong khu di tích đôi bờ Hiền Lương – Bến Hải, lưu giữ tư liệu về thời kỳ chia cắt đất nước.",
+  "images": [
+    {
+      "src": "/images/places/bao-tang-cau-hien-luong.jpg",
+      "alt": "Bảo tàng lịch sử Cầu Hiền Lương",
+      "credit": "ChieuTimViet",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nh%C3%A0_b%E1%BA%A3o_t%C3%A0ng_Hi%E1%BB%81n_L%C6%B0%C6%A1ng_-_panoramio.jpg"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/1016631101",
+    "osmName": "Bảo tàng lịch sử Cầu Hiền Lương"
+  }
+}

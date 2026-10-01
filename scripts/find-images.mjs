@@ -3,10 +3,10 @@
 // Kết quả: .cache/image-candidates.json (không đưa thẳng lên web).
 // Chạy: node scripts/find-images.mjs id1 id2 ...   (không truyền id = các điểm nổi bật)
 import path from 'node:path';
-import { CACHE, ROOT, readJson, writeJson, distanceKm } from './lib.mjs';
+import { CACHE, readJson, writeJson, distanceKm, readPlaces, parseLatLng } from './lib.mjs';
 
 const UA = 'travel-map-image-finder/0.1 (personal demo project; Wikimedia API etiquette)';
-const places = readJson(path.join(ROOT, 'content', 'places.json'));
+const places = readPlaces().map(({ id, data }) => ({ id, ...data, coordinates: parseLatLng(data.latLng) }));
 const osm = new Map(readJson(path.join(CACHE, 'osm-pois.geojson')).features.map((f) => [f.properties.osmId, f.properties]));
 const ids = process.argv.slice(2);
 const targets = ids.length ? places.filter((p) => ids.includes(p.id)) : places.filter((p) => p.featured);

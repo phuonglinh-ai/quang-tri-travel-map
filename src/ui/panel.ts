@@ -263,7 +263,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     return `<details class="credits"><summary>${t.imageCredits} (${withImg.length})</summary><ul>${withImg
       .map((p) => {
         const i = p.images[0];
-        return `<li>${esc(p.name)}: <a href="${esc(i.sourceUrl)}" target="_blank" rel="noopener">${esc(i.credit)}</a>, ${licenseLink(i)}</li>`;
+        return `<li>${esc(p.name)}: ${creditLink(i)}, ${licenseLink(i)}</li>`;
       })
       .join('')}</ul><p class="small muted">${t.imageCreditsNote}</p></details>`;
   }
@@ -415,6 +415,9 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   return { back, render, isHome: () => currentKey === 'home' };
 }
 
+const creditLink = (i: PlaceImage) =>
+  i.sourceUrl ? `<a href="${esc(i.sourceUrl)}" target="_blank" rel="noopener">${esc(i.credit)}</a>` : esc(i.credit);
+
 const licenseLink = (i: PlaceImage) =>
   i.licenseUrl ? `<a href="${esc(i.licenseUrl)}" target="_blank" rel="noopener license">${esc(i.license)}</a>` : esc(i.license);
 
@@ -423,7 +426,7 @@ function photoHero(i: PlaceImage, isSample: boolean) {
   return `<figure class="place-hero has-photo">
     <img src="${assetPath(i.src)}" alt="${esc(i.alt)}" loading="lazy">
     ${isSample ? `<span class="badge-sample">${t.sample}</span>` : ''}
-    <figcaption>${t.photo}: <a href="${esc(i.sourceUrl)}" target="_blank" rel="noopener">${esc(i.credit)}</a> · ${licenseLink(i)}</figcaption>
+    <figcaption>${t.photo}: ${creditLink(i)} · ${licenseLink(i)}</figcaption>
   </figure>`;
 }
 

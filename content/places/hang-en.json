@@ -1,0 +1,29 @@
+{
+  "layer": "danh-thang",
+  "name": "Hang Én",
+  "nameEn": "Hang En",
+  "latLng": "17.434877, 106.299779",
+  "summary": "Hang động lớn trên tuyến thám hiểm, nơi trú ngụ của nhiều đàn chim én.",
+  "images": [
+    {
+      "src": "/images/places/hang-en.jpg",
+      "alt": "Hang Én",
+      "credit": "Jérémie B.",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hang_%C3%89n_Cave_-_201505_-_JB.jpg"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia (tiếng Anh)",
+      "url": "https://en.wikipedia.org/wiki/Hang_Én"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/6358064546",
+    "osmName": "Hang Én"
+  }
+}

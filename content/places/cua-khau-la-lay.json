@@ -1,0 +1,13 @@
+{
+  "layer": "giao-thong",
+  "name": "Cửa khẩu La Lay",
+  "latLng": "16.313245, 106.9669",
+  "summary": "Cửa khẩu biên giới Việt – Lào ở vùng núi phía Tây Nam.",
+  "featured": false,
+  "isSample": true,
+  "icon": "🛂",
+  "source": {
+    "osm": "node/2944284076",
+    "osmName": "Cửa khẩu La Lay"
+  }
+}

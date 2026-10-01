@@ -1,0 +1,22 @@
+{
+  "layer": "di-tich",
+  "name": "Quảng Bình Quan",
+  "latLng": "17.463336, 106.624052",
+  "summary": "Cổng thành cổ ở trung tâm Đồng Hới, gắn với hệ thống lũy thời chúa Nguyễn; biểu tượng lịch sử của vùng đất Quảng Bình xưa.",
+  "images": [
+    {
+      "src": "/images/places/quang-binh-quan.jpg",
+      "alt": "Quảng Bình Quan",
+      "credit": "Tttrung",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Qu%E1%BA%A3ng_B%C3%ACnh_quan.jpg"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/8706712863",
+    "osmName": "Quảng Bình Quan"
+  }
+}

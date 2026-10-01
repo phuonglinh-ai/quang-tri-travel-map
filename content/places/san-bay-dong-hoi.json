@@ -1,0 +1,29 @@
+{
+  "layer": "giao-thong",
+  "name": "Cảng hàng không Đồng Hới",
+  "nameEn": "Dong Hoi Airport",
+  "latLng": "17.512939, 106.596931",
+  "summary": "Sân bay phục vụ khu vực Đồng Hới và Phong Nha – Kẻ Bàng.",
+  "images": [
+    {
+      "src": "/images/places/san-bay-dong-hoi.jpg",
+      "alt": "Cảng hàng không Đồng Hới",
+      "credit": "Toanvungtau",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:DHAirport10.jpg"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia (tiếng Anh)",
+      "url": "https://en.wikipedia.org/wiki/Dong_Hoi_Airport"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "icon": "✈️",
+  "source": {
+    "osm": "way/241574727",
+    "osmName": "Sân bay Đồng Hới"
+  }
+}

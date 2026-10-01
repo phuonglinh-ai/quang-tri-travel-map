@@ -22,7 +22,7 @@
 <body>
   <h1>Duyệt ảnh địa điểm</h1>
   <p class="note">Trang nội bộ (chỉ chạy khi <code>npm run dev</code>). Kiểm tra từng ảnh có <strong>đúng địa điểm</strong> không.
-    Muốn đổi hoặc bỏ ảnh: sửa <code>content/image-selection.json</code> rồi chạy <code>npm run images</code> và <code>npm run places</code>.</p>
+    Muốn đổi hoặc bỏ ảnh: dùng trang <a href="/admin/index.html">Quản trị nội dung</a> (Sveltia CMS), hoặc với ảnh Wikimedia Commons: sửa <code>content/image-selection.json</code> rồi chạy <code>npm run images</code> và <code>npm run places</code>.</p>
   <div class="grid" id="grid"></div>
   <script type="module">
     const places = await (await fetch('/data/places.json')).json();
@@ -36,7 +36,7 @@
         <div class="body">
           <h2>${esc(p.name)}</h2>
           <div class="muted">${esc(p.wardName ?? '')} · <code>${esc(p.id)}</code></div>
-          <div>Ảnh: <a href="${esc(i.sourceUrl)}" target="_blank" rel="noopener">${esc(i.credit)}</a> · ${esc(i.license)}</div>
+          <div>Ảnh: ${i.sourceUrl ? `<a href="${esc(i.sourceUrl)}" target="_blank" rel="noopener">${esc(i.credit)}</a>` : esc(i.credit)} · ${esc(i.license)}</div>
           <div class="muted"><a href="/?place=${esc(p.id)}" target="_blank">Xem trên bản đồ ↗</a></div>
         </div>
       </article>`;

@@ -1,0 +1,12 @@
+{
+  "layer": "lang-nghe",
+  "name": "Làng nón Quy Hậu",
+  "latLng": "17.216338, 106.797689",
+  "summary": "Làng nghề làm nón lá truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/9959967920",
+    "osmName": "Làng nón Quy Hậu"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "layer": "danh-thang",
+  "name": "Khu dự trữ thiên nhiên Động Châu – Khe Nước Trong",
+  "latLng": "16.998869, 106.679383",
+  "summary": "Khu dự trữ thiên nhiên với rừng đất thấp, suối và cảnh quan núi rừng phía Tây Nam.",
+  "featured": false,
+  "isSample": true,
+  "mapZoom": 10,
+  "source": {
+    "osm": "relation/17348220",
+    "osmName": "Khu dự trữ thiên nhiên Động Châu - Khe Nước Trong"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Di tích sân bay Tà Cơn – Bảo tàng Chiến thắng Khe Sanh",
+  "nameEn": "Ta Con Airfield – Khe Sanh Victory Museum",
+  "latLng": "16.653881, 106.724216",
+  "summary": "Di tích căn cứ quân sự và sân bay dã chiến gắn với chiến dịch Đường 9 – Khe Sanh năm 1968; có bảo tàng và hiện vật chiến tranh.",
+  "images": [
+    {
+      "src": "/images/places/san-bay-ta-con.jpg",
+      "alt": "Di tích sân bay Tà Cơn – Bảo tàng Chiến thắng Khe Sanh",
+      "credit": "L'homme venteux",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Khe_Sanh.jpg"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 5,
+  "isSample": true,
+  "source": {
+    "osm": "way/870400500",
+    "osmName": "Bảo tàng chiến thắng Khe Sanh"
+  }
+}

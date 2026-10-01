@@ -1,0 +1,12 @@
+{
+  "layer": "luu-tru",
+  "name": "Khách sạn Sepon",
+  "latLng": "16.618616, 106.6001",
+  "summary": "Cơ sở lưu trú tại khu vực Lao Bảo. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/3514557376",
+    "osmName": "Khách sạn Sepon"
+  }
+}

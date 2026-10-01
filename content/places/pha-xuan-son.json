@@ -1,0 +1,12 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Di tích chiến tranh phà Xuân Sơn",
+  "latLng": "17.613982, 106.307021",
+  "summary": "Di tích bến phà trên sông Son, một điểm vượt sông quan trọng của tuyến giao thông thời chiến.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/4408994091",
+    "osmName": "Di tích chiến tranh phà Xuân Sơn"
+  }
+}

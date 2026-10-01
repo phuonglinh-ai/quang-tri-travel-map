@@ -25,5 +25,11 @@
       107.15,
       17.85
     ]
+  },
+  "cms": {
+    "title": "Quản trị nội dung – Khám phá Quảng Trị",
+    "repo": "phuonglinh-ai/quang-tri-travel-map",
+    "branch": "main",
+    "siteUrl": "https://dulichquangtri.vercel.app"
   }
 }

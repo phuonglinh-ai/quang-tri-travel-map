@@ -1,0 +1,22 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Tượng đài Khát vọng Thống nhất",
+  "latLng": "17.002206, 107.053055",
+  "summary": "Công trình tưởng niệm bên bờ Nam sông Bến Hải, thể hiện khát vọng thống nhất non sông.",
+  "images": [
+    {
+      "src": "/images/places/tuong-dai-khat-vong-thong-nhat.jpg",
+      "alt": "Tượng đài Khát vọng Thống nhất",
+      "credit": "Bút Chiến at Vietnamese Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:T%C6%B0%E1%BB%A3ng_%C4%91%C3%A0i_Kh%C3%A1t_v%E1%BB%8Dng_th%E1%BB%91ng_nh%E1%BA%A5t_non_s%C3%B4ng.JPG"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/4411036589",
+    "osmName": "Tượng đài khát vọng Thống Nhất"
+  }
+}

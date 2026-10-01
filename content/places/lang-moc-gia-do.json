@@ -1,0 +1,12 @@
+{
+  "layer": "lang-nghe",
+  "name": "Làng mộc Gia Độ",
+  "latLng": "16.844012, 107.128952",
+  "summary": "Làng nghề mộc truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/9959986717",
+    "osmName": "Làng mộc Gia Độ"
+  }
+}

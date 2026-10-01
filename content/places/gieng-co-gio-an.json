@@ -1,0 +1,12 @@
+{
+  "layer": "di-tich",
+  "name": "Giếng cổ Gio An",
+  "latLng": "16.922389, 107.012185",
+  "summary": "Hệ thống giếng cổ còn sử dụng đến nay, là di sản văn hóa và kỹ thuật khai thác nước độc đáo.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/5126103952",
+    "osmName": "Giếng cổ Gio An"
+  }
+}

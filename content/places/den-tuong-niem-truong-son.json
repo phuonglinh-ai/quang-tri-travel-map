@@ -1,0 +1,12 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Đền tưởng niệm các chiến sĩ Trường Sơn",
+  "latLng": "17.325644, 106.622932",
+  "summary": "Công trình tưởng niệm các chiến sĩ, thanh niên xung phong trên tuyến đường Trường Sơn.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/4409198189",
+    "osmName": "Đền tưởng niệm các chiến sỹ Trường Sơn"
+  }
+}

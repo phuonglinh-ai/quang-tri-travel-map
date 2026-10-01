@@ -1,0 +1,12 @@
+{
+  "layer": "danh-thang",
+  "name": "Cổng chào đảo Cồn Cỏ",
+  "latLng": "17.153179, 107.335454",
+  "summary": "Cổng chào nơi tàu khách cập bến đảo Cồn Cỏ.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/5914162435",
+    "osmName": "Cổng chào trên đảo Cồn Cỏ"
+  }
+}

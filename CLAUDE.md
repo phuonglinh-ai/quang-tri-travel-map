@@ -178,7 +178,7 @@ Danh sách lớp phải khai báo trong file cấu hình (`src/config/layers.ts`
 
 ## 7. Mô hình dữ liệu địa điểm (POI)
 
-**Thực tế đã triển khai:** nguồn biên tập là `content/places.json`; `npm run places` kiểm tra rồi xuất `public/data/places.json` (thêm `wardCode`, `wardName`). Hướng dẫn biên tập: `content/README.md`.
+**Thực tế đã triển khai (cập nhật 01/10/2026):** nguồn biên tập là `content/places/<id>.json`, mỗi địa điểm một file, **tên file là id** (không có trường `id`). Tọa độ nhập dạng `latLng: "vĩ độ, kinh độ"` (kiểu Google Maps); build đổi thành `coordinates` [kinh độ, vĩ độ]. `npm run places` kiểm tra rồi xuất `public/data/places.json` (thêm `id`, `coordinates`, `wardCode`, `wardName`, `thumb`). Hướng dẫn biên tập: `content/README.md`.
 
 Lưu dạng JSON tại `public/data/places.json`. Giai đoạn sau có thể chuyển sang Google Sheets hoặc CMS (Directus, Strapi, Supabase) để cán bộ các Sở tự cập nhật.
 
@@ -265,7 +265,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 4. **Nông sản:** tạm thời để trống, chờ danh mục OCOP và chỉ dẫn địa lý chính thức.
 5. **Carousel nổi bật:** dùng địa điểm mẫu bất kỳ (`isSample: true`).
 6. **Dữ liệu POI thật:** chưa có nguồn, phụ thuộc vào việc phân công quản trị sau này. **Việc cần làm sau:** xác định đơn vị/cán bộ phụ trách từng trụ cột (Du lịch, Nông sản, Giáo dục) và quy trình cập nhật (xem Phase 3).
-7. **Hosting và tên miền:** chưa có. Demo triển khai trên GitHub Pages hoặc Vercel, nên cấu hình `base` của Vite phải chỉnh được qua biến môi trường.
+7. **Hosting và tên miền (cập nhật 01/10/2026):** code ở GitHub `phuonglinh-ai/quang-tri-travel-map` (công khai, nhánh `main`), deploy trên Vercel (project `dulichquangtri`, https://dulichquangtri.vercel.app), tự deploy khi push lên `main`. Chưa có tên miền riêng. `base` của Vite vẫn chỉnh được qua `BASE_PATH` (chỉ dùng cho GitHub Pages).
 
 ---
 
@@ -280,10 +280,10 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 | `npm run data:fetch` | Tải nguồn vào `.cache/` (gitignore): sparse checkout repo ranh giới, Overpass, Natural Earth, glyph font |
 | `npm run data:build` | Xử lý thành `public/data/` rồi tự chạy `data:verify` |
 | `npm run data:verify` | Kiểm tra: đủ 78 xã, không mất polygon > 1.000 m², Cồn Cỏ, Hoàng Sa, nhãn "Lào"/"Biển Đông" đặt đúng chỗ |
-| `npm run places` | Kiểm tra `content/places.json` → `public/data/places.json` (tự gán `wardCode`, dừng nếu sai quy tắc) |
+| `npm run places` | Sinh `public/admin/config.json` (cấu hình CMS) + kiểm tra `content/places/*.json` → `public/data/places.json` (tự gán `wardCode`, dừng nếu sai quy tắc) + tạo ảnh web từ `content/images/` vào `public/images/places/`. Được gọi trong `npm run build` và tự chạy khi `content/` thay đổi lúc `npm run dev` |
 | `npm run osm:pois` | Tải gợi ý POI từ OSM vào `.cache/osm-pois.geojson` (chỉ để biên tập, không đưa thẳng lên web) |
 | `npm run images:find <id>…` | Tìm ảnh ứng viên trên Wikimedia Commons → `.cache/image-candidates.json` (có truy vấn/mã Wikidata chỉ định cho từng điểm trong script) |
-| `npm run images` | Tải ảnh theo `content/image-selection.json`, nén bằng `sharp` vào `public/images/places/` (ảnh gốc giữ ở `.cache/images-orig/`), ghi `images` vào `content/places.json`. Chạy `npm run places` sau đó |
+| `npm run images` | Tải ảnh Commons theo `content/image-selection.json` vào `content/images/<id>.jpg` (ảnh tải về giữ ở `.cache/images-orig/`), ghi `images` vào `content/places/<id>.json` (giữ ảnh không phải Commons). Chạy `npm run places` sau đó |
 
 **Cấu trúc thư mục thực tế:**
 
@@ -316,7 +316,11 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 - Overpass API yêu cầu header `User-Agent`, và hay trả lỗi 504. Script đã chia nhỏ truy vấn và có cơ chế thử lại.
 - Trên mobile, thanh ghi nguồn phải nằm **trên** tấm panel (`--sheet-h` trong `style.css`). Không để panel che ghi nguồn.
 - Khi test trong khung trình duyệt của Claude Code: nếu khung đang ẩn, `requestAnimationFrame` bị tạm dừng, nên bản đồ không tải hoặc không chạy xong hiệu ứng bay. Chụp màn hình nhiều lần để ép vẽ khung hình. Đây không phải lỗi của code.
-- Deploy: Vercel (`dist`) hoặc GitHub Pages với `BASE_PATH=/<repo>/ npm run build`.
+- Deploy: Vercel (preset Vite, build `npm run build`, output `dist`, không có biến môi trường; **không** đặt `BASE_PATH`). Mỗi lần push lên `main` là deploy production. GitHub Pages (dự phòng): `BASE_PATH=/<repo>/ npm run build`.
+- **Sveltia CMS (01/10/2026):** trang `/admin/` (`public/admin/index.html`, nạp Sveltia từ unpkg, **cố định phiên bản** 0.227.0). Cấu hình `public/admin/config.json` **sinh bởi** `scripts/build-cms-config.mjs` từ `layers.data.json`, `LICENSES` (`scripts/lib.mjs`) và mục `cms` trong `province.data.json`; không sửa tay. Kiểm tra cấu hình bằng schema `schema/sveltia-cms.json` trong gói npm `@sveltia/cms`. Backend GitHub, đăng nhập bằng fine-grained token (`auth_methods: [token]`, không có máy chủ OAuth); chế độ cục bộ (Chrome/Edge) dùng khi `npm run dev`. Trước mắt chỉ chủ dự án sửa nội dung.
+- Ảnh gốc ở `content/images/` (CMS chuyển sang WebP ≤ 1600 px khi tải lên; tên file `<id>-<uuid ngắn>`). `public/images/places/` là **thư mục sinh ra, không commit**; `build-places` tạo bản 960 px + bản nhỏ 480×320, chỉ tạo lại khi ảnh gốc mới hơn, và xóa file không còn dùng. Giá trị `src` trong file địa điểm là `/images/places/<file>` (public_folder của CMS) và được ánh xạ về `content/images/<file>`.
+- Ảnh tự chụp/cơ quan cung cấp: chọn giấy phép có `ownSource: true` trong `LICENSES`, khi đó `sourceUrl` không bắt buộc; giao diện hiển thị tên tác giả không có link.
+- Thứ tự `public/data/places.json`: điểm nổi bật theo `featuredOrder` (thứ tự carousel), rồi theo tên.
 
 **Phase 1 — kiến trúc giao diện:**
 

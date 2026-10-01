@@ -1,0 +1,12 @@
+{
+  "layer": "danh-thang",
+  "name": "Bãi biển Gio Hải",
+  "latLng": "16.93314, 107.167191",
+  "summary": "Bãi biển ven cửa Tùng – cửa Việt, còn giữ được nét hoang sơ.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/3516472422",
+    "osmName": "Gio Hai"
+  }
+}

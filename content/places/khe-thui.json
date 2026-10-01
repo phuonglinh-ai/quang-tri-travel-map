@@ -1,0 +1,12 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Khu di tích lịch sử Khe Thùi",
+  "latLng": "17.911136, 105.826713",
+  "summary": "Khu di tích lịch sử ở vùng núi phía Tây, gắn với tuyến giao thông thời chiến.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "way/1314845892",
+    "osmName": "Khu di tích lịch sử Khe Thui"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "layer": "di-tich",
+  "name": "Thánh đường Giáo xứ Tam Tòa",
+  "latLng": "17.464249, 106.607063",
+  "summary": "Phế tích nhà thờ bị bom phá hủy trong chiến tranh, được giữ lại như một chứng tích bên bờ sông Nhật Lệ.",
+  "images": [
+    {
+      "src": "/images/places/thanh-duong-tam-toa.jpg",
+      "alt": "Thánh đường Giáo xứ Tam Tòa",
+      "credit": "Michael Anranter",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tam_Toa_Church,_Dong_Hoi.jpg"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "way/975253393",
+    "osmName": "Thánh đường Giáo Xứ Tam Tòa"
+  }
+}

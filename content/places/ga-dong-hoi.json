@@ -1,0 +1,23 @@
+{
+  "layer": "giao-thong",
+  "name": "Ga Đồng Hới",
+  "latLng": "17.468933, 106.599726",
+  "summary": "Ga đường sắt Bắc – Nam tại Đồng Hới.",
+  "images": [
+    {
+      "src": "/images/places/ga-dong-hoi.jpg",
+      "alt": "Ga Đồng Hới",
+      "credit": "Yhxc57082",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dong_Hoi_Railway_Station,_11_Nov_2024.jpg"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "icon": "🚉",
+  "source": {
+    "osm": "node/5406339121",
+    "osmName": "Đồng Hới"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "layer": "truong-hoc",
+  "name": "Trường Đại học Quảng Bình",
+  "latLng": "17.481946, 106.606202",
+  "summary": "Cơ sở đào tạo đại học tại Đồng Hới.",
+  "images": [
+    {
+      "src": "/images/places/dh-quang-binh.jpg",
+      "alt": "Trường Đại học Quảng Bình",
+      "credit": "NDS",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tr%C6%B0%E1%BB%9Dng_%C4%90H_Qu%E1%BA%A3ng_B%C3%ACnh,_TP.%C4%90%E1%BB%93ng_H%E1%BB%9Bi.JPG"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia",
+      "url": "https://vi.wikipedia.org/wiki/Trường_Đại_học_Quảng_Bình"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "way/1123299136",
+    "osmName": "Trường Đại học Quảng Bình"
+  }
+}

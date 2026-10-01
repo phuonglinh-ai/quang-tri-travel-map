@@ -1,0 +1,13 @@
+{
+  "layer": "danh-thang",
+  "name": "Khu bảo tồn thiên nhiên Đakrông",
+  "latLng": "16.540523, 107.00458",
+  "summary": "Khu bảo tồn rừng tự nhiên ở vùng núi phía Tây Nam, có giá trị đa dạng sinh học cao.",
+  "featured": false,
+  "isSample": true,
+  "mapZoom": 10,
+  "source": {
+    "osm": "relation/17344722",
+    "osmName": "Khu bảo tồn thiên nhiên Đakrông"
+  }
+}

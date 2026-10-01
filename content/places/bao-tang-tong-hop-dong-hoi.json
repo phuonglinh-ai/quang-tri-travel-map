@@ -1,0 +1,12 @@
+{
+  "layer": "bao-tang-thu-vien",
+  "name": "Bảo tàng tổng hợp tỉnh Quảng Trị (Đồng Hới)",
+  "latLng": "17.468221, 106.623629",
+  "summary": "Bảo tàng tại trung tâm Đồng Hới, trưng bày hiện vật về lịch sử, văn hóa của vùng đất Quảng Bình xưa.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/10756203755",
+    "osmName": "Bảo tàng tổng hợp tỉnh Quảng Trị"
+  }
+}

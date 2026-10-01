@@ -1,6 +1,6 @@
 // Tải các điểm quan tâm (POI) từ OpenStreetMap trong bbox tỉnh, làm NGUỒN GỢI Ý cho dữ liệu mẫu.
 // Không đưa thẳng lên web: scripts/suggest-places.mjs lọc, phân loại để người biên tập chọn vào
-// content/places.json. Dữ liệu © OpenStreetMap contributors (ODbL).
+// content/places/. Dữ liệu © OpenStreetMap contributors (ODbL).
 import fs from 'node:fs';
 import path from 'node:path';
 import { CACHE, provinceDir, geojsonDir, readJson, writeJson, USER_AGENT } from './lib.mjs';

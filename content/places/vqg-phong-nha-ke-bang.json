@@ -1,0 +1,30 @@
+{
+  "layer": "danh-thang",
+  "name": "Vườn quốc gia Phong Nha – Kẻ Bàng",
+  "nameEn": "Phong Nha – Ke Bang National Park",
+  "latLng": "17.555193, 106.085958",
+  "summary": "Di sản thiên nhiên thế giới được UNESCO công nhận, nổi tiếng với hệ thống hang động đá vôi và rừng nguyên sinh.",
+  "images": [
+    {
+      "src": "/images/places/vqg-phong-nha-ke-bang.jpg",
+      "alt": "Vườn quốc gia Phong Nha – Kẻ Bàng",
+      "credit": "Genghiskhanviet",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Phongnhakebang6.jpg"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia",
+      "url": "https://vi.wikipedia.org/wiki/Vườn_quốc_gia_Phong_Nha_-_Kẻ_Bàng"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 7,
+  "isSample": true,
+  "mapZoom": 9.5,
+  "source": {
+    "osm": "relation/7039289",
+    "osmName": "Vườn quốc gia Phong Nha - Kẻ Bàng"
+  }
+}

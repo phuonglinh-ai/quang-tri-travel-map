@@ -1,0 +1,24 @@
+{
+  "layer": "danh-thang",
+  "name": "Bãi biển Nhật Lệ",
+  "nameEn": "Nhat Le Beach",
+  "latLng": "17.491054, 106.627149",
+  "summary": "Bãi biển gần trung tâm Đồng Hới, thuận tiện cho du khách nghỉ dưỡng và tắm biển.",
+  "images": [
+    {
+      "src": "/images/places/bai-bien-nhat-le.jpg",
+      "alt": "Bãi biển Nhật Lệ",
+      "credit": "Bùi Thụy Đào Nguyên",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rau_mu%E1%BB%91ng_bi%E1%BB%83n_%E1%BB%9F_Nh%E1%BA%ADt_L%E1%BB%87.jpg"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 10,
+  "isSample": true,
+  "source": {
+    "osm": "node/9946489226",
+    "osmName": "Bãi biển Nhật Lệ"
+  }
+}

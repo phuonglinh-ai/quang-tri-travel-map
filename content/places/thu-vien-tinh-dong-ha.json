@@ -1,0 +1,12 @@
+{
+  "layer": "bao-tang-thu-vien",
+  "name": "Thư viện tỉnh Quảng Trị (cơ sở 2)",
+  "latLng": "16.799767, 107.110425",
+  "summary": "Thư viện công cộng tại Đông Hà.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "way/318673693",
+    "osmName": "Thư viện tỉnh Quảng Trị (cơ sở 2)"
+  }
+}

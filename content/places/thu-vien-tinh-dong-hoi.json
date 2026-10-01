@@ -1,0 +1,12 @@
+{
+  "layer": "bao-tang-thu-vien",
+  "name": "Thư viện tỉnh Quảng Trị",
+  "latLng": "17.473878, 106.607243",
+  "summary": "Thư viện công cộng tại Đồng Hới, phục vụ bạn đọc và học sinh, sinh viên.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "way/941166730",
+    "osmName": "Thư viện tỉnh Quảng Trị"
+  }
+}

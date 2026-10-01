@@ -5,3 +5,5 @@ dist/
 *.log
 .DS_Store
 .claude/settings.local.json
+# Ảnh cho web được build từ content/images/ (npm run places)
+public/images/places/

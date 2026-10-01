@@ -1,0 +1,12 @@
+{
+  "layer": "danh-thang",
+  "name": "Suối nước Moọc",
+  "latLng": "17.555392, 106.235736",
+  "summary": "Khu du lịch sinh thái với suối nước trong xanh giữa rừng, thuộc vùng Phong Nha – Kẻ Bàng.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/4387487189",
+    "osmName": "Suoi Nuoc Mooc"
+  }
+}

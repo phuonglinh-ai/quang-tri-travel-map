@@ -1,0 +1,23 @@
+{
+  "layer": "di-tich",
+  "name": "Trung tâm hành hương Đức Mẹ La Vang",
+  "nameEn": "Our Lady of La Vang Shrine",
+  "latLng": "16.707302, 107.196183",
+  "summary": "Trung tâm hành hương Công giáo lớn, thu hút đông đảo khách thập phương, đặc biệt vào các dịp lễ lớn.",
+  "images": [
+    {
+      "src": "/images/places/la-vang.jpg",
+      "alt": "Trung tâm hành hương Đức Mẹ La Vang",
+      "credit": "Hoangvantoanajc",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Th%C3%A1p_chu%C3%B4ng_nh%C3%A0_th%E1%BB%9D_La_Vang.JPG"
+    }
+  ],
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/3100293997",
+    "osmName": "Linh đài Đức Mẹ La Vang"
+  }
+}

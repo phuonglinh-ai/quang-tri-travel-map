@@ -1,0 +1,30 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Thành cổ Quảng Trị",
+  "nameEn": "Quang Tri Citadel",
+  "latLng": "16.75393, 107.189536",
+  "summary": "Di tích gắn với cuộc chiến đấu 81 ngày đêm bảo vệ Thành cổ năm 1972, nay là nơi tưởng niệm các chiến sĩ đã hy sinh. Địa điểm tiêu biểu cho giáo dục truyền thống.",
+  "images": [
+    {
+      "src": "/images/places/thanh-co-quang-tri.jpg",
+      "alt": "Thành cổ Quảng Trị",
+      "credit": "Bùi Thụy Đào Nguyên",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Th%C3%A0nh_c%E1%BB%95_Qu%E1%BA%A3ng_Tr%E1%BB%8B_4.jpg"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia",
+      "url": "https://vi.wikipedia.org/wiki/Thành_cổ_Quảng_Trị"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 1,
+  "isSample": true,
+  "source": {
+    "osm": "way/1189797496",
+    "osmName": "Thành cổ Quảng Trị"
+  }
+}

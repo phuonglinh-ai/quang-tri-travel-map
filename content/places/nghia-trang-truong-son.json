@@ -1,0 +1,24 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Nghĩa trang Liệt sĩ Quốc gia Trường Sơn",
+  "nameEn": "Truong Son National Martyrs Cemetery",
+  "latLng": "16.957453, 106.954821",
+  "summary": "Nơi yên nghỉ của các liệt sĩ đã hy sinh trên tuyến đường Trường Sơn. Địa điểm viếng thăm, tri ân và giáo dục truyền thống.",
+  "images": [
+    {
+      "src": "/images/places/nghia-trang-truong-son.jpg",
+      "alt": "Nghĩa trang Liệt sĩ Quốc gia Trường Sơn",
+      "credit": "Gonzo Gooner",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Truong_Son_National_Cemetery_-_panoramio.jpg"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 4,
+  "isSample": true,
+  "source": {
+    "osm": "way/848688745",
+    "osmName": "Nghĩa trang liệt sĩ Quốc gia Trường Sơn"
+  }
+}

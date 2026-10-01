@@ -1,0 +1,12 @@
+{
+  "layer": "luu-tru",
+  "name": "Tú Làn Lodge",
+  "latLng": "17.769578, 106.050778",
+  "summary": "Cơ sở lưu trú tại khu vực Tân Hóa. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "featured": false,
+  "isSample": true,
+  "source": {
+    "osm": "node/11158418740",
+    "osmName": "Tú Làn Lodge"
+  }
+}

@@ -16,7 +16,8 @@ export interface PlaceImage {
   credit: string;
   license: string;
   licenseUrl: string | null;
-  sourceUrl: string;
+  /** Trang gốc của ảnh; có thể trống với ảnh tự chụp hoặc do cơ quan cung cấp. */
+  sourceUrl: string | null;
 }
 
 export interface Place {

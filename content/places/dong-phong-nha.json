@@ -1,0 +1,29 @@
+{
+  "layer": "danh-thang",
+  "name": "Động Phong Nha",
+  "nameEn": "Phong Nha Cave",
+  "latLng": "17.581367, 106.283079",
+  "summary": "Hang động nổi tiếng với dòng sông ngầm, du khách tham quan bằng thuyền từ bến sông Son.",
+  "images": [
+    {
+      "src": "/images/places/dong-phong-nha.jpg",
+      "alt": "Động Phong Nha",
+      "credit": "Genghiskhanviet",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Phongnhakebang2.jpg"
+    }
+  ],
+  "links": [
+    {
+      "label": "Wikipedia (tiếng Anh)",
+      "url": "https://en.wikipedia.org/wiki/Phong_Nha_Cave"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 8,
+  "isSample": true,
+  "source": {
+    "osm": "node/3093700681",
+    "osmName": "Động Phong Nha"
+  }
+}
