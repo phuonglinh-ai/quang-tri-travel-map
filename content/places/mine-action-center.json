@@ -3,7 +3,6 @@
   "name": "Mine Action Visitor Center",
   "latLng": "16.798937, 107.105173",
   "summary": "Điểm tham quan tìm hiểu về bom mìn, vật liệu nổ còn sót lại sau chiến tranh và công tác khắc phục hậu quả.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "way/344918977",

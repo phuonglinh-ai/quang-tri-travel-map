@@ -51,6 +51,37 @@
   "editor": {
     "preview": false
   },
+  "singletons": [
+    {
+      "name": "featured",
+      "label": "Dải Nổi bật",
+      "icon": "star",
+      "file": "content/featured.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "places",
+          "label": "Địa điểm nổi bật",
+          "label_singular": "địa điểm",
+          "widget": "list",
+          "hint": "Thứ tự trong danh sách là thứ tự trên carousel. Đổi thứ tự: kéo nút ═ ở đầu mỗi mục, hoặc bấm vào nút ═ rồi dùng phím mũi tên lên/xuống. Nên chọn địa điểm đã có ảnh.",
+          "field": {
+            "name": "place",
+            "label": "Địa điểm",
+            "widget": "relation",
+            "collection": "places",
+            "value_field": "{{slug}}",
+            "search_fields": [
+              "name"
+            ],
+            "display_fields": [
+              "name"
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "collections": [
     {
       "name": "places",
@@ -324,21 +355,6 @@
             }
           ],
           "hint": "Mùa vụ, lễ hội. Dùng cho lịch mùa vụ (Phase 2)."
-        },
-        {
-          "name": "featured",
-          "label": "Hiện trong dải \"Nổi bật\"",
-          "widget": "boolean",
-          "default": false
-        },
-        {
-          "name": "featuredOrder",
-          "label": "Thứ tự trong dải \"Nổi bật\"",
-          "widget": "number",
-          "value_type": "int",
-          "min": 1,
-          "required": false,
-          "hint": "Số nhỏ đứng trước."
         },
         {
           "name": "isSample",

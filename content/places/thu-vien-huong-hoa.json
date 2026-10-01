@@ -3,7 +3,6 @@
   "name": "Thư viện Hướng Hóa",
   "latLng": "16.626998, 106.736352",
   "summary": "Thư viện công cộng tại khu vực Khe Sanh.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "way/866330392",

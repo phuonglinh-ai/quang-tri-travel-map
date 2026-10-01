@@ -3,7 +3,6 @@
   "name": "Làng bún Cẩm Thạch",
   "latLng": "16.845572, 107.087498",
   "summary": "Làng nghề làm bún truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "node/9960036518",

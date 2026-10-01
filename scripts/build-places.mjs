@@ -11,7 +11,7 @@ import sharp from 'sharp';
 import pointInPolygon from '@turf/boolean-point-in-polygon';
 import { pointToPolygonDistance } from '@turf/point-to-polygon-distance';
 import {
-  ROOT, OUT, readJson, writeJson, kb, readPlaces, parseLatLng,
+  ROOT, OUT, readJson, writeJson, kb, readPlaces, readFeatured, parseLatLng,
   LICENSES, IMAGES_SRC_DIR, IMAGES_PUBLIC_PREFIX,
 } from './lib.mjs';
 
@@ -21,6 +21,8 @@ const { layers } = readJson(path.join(ROOT, 'src', 'config', 'layers.data.json')
 const wards = readJson(path.join(OUT, 'wards.geojson')).features;
 const layerIds = new Set(layers.map((l) => l.id));
 const licenseByName = new Map(LICENSES.map((l) => [l.name, l]));
+const featured = readFeatured();
+const featuredRank = new Map(featured.map((id, i) => [id, i]));
 
 const errors = [];
 const warnings = [];
@@ -64,7 +66,7 @@ const out = readPlaces().map(({ id, data: p }) => {
   });
 
   for (const l of p.links ?? []) if (!/^https:\/\//.test(l.url)) errors.push(`${at}: liên kết phải là https`);
-  if (p.featuredOrder != null && !(Number.isInteger(p.featuredOrder) && p.featuredOrder >= 1)) errors.push(`${at}: featuredOrder phải là số nguyên ≥ 1`);
+  if ('featured' in p || 'featuredOrder' in p) warnings.push(`${at}: bỏ qua featured/featuredOrder, dải Nổi bật nay nằm ở content/featured.json`);
   if (p.mapZoom != null && !(p.mapZoom >= 6 && p.mapZoom <= 17)) errors.push(`${at}: mapZoom phải trong khoảng 6–17`);
   for (const m of p.months ?? []) if (!(m >= 1 && m <= 12)) errors.push(`${at}: tháng không hợp lệ ${m}`);
 
@@ -88,7 +90,7 @@ const out = readPlaces().map(({ id, data: p }) => {
     }
   }
 
-  const { latLng, ...rest } = p;
+  const { latLng, featured: _f, featuredOrder: _o, ...rest } = p;
   return {
     id,
     ...rest,
@@ -99,9 +101,15 @@ const out = readPlaces().map(({ id, data: p }) => {
     images,
     links: p.links ?? [],
     months: p.months ?? [],
-    featured: p.featured ?? false,
+    featured: featuredRank.has(id),
     extra: p.extra ?? {},
   };
+});
+
+const placeIds = new Set(out.map((p) => p.id));
+featured.forEach((id, i) => {
+  if (!placeIds.has(id)) errors.push(`content/featured.json: vị trí ${i + 1} trỏ tới địa điểm "${id}" không còn tồn tại (đã xóa hoặc đổi tên?)`);
+  if (featured.indexOf(id) !== i) errors.push(`content/featured.json: "${id}" xuất hiện nhiều lần`);
 });
 
 for (const w of warnings) console.warn(`! ${w}`);
@@ -128,8 +136,8 @@ for (const [base, srcFile] of imageJobs) {
 }
 for (const f of fs.readdirSync(IMG_OUT_DIR)) if (!keep.has(f)) fs.rmSync(path.join(IMG_OUT_DIR, f));
 
-// Thứ tự: điểm nổi bật theo featuredOrder (thứ tự trong carousel), sau đó theo tên.
-const rank = (p) => (p.featured ? (p.featuredOrder ?? 999) : Infinity);
+// Thứ tự: điểm nổi bật theo content/featured.json (thứ tự trong carousel), sau đó theo tên.
+const rank = (p) => featuredRank.get(p.id) ?? Infinity;
 out.sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, 'vi'));
 const file = path.join(OUT, 'places.json');
 writeJson(file, out);

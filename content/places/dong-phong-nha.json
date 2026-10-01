@@ -19,8 +19,6 @@
       "url": "https://en.wikipedia.org/wiki/Phong_Nha_Cave"
     }
   ],
-  "featured": true,
-  "featuredOrder": 8,
   "isSample": true,
   "source": {
     "osm": "node/3093700681",

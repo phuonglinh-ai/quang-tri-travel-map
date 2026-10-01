@@ -3,8 +3,6 @@
   "name": "Hải đăng Cồn Cỏ",
   "latLng": "17.157734, 107.338485",
   "summary": "Ngọn hải đăng trên đảo Cồn Cỏ, điểm đến tiêu biểu của đặc khu đảo duy nhất của tỉnh.",
-  "featured": true,
-  "featuredOrder": 11,
   "isSample": true,
   "source": {
     "osm": "way/946535120",

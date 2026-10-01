@@ -3,7 +3,6 @@
   "name": "Di tích chiến thắng sông Gianh",
   "latLng": "17.716672, 106.444687",
   "summary": "Điểm di tích ghi dấu chiến thắng trên sông Gianh trong thời kỳ chiến tranh.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "node/12721839901",

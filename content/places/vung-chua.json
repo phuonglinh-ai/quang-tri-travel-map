@@ -3,7 +3,6 @@
   "name": "Vũng Chùa",
   "latLng": "17.929694, 106.506596",
   "summary": "Vịnh biển nằm dưới chân đèo Ngang, cảnh quan kết hợp núi, biển và đảo Yến.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "node/11563767582",

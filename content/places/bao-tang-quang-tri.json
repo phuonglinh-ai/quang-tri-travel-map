@@ -3,7 +3,6 @@
   "name": "Bảo tàng Quảng Trị",
   "latLng": "16.819164, 107.090531",
   "summary": "Bảo tàng tại Đông Hà, trưng bày hiện vật về lịch sử, văn hóa của vùng đất Quảng Trị.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "way/344918978",

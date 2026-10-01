@@ -3,7 +3,6 @@
   "name": "Sun Spa Resort",
   "latLng": "17.479747, 106.633681",
   "summary": "Cơ sở lưu trú tại khu vực Đồng Hới. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "node/697280309",

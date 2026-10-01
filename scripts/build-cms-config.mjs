@@ -57,8 +57,6 @@ const placeFields = [
     options: Array.from({ length: 12 }, (_, i) => ({ label: `Tháng ${i + 1}`, value: i + 1 })),
     hint: 'Mùa vụ, lễ hội. Dùng cho lịch mùa vụ (Phase 2).',
   },
-  { name: 'featured', label: 'Hiện trong dải "Nổi bật"', widget: 'boolean', default: false },
-  { name: 'featuredOrder', label: 'Thứ tự trong dải "Nổi bật"', widget: 'number', value_type: 'int', min: 1, ...optional, hint: 'Số nhỏ đứng trước.' },
   {
     name: 'isSample', label: 'Dữ liệu minh họa', widget: 'boolean', default: true,
     hint: 'Chỉ tắt khi thông tin **đã được cơ quan có thẩm quyền xác minh**. Khi bật, thẻ địa điểm có nhãn "Dữ liệu minh họa".',
@@ -108,6 +106,26 @@ const config = {
   slug: { encoding: 'ascii', clean_accents: true },
   output: { omit_empty_optional_fields: true, json: { indent_style: 'space', indent_size: 2 } },
   editor: { preview: false },
+  // Dải "Nổi bật" sửa ở một chỗ: thấy cả danh sách, kéo thả để đổi thứ tự (không đánh số ở từng địa điểm).
+  singletons: [
+    {
+      name: 'featured',
+      label: 'Dải Nổi bật',
+      icon: 'star',
+      file: 'content/featured.json',
+      format: 'json',
+      fields: [
+        {
+          name: 'places', label: 'Địa điểm nổi bật', label_singular: 'địa điểm', widget: 'list',
+          hint: 'Thứ tự trong danh sách là thứ tự trên carousel. Đổi thứ tự: kéo nút ═ ở đầu mỗi mục, hoặc bấm vào nút ═ rồi dùng phím mũi tên lên/xuống. Nên chọn địa điểm đã có ảnh.',
+          field: {
+            name: 'place', label: 'Địa điểm', widget: 'relation',
+            collection: 'places', value_field: '{{slug}}', search_fields: ['name'], display_fields: ['name'],
+          },
+        },
+      ],
+    },
+  ],
   collections: [
     {
       name: 'places',

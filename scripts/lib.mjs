@@ -109,6 +109,10 @@ export function writePlace(id, data) {
   fs.writeFileSync(path.join(PLACES_DIR, `${id}.json`), `${JSON.stringify(data, null, 2)}\n`);
 }
 
+/** Dải "Nổi bật" (carousel): danh sách id địa điểm theo thứ tự hiển thị, sửa trong CMS mục "Dải Nổi bật". */
+export const FEATURED_FILE = path.join(ROOT, 'content', 'featured.json');
+export const readFeatured = () => readJson(FEATURED_FILE).places ?? [];
+
 /**
  * Giấy phép ảnh chọn được trong CMS. `url` dùng để tự điền licenseUrl khi trống.
  * `ownSource: true` = ảnh tự chụp / do cơ quan cung cấp: không bắt buộc liên kết nguồn,

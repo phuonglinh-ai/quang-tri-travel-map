@@ -3,7 +3,6 @@
   "name": "Greenfield Ecostay",
   "latLng": "17.62176, 106.352861",
   "summary": "Cơ sở lưu trú tại khu vực Phong Nha. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
-  "featured": false,
   "isSample": true,
   "source": {
     "osm": "node/5279173621",

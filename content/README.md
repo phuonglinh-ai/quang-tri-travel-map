@@ -30,6 +30,17 @@ Không chia sẻ token cho người khác, không dán vào chat hay file trong 
 
 **Lưu ý:** sau khi sửa trên web, chạy `git pull` trên máy trước khi sửa cục bộ, để tránh xung đột.
 
+### Dải "Nổi bật" (carousel)
+
+Sửa ở mục **Dải Nổi bật** (biểu tượng ngôi sao, phần *Files*), không sửa trong từng địa điểm. Danh sách hiển thị đúng thứ tự trên carousel:
+- **Thêm:** bấm *Add địa điểm* ở cuối danh sách, gõ tìm tên địa điểm.
+- **Đổi thứ tự:** kéo nút ═ ở đầu mỗi mục, hoặc bấm nút ═ rồi dùng phím mũi tên lên/xuống.
+- **Bỏ khỏi dải:** bấm ✕ của mục đó (địa điểm vẫn còn trên bản đồ).
+
+Dữ liệu lưu ở `content/featured.json`. Nếu xóa một địa điểm đang nằm trong dải, lần build sau sẽ báo lỗi: cần bỏ địa điểm đó khỏi dải.
+
+**Lưu ý:** id địa điểm (tên file) được dùng trong dải Nổi bật, liên kết chia sẻ và mã QR. Muốn đổi tên hiển thị thì sửa trường **Tên**, đừng tạo địa điểm mới rồi xóa địa điểm cũ.
+
 ### Thêm ảnh
 
 Trong địa điểm → mục **Ảnh** → **Add ảnh** → chọn file. Điền đủ:
@@ -62,8 +73,6 @@ Lệnh này sinh lại cấu hình CMS, kiểm tra dữ liệu, tự gán xã/ph
 | `images` | | Danh sách ảnh `{ src, alt, credit, license, sourceUrl, licenseUrl }`. `src` có dạng `/images/places/<tên file>` (file thật nằm ở `content/images/<tên file>`). `licenseUrl` để trống thì tự điền theo giấy phép. |
 | `links` | | `[{ "label": "...", "url": "https://..." }]`. |
 | `months` | | Các tháng nổi bật (1–12), dùng cho lịch mùa vụ, lễ hội ở Phase 2. |
-| `featured` | | `true` để hiện trong dải "Nổi bật". |
-| `featuredOrder` | | Thứ tự trong dải "Nổi bật", số nhỏ đứng trước. |
 | `isSample` | ✓ | `true` = dữ liệu minh họa, thẻ sẽ gắn nhãn "Dữ liệu minh họa". Chỉ đặt `false` khi thông tin **đã được cơ quan có thẩm quyền xác minh**. |
 | `mapZoom` | | Mức zoom khi mở địa điểm dạng vùng rộng (6–17), ví dụ vườn quốc gia là `9.5`. |
 | `icon` | | Emoji riêng, thay icon mặc định của lớp. |
