@@ -1,0 +1,16 @@
+{
+  "layer": "htx-trang-trai",
+  "name": "HTX Du Lịch Nông Nghiệp VN - Khe Sanh",
+  "latLng": "16.6326107236712, 106.74111563265593",
+  "summary": "Với tâm thế là những người con của vùng đất miền Tây Quảng Trị, HTX Du lịch Nông nghiệp VN - Khe Sanh tự hào là đơn vị chuyên trách tổ chức các chương trình du lịch trải nghiệm, kết hợp hài hòa giữa nông nghiệp bền vững, văn hóa bản địa và lịch sử hào hùng.",
+  "images": [
+    {
+      "src": "/images/places/htx-du-lich-nong-nghiep-vn-khe-sanh-99fd54780f57.webp",
+      "alt": "HTX Du lịch nông nghiệp Việt Nam - Khe Sanh",
+      "credit": "HTX Du lịch nông nghiệp Việt Nam - Khe Sanh",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://svncoop.vn/"
+    }
+  ],
+  "isSample": true
+}
