@@ -1,0 +1,23 @@
+{
+  "layer": "dia-chi-do",
+  "name": "Nghĩa trang quốc gia Đường 9",
+  "nameEn": "Road 9 National Military Cemetery",
+  "latLng": "16.808434486726632, 107.05929117289921",
+  "summary": "Nghĩa trang Quốc gia Đường 9 không chỉ là nơi tưởng niệm những chiến sĩ đã hy sinh mà còn là biểu tượng cho tình yêu nước, lòng dũng cảm và sự kiên cường của dân tộc Việt Nam.",
+  "images": [
+    {
+      "src": "/images/places/nghia-trang-quoc-gia-duong-9-a2bdf26929b3.webp",
+      "alt": "Nghĩa trang Quốc gia đường 9",
+      "credit": "Báo Đại biểu Nhân dân tỉnh Nghệ An",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://dbndnghean.vn/",
+      "licenseUrl": "https://dbndnghean.vn/"
+    }
+  ],
+  "months": [
+    7
+  ],
+  "featured": true,
+  "featuredOrder": 9,
+  "isSample": true
+}
