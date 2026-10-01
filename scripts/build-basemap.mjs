@@ -1,11 +1,13 @@
 // Dựng lớp nền tự vẽ (không dùng raster tile):
 //  - land.geojson:  đất liền NGOÀI các tỉnh Việt Nam đã có (chủ yếu là Lào), từ Natural Earth 1:10m.
-//  - roads.geojson: đường chính + đường sắt trong tỉnh (OSM).
+//  - roads.geojson: đường chính + đường sắt trong tỉnh (OSM), kèm tên đường đã làm sạch (`label`).
+//  - road-shields.geojson: tuyến có số hiệu (CT, QL, HCM, ĐT) đã chuẩn hóa và nối liền, để đặt biển số.
 //  - water.geojson: sông (đường) và hồ/sông rộng (vùng) trong tỉnh (OSM).
 // Chỉ lấy hình học và tên đường/sông/hồ từ OSM. KHÔNG lấy tên biển, đảo, quần đảo, quốc gia.
 import fs from 'node:fs';
 import path from 'node:path';
-import { CACHE, OUT, province, readJson, writeJson, kb, mapshaper, viewBounds } from './lib.mjs';
+import { CACHE, OUT, province, readJson, writeJson, kb, mapshaper, viewBounds, distanceKm } from './lib.mjs';
+import { knownNationalRefs, shieldOf, roadLabel, mergeLines, linesOf, lineGeometry } from './road-labels.mjs';
 
 const PRECISION = 0.00001;
 const provinceFc = readJson(path.join(OUT, 'province.geojson'));
@@ -112,7 +114,44 @@ const lakes = await mapshaper(
   { 'lakes.json': { type: 'FeatureCollection', features: waterAreas }, 'province.json': provinceFc },
 );
 
+// --- Biển số và tên đường ----------------------------------------------------
+// Biển số: gom các đoạn cùng số hiệu (bỏ qua tên: mỗi cây cầu, mỗi phố trên quốc lộ là một tên riêng) rồi nối liền,
+// để MapLibre đặt biển số đều theo khoảng cách trên cả tuyến thay vì một biển trên mỗi đoạn ngắn.
+// Chuỗi quá ngắn (mảnh cắt ở ranh giới tỉnh, nhánh nút giao) bị bỏ: chỉ làm biển số mọc dày ở một chỗ.
+const MIN_SHIELD_CHAIN_KM = 0.5;
+const lengthKm = (l) => l.slice(1).reduce((a, p, i) => a + distanceKm(l[i], p), 0);
+const knownQL = knownNationalRefs(osm.features.map((f) => f.properties.ref));
+const shieldGroups = new Map();
+for (const f of roads['roads.json'].features) {
+  const p = f.properties;
+  if (p.kind !== 'road') continue;
+  const s = shieldOf({ ref: p.ref, name: p.name, cls: p.class }, knownQL);
+  // Tên đường ghi dọc theo nét đường (thuộc tính `label` của roads.geojson); nối các mảnh của cùng
+  // một đối tượng để tên có đủ chiều dài hiển thị.
+  const label = roadLabel(p.name, !!s);
+  if (label) p.label = label;
+  f.geometry = lineGeometry(mergeLines(linesOf(f.geometry)));
+  if (!s) continue;
+  if (!shieldGroups.has(s.shield)) shieldGroups.set(s.shield, { props: s, lines: [] });
+  shieldGroups.get(s.shield).lines.push(...linesOf(f.geometry));
+}
 writeJson(path.join(OUT, 'roads.geojson'), roads['roads.json']);
+const shieldFc = {
+  type: 'FeatureCollection',
+  features: [...shieldGroups.values()]
+    .map(({ props, lines }) => ({ props, chains: mergeLines(lines).filter((l) => lengthKm(l) >= MIN_SHIELD_CHAIN_KM) }))
+    .filter(({ chains }) => chains.length)
+    .sort((a, b) => a.props.shield.localeCompare(b.props.shield, 'vi', { numeric: true }))
+    .map(({ props, chains }) => ({ type: 'Feature', properties: props, geometry: lineGeometry(chains) })),
+};
+// Đường dẫn của biển số chỉ dùng để đặt vị trí (không vẽ nét), nên đơn giản hóa mạnh hơn nét đường
+// để giảm dung lượng (lệch tối đa vài pixel ở zoom 14).
+const SHIELD_SIMPLIFY_M = 50;
+const shieldsOut = await mapshaper(
+  `-i shields.json -simplify interval=${SHIELD_SIMPLIFY_M} -o format=geojson precision=${PRECISION}`,
+  { 'shields.json': shieldFc },
+);
+writeJson(path.join(OUT, 'road-shields.geojson'), shieldsOut['shields.json']);
 writeJson(path.join(OUT, 'water.geojson'), {
   type: 'FeatureCollection',
   features: [...lakes['lakes.json'].features, ...rivers['rivers.json'].features],
@@ -123,7 +162,7 @@ fs.writeFileSync(
   JSON.stringify({ osmTimestamp: fs.readFileSync(path.join(CACHE, 'osm-timestamp.txt'), 'utf8'), viewBounds: bounds }, null, 2),
 );
 
-for (const f of ['land', 'region-labels', 'roads', 'water']) {
+for (const f of ['land', 'region-labels', 'roads', 'road-shields', 'water']) {
   const p = path.join(OUT, `${f}.geojson`);
   console.log(`✓ ${f}.geojson  ${kb(p)}  (${readJson(p).features.length} đối tượng)`);
 }

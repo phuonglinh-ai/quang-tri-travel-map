@@ -9,7 +9,8 @@ Các file ở đây được **sinh tự động** bằng `npm run data`. Không
 | `neighbors.geojson` | Các tỉnh lân cận (Đà Nẵng giữ nguyên quần đảo Hoàng Sa) | Như trên | MIT |
 | `region-labels.geojson` | Điểm đặt nhãn tỉnh lân cận (tên chính thức); nhãn "Lào", "Biển Đông" do dự án tự đặt | Như trên + cấu hình dự án | MIT |
 | `land.geojson` | Đất liền ngoài các tỉnh Việt Nam đã có (Lào, Thái Lan…), **chỉ hình học, không có tên** | [Natural Earth](https://www.naturalearthdata.com/) 1:10m | Public domain |
-| `roads.geojson` | Đường chính (motorway → tertiary) và đường sắt trong tỉnh | © OpenStreetMap contributors | ODbL |
+| `roads.geojson` | Đường chính (motorway → tertiary) và đường sắt trong tỉnh; tên đường đã làm sạch (`label`: bỏ tên cầu, cống, tên chỉ nhắc lại số hiệu) | © OpenStreetMap contributors | ODbL |
+| `road-shields.geojson` | Tuyến có số hiệu (CT, QL, HCM, ĐT) để đặt biển số: số hiệu chuẩn hóa từ thẻ `ref` (chỉ sửa cách viết khi chắc chắn, bỏ số hiệu không rõ loại đường), các đoạn cùng số hiệu được nối liền | © OpenStreetMap contributors | ODbL |
 | `water.geojson` | Sông, kênh (đường) và hồ, sông rộng ≥ 10 ha (vùng) trong tỉnh | © OpenStreetMap contributors | ODbL |
 | `places.json` | 96 địa điểm **mẫu** (`isSample: true`), sinh từ `content/places.json` | Tên, vị trí: © OpenStreetMap contributors; mô tả: dự án tự viết | ODbL (phần dữ liệu OSM) |
 | `meta.json` | Thời điểm dữ liệu OSM, vùng khung nhìn | — | — |

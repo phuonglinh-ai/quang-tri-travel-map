@@ -10,6 +10,7 @@ import type { Feature, FeatureCollection, MultiPolygon, Polygon, Point } from 'g
 import { PROVINCE } from '../config/province';
 import { buildStyle } from './style';
 import { addPlacesLayer, PLACE_LAYERS, setSelectedPlace, zoomIntoCluster } from './places-layer';
+import { addShieldImage } from './icons';
 
 export { setPlaces } from './places-layer';
 
@@ -84,6 +85,8 @@ export async function createMap(container: HTMLElement, opts: MapOptions): Promi
     pitchWithRotate: false,
   });
   map.touchZoomRotate.disableRotation();
+  // Ảnh nền biển số đường vẽ bằng canvas, tạo khi style cần tới lần đầu.
+  map.setMissingStyleImageResolver((id) => void addShieldImage(map, id));
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
   map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
 

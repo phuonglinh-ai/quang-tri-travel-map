@@ -70,11 +70,28 @@ for (const d of province.neighbors) {
 // --- Lớp nền: phải nằm trong tỉnh, không mang tên từ nguồn ngoài ------------
 const [w, s, e, n] = readJson(path.join(geojsonDir(provinceDir), `${provinceDir}.geojson`)).features[0].bbox;
 const provBox = [w - 0.01, s - 0.01, e + 0.01, n + 0.01];
-for (const f of ['roads', 'water']) {
+for (const f of ['roads', 'road-shields', 'water']) {
   const feats = readJson(path.join(OUT, `${f}.geojson`)).features;
   const outside = feats.filter((x) => !within(bboxOf([x.geometry.coordinates].flat(Infinity).reduce((a, v, i, arr) => (i % 2 ? a : [...a, [v, arr[i + 1]]]), [])), provBox));
   check(outside.length === 0, `${f}.geojson: ${feats.length} đối tượng, tất cả nằm trong tỉnh`);
 }
+
+// --- Biển số đường: đúng định dạng chuẩn hóa, có các tuyến chính của tỉnh -----
+const shields = readJson(path.join(OUT, 'road-shields.geojson')).features;
+const REF_RE = /^(CT\.\d+[A-Z]?|QL\.\d+[A-Z]?|ĐT\.\d+[A-Z]?|HCM)$/u;
+const NET_OF = { CT: 'ct', QL: 'ql', 'ĐT': 'dt', HCM: 'hcm' };
+const badShields = shields.filter(({ properties: p }) => {
+  const refs = String(p.shield).split(' · ');
+  const net = NET_OF[refs[0].split('.')[0]];
+  return !refs.every((r) => REF_RE.test(r)) || new Set(refs).size !== refs.length || p.net !== net || p.tier !== (net === 'dt' ? 'minor' : 'major');
+});
+check(badShields.length === 0, `road-shields.geojson: ${shields.length} tuyến, số hiệu đúng định dạng${badShields.length ? ' — sai: ' + badShields.map((f) => f.properties.shield).join(', ') : ''}`);
+check(new Set(shields.map((f) => f.properties.shield)).size === shields.length, 'road-shields.geojson: mỗi số hiệu một đối tượng');
+const KEY_ROUTES = ['CT.01', 'QL.1', 'QL.9', 'HCM'];
+const allRefs = new Set(shields.flatMap((f) => f.properties.shield.split(' · ')));
+const missingRoutes = KEY_ROUTES.filter((r) => !allRefs.has(r));
+check(missingRoutes.length === 0, `road-shields.geojson: có các tuyến chính ${KEY_ROUTES.join(', ')}${missingRoutes.length ? ' — thiếu: ' + missingRoutes.join(', ') : ''}`);
+
 const land = readJson(path.join(OUT, 'land.geojson')).features;
 check(land.every((x) => Object.keys(x.properties ?? {}).length === 0), 'land.geojson: không mang thuộc tính/tên từ Natural Earth');
 

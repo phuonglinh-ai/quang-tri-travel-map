@@ -19,10 +19,22 @@ export const COLORS = {
   roadMinor: '#e8b77f',
   roadCasing: '#ffffff',
   rail: '#6f6a60',
+  roadLabel: '#47361f',
   text: '#2b2a26',
   textMuted: '#6d675c',
   halo: '#fbf8f1',
 } as const;
+
+// Biển số đường: cao tốc nền xanh lá (như biển chỉ dẫn cao tốc), quốc lộ và đường Hồ Chí Minh nền nâu cam
+// (cùng tông với nét đường chính), đường tỉnh nền sáng viền xám để lùi xuống hàng thứ yếu.
+// Chữ trên nền đạt tương phản ≥ 4,5:1.
+export const SHIELDS = {
+  ct: { fill: '#1b6e3c', stroke: '#ffffff', text: '#ffffff' },
+  ql: { fill: '#a65a1c', stroke: '#ffffff', text: '#ffffff' },
+  hcm: { fill: '#a65a1c', stroke: '#ffffff', text: '#ffffff' },
+  dt: { fill: '#ffffff', stroke: '#9a9384', text: '#4a463f' },
+} as const;
+export type ShieldNet = keyof typeof SHIELDS;
 
 export const FONTS = {
   regular: ['Noto Sans Regular'],

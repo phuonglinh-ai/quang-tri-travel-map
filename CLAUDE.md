@@ -279,7 +279,8 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 | `npm run data` | = `data:fetch` + `data:build` |
 | `npm run data:fetch` | Tải nguồn vào `.cache/` (gitignore): sparse checkout repo ranh giới, Overpass, Natural Earth, glyph font |
 | `npm run data:build` | Xử lý thành `public/data/` rồi tự chạy `data:verify` |
-| `npm run data:verify` | Kiểm tra: đủ 78 xã, không mất polygon > 1.000 m², Cồn Cỏ, Hoàng Sa, nhãn "Lào"/"Biển Đông" đặt đúng chỗ |
+| `npm run data:verify` | Kiểm tra: đủ 78 xã, không mất polygon > 1.000 m², Cồn Cỏ, Hoàng Sa, nhãn "Lào"/"Biển Đông" đặt đúng chỗ, biển số đường đúng định dạng và có đủ CT.01, QL.1, QL.9, HCM |
+| `npm test` | Test đơn vị (`node --test scripts/`): chuẩn hóa số hiệu, làm sạch tên đường, nối đoạn đường (`scripts/road-labels.mjs`) |
 | `npm run places` | Sinh `public/admin/config.json` (cấu hình CMS) + kiểm tra `content/places/*.json` → `public/data/places.json` (tự gán `wardCode`, dừng nếu sai quy tắc) + tạo ảnh web từ `content/images/` vào `public/images/places/`. Được gọi trong `npm run build`, khi khởi động `npm run dev` (`predev`) và tự chạy khi `content/` thay đổi lúc `npm run dev` |
 | `npm run osm:pois` | Tải gợi ý POI từ OSM vào `.cache/osm-pois.geojson` (chỉ để biên tập, không đưa thẳng lên web) |
 | `npm run images:find <id>…` | Tìm ảnh ứng viên trên Wikimedia Commons → `.cache/image-candidates.json` (có truy vấn/mã Wikidata chỉ định cho từng điểm trong script) |
@@ -289,7 +290,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 
 ```
 content/            places/<id>.json, images/, featured.json (nguồn biên tập, sửa qua CMS), image-selection.json, README.md (hướng dẫn biên tập)
-scripts/            fetch-*.mjs (tải nguồn), build-*.mjs (xử lý), verify-data.mjs, find-images.mjs, lib.mjs
+scripts/            fetch-*.mjs (tải nguồn), build-*.mjs (xử lý), verify-data.mjs, find-images.mjs, lib.mjs, road-labels.mjs (+ .test.mjs)
 public/data/        GeoJSON + places.json đã xử lý, SOURCES.md (nguồn & giấy phép)
 public/fonts/       glyph Noto Sans (+ OFL.txt)
 public/images/places/  ảnh địa điểm (<id>.jpg 960px, <id>-sm.jpg 480x320)
@@ -336,6 +337,8 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 - Liên kết chia sẻ giữ dấu phẩy nguyên dạng (không mã hóa thành `%2C`) để URL ngắn khi in mã QR.
 - **Dữ liệu địa điểm mẫu:** tên và tọa độ lấy từ OSM theo mã đối tượng (`source.osm`), mô tả do dự án viết thận trọng (không có số liệu, giá, giờ, xếp hạng di tích chưa chắc chắn). Liên kết Wikipedia chỉ lấy từ thẻ `wikipedia` của OSM và đã kiểm tra đều mở được. Bãi biển Cửa Tùng chưa có trong OSM nên chưa đưa vào.
 - Địa điểm dạng vùng rộng dùng `mapZoom` (vườn quốc gia 9.5) thay cho zoom mặc định 13.
+
+- **Biển số và tên đường (01/10/2026):** dữ liệu từ thẻ `ref`/`name` của OSM, xử lý trong `build-basemap.mjs` bằng các hàm thuần ở `scripts/road-labels.mjs` (có test). Biển số (`road-shields.geojson`, lớp `road-shield`): chuẩn hóa `QL1`→`QL.1`, `TL`→`ĐT`; số trơn trên đường trunk chỉ thành `QL.<số>` khi số hiệu đó có thật trong dữ liệu; bỏ số hiệu không rõ loại (số trơn ở cấp khác, `ĐH`, `ĐVB`); đoạn nhiều số hiệu hiện chung một biển ("QL.15 · HCM"). Các đoạn cùng số hiệu được nối liền (`mergeLines`) và bỏ mảnh < 0,5 km, nếu không biển số mọc dày ở mỗi cây cầu. Màu: cao tốc xanh lá, quốc lộ/HCM nâu cam, đường tỉnh nền trắng (`SHIELDS` trong `theme.ts`); ảnh nền vẽ bằng canvas, nạp qua `setMissingStyleImageResolver` (MapLibre 6 không cho sự kiện `styleimagemissing` tự nạp ảnh). Cao tốc/QL/HCM hiện từ zoom 6,8 (toàn tỉnh trên điện thoại), ĐT từ zoom 10. Tên đường (`label` trong `roads.geojson`, lớp `road-name`): giữ nguyên chính tả OSM, bỏ tên cầu/cống/đập/làn xe/vòng xoay, tên chỉ là số, và tên nhắc lại số hiệu khi đã có biển số; hiện từ zoom 12 (đường chính) / 13 (đường nhỏ). Thứ tự ưu tiên chỗ: ghim địa điểm > biển số > nhãn xã > tên đường. Cao tốc qua tỉnh mang cả hai số hiệu CT.01 và CT.02 (người dùng xác nhận 01/10/2026), biển số hiện "CT.01 · CT.02".
 
 - **Ảnh (30/09/2026):** 22 địa điểm có ảnh Wikimedia Commons (CC BY, CC BY-SA hoặc Public domain). Ảnh được chọn bằng cách xem từng ảnh bằng mắt, vì tìm theo tên thường ra ảnh sai (núi ở Iran, chùa ở Vũng Tàu, nghĩa trang ở Bỉ, Cửa Lò lẫn vào Nhật Lệ). Không dùng ảnh tư liệu chiến tranh chụp lính nước ngoài làm ảnh đại diện cho địa chỉ đỏ. Ghi công hiển thị trên ảnh ở thẻ địa điểm và trong mục "Nguồn ảnh". `build-places` báo lỗi nếu ảnh thiếu tác giả, giấy phép hoặc nguồn. Trang duyệt ảnh chỉ dùng khi dev: `/tools/review-images.html`.
 - Chưa có ảnh phù hợp trên Commons: Nhà tù Lao Bảo, Làng Vây, Dốc Miếu, Hang Tám Cô, Suối Nước Moọc, Cồn Cỏ, Giếng cổ Gio An, Bàu Tró, Vũng Chùa. Những điểm này cần ảnh tự chụp hoặc ảnh do tỉnh cung cấp.

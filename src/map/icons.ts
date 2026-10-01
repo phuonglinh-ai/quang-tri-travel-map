@@ -1,6 +1,7 @@
 // Vẽ ghim địa điểm (hình tròn màu lớp + emoji) bằng canvas rồi nạp vào MapLibre.
 // Glyph PBF không có emoji, nên không dùng text-field cho icon.
 import type { Map as MlMap } from 'maplibre-gl';
+import { SHIELDS, type ShieldNet } from '../config/theme';
 
 const SIZE = 34;
 
@@ -91,4 +92,41 @@ export async function addPhotoPin(map: MlMap, placeId: string, url: string, colo
 
   if (!map.hasImage(key)) map.addImage(key, ctx.getImageData(0, 0, px, px), { pixelRatio: ratio });
   return key;
+}
+
+// --- Biển số đường ------------------------------------------------------------
+// Ảnh co giãn (stretchable): MapLibre kéo phần giữa cho vừa chữ (icon-text-fit), giữ nguyên góc bo.
+const SHIELD_W = 20;
+const SHIELD_H = 18;
+const SHIELD_R = 4;
+
+export const SHIELD_PREFIX = 'shield:';
+
+/** Nạp ảnh nền biển số khi style cần (setMissingStyleImageResolver). Trả về false nếu không phải ảnh biển số. */
+export function addShieldImage(map: MlMap, id: string) {
+  if (!id.startsWith(SHIELD_PREFIX)) return false;
+  const colors = SHIELDS[id.slice(SHIELD_PREFIX.length) as ShieldNet];
+  if (!colors || map.hasImage(id)) return true;
+  const ratio = Math.min(window.devicePixelRatio || 1, 3);
+  const canvas = document.createElement('canvas');
+  canvas.width = SHIELD_W * ratio;
+  canvas.height = SHIELD_H * ratio;
+  const ctx = canvas.getContext('2d')!;
+  ctx.scale(ratio, ratio);
+  const inset = 0.75;
+  ctx.beginPath();
+  ctx.roundRect(inset, inset, SHIELD_W - 2 * inset, SHIELD_H - 2 * inset, SHIELD_R);
+  ctx.fillStyle = colors.fill;
+  ctx.fill();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = colors.stroke;
+  ctx.stroke();
+  const r = (v: number) => v * ratio;
+  map.addImage(id, ctx.getImageData(0, 0, canvas.width, canvas.height), {
+    pixelRatio: ratio,
+    stretchX: [[r(SHIELD_R + 1), r(SHIELD_W - SHIELD_R - 1)]],
+    stretchY: [[r(SHIELD_R + 1), r(SHIELD_H - SHIELD_R - 1)]],
+    content: [r(SHIELD_R), r(3), r(SHIELD_W - SHIELD_R), r(SHIELD_H - 3)],
+  });
+  return true;
 }
