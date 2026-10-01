@@ -3,6 +3,15 @@
   "name": "Tượng đài Bác Hồ – Quảng trường Hồ Chí Minh",
   "latLng": "17.467894, 106.621482",
   "summary": "Quảng trường trung tâm Đồng Hới bên sông Nhật Lệ, nơi tổ chức nhiều sự kiện văn hóa, chính trị của địa phương.",
+  "images": [
+    {
+      "src": "/images/places/tuong-dai-bac-ho-dong-hoi-cf77f30a01f0.webp",
+      "alt": "Tượng đài Bác Hồ – Quảng trường Hồ Chí Minh Quảng Trị",
+      "credit": "Báo Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/975348816",
