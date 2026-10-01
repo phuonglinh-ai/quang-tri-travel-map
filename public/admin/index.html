@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
   <title>Quản trị nội dung</title>
+  <script>
+    // "config.json" bên dưới là đường dẫn tương đối: thiếu dấu "/" cuối (…/admin) thì trình duyệt
+    // tìm nhầm ở thư mục cha. Tự thêm "/" trên mọi hosting; Vercel còn chuyển hướng sẵn (vercel.json).
+    if (!/\/(index\.html)?$/.test(location.pathname)) location.replace(location.pathname + '/' + location.search + location.hash);
+  </script>
   <!-- Cấu hình sinh bởi scripts/build-cms-config.mjs, không sửa tay. -->
   <link href="config.json" type="application/json" rel="cms-config-url">
 </head>

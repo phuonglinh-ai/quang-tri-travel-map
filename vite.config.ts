@@ -34,9 +34,27 @@ function rebuildPlacesOnContentChange(): Plugin {
   };
 }
 
+// Dev server không tự trả public/admin/index.html cho /admin hay /admin/ (mà trả trang bản đồ):
+// chuyển hướng để địa chỉ trang quản trị giống trên Vercel.
+function adminIndexInDev(): Plugin {
+  return {
+    name: 'admin-index',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const [pathname, query] = (req.url ?? '').split('?');
+        if (pathname !== '/admin' && pathname !== '/admin/') return next();
+        res.statusCode = 302;
+        res.setHeader('Location', `/admin/index.html${query ? `?${query}` : ''}`);
+        res.end();
+      });
+    },
+  };
+}
+
 // GitHub Pages phục vụ site dưới /<tên-repo>/, còn Vercel phục vụ ở gốc: đặt BASE_PATH khi build.
 export default defineConfig({
   base: process.env.BASE_PATH ?? '/',
   worker: { format: 'es' },
-  plugins: [rebuildPlacesOnContentChange()],
+  plugins: [rebuildPlacesOnContentChange(), adminIndexInDev()],
 });
