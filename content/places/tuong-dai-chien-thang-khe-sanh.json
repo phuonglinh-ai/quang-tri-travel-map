@@ -3,6 +3,15 @@
   "name": "Tượng đài Chiến thắng Khe Sanh",
   "latLng": "16.635185, 106.741462",
   "summary": "Công trình kỷ niệm chiến thắng Khe Sanh tại trung tâm khu vực Khe Sanh.",
+  "images": [
+    {
+      "src": "/images/places/tuong-dai-chien-thang-khe-sanh-d3ea3608e5f3.webp",
+      "alt": "Tượng đài Chiến thắng Khe Sanh",
+      "credit": "Báo Công lý",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://congly.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/8074937300",
