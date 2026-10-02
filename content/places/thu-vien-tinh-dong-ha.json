@@ -2,7 +2,16 @@
   "layer": "bao-tang-thu-vien",
   "name": "Thư viện tỉnh Quảng Trị (cơ sở 2)",
   "latLng": "16.799767, 107.110425",
-  "summary": "Thư viện công cộng tại Đông Hà.",
+  "summary": "Thư viện tỉnh Quảng Trị (cơ sở Đông Hà) là trung tâm của hệ thống thư viện công cộng trên địa bàn tỉnh, đồng thời là thiết chế văn hóa - thông tin - giáo dục quan trọng của cộng đồng. Với vai trò lưu giữ di sản thư tịch của dân tộc và địa phương, Thư viện thực hiện nhiệm vụ thu thập, bảo quản, tổ chức khai thác và phổ biến tri thức đến mọi tầng lớp nhân dân, góp phần nâng cao dân trí, đào tạo nhân lực, bồi dưỡng nhân tài và thúc đẩy phát triển khoa học - công nghệ, kinh tế, văn hóa phục vụ sự nghiệp công nghiệp hóa - hiện đại hóa quê hương.",
+  "images": [
+    {
+      "src": "/images/places/thu-vien-tinh-dong-ha-9ee00fa63a1e.webp",
+      "alt": "Thư viện tỉnh Quảng Trị cơ sở 2 (Đông Hà)",
+      "credit": "Thư viện tỉnh Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://thuvien.quangtri.gov.vn/"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/318673693",
