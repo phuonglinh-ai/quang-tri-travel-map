@@ -2,7 +2,16 @@
   "layer": "dia-chi-do",
   "name": "Di tích lịch sử Hang Tám Cô",
   "latLng": "17.502605, 106.260323",
-  "summary": "Nơi tưởng niệm tám người hy sinh khi cửa hang bị bom đánh sập năm 1972, trên tuyến đường 20 Quyết Thắng. OSM ghi chú: chỉ là khu tưởng niệm, không vào được trong hang.",
+  "summary": "Nằm giữa núi rừng Trường Sơn hùng vĩ, Hang Tám Cô là một trong những địa danh linh thiêng và mang đậm dấu ấn lịch sử tại Quảng Bình. Đây không chỉ là nơi ghi dấu sự hy sinh anh dũng của tám thanh niên xung phong trong cuộc kháng chiến chống Mỹ mà còn là điểm đến tâm linh thu hút du khách gần xa. Hàng năm, rất nhiều người tìm về Hang Tám Cô ở Quảng Bình để thắp nén nhang tưởng nhớ, tri ân những người đã ngã xuống vì độc lập tự do của dân tộc. Không chỉ mang giá trị lịch sử sâu sắc, nơi đây còn được bao bọc bởi cảnh sắc thiên nhiên hoang sơ, tạo nên một không gian trầm mặc, linh thiêng. Cùng New Tour khám phá Hang Tám Cô Quảng Bình, nơi chứa đựng những câu chuyện xúc động và những dấu ấn lịch sử không thể nào quên.",
+  "images": [
+    {
+      "src": "/images/places/hang-tam-co-4a402d6e5293.webp",
+      "alt": "Hang Tám Cô",
+      "credit": "Hang Tám Cô",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://quangtri.gov.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/5353612634",
