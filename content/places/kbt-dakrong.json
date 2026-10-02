@@ -3,6 +3,15 @@
   "name": "Khu bảo tồn thiên nhiên Đakrông",
   "latLng": "16.540523, 107.00458",
   "summary": "Khu bảo tồn rừng tự nhiên ở vùng núi phía Tây Nam, có giá trị đa dạng sinh học cao.",
+  "images": [
+    {
+      "src": "/images/places/kbt-dakrong-ab16f5d2c8a3.webp",
+      "alt": "Khu bảo tồn thiên nhiên Đakrông",
+      "credit": "Khu bảo tồn thiên nhiên Đakrông",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://tuoitre.vn/"
+    }
+  ],
   "isSample": true,
   "mapZoom": 10,
   "source": {
