@@ -3,6 +3,15 @@
   "name": "Đền tưởng niệm các chiến sĩ Trường Sơn",
   "latLng": "17.325644, 106.622932",
   "summary": "Công trình tưởng niệm các chiến sĩ, thanh niên xung phong trên tuyến đường Trường Sơn.",
+  "images": [
+    {
+      "src": "/images/places/den-tuong-niem-truong-son-770d46e4a17c.webp",
+      "alt": "Đền tưởng niệm các chiến sĩ Trường Sơn",
+      "credit": "Đền tưởng niệm các chiến sĩ Trường Sơn",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://quangtri.gov.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4409198189",
