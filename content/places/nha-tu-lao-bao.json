@@ -3,7 +3,16 @@
   "name": "Di tích Nhà tù Lao Bảo",
   "nameEn": "Lao Bao Prison",
   "latLng": "16.611158, 106.587657",
-  "summary": "Di tích nhà tù thời Pháp thuộc, nơi giam giữ nhiều chiến sĩ cách mạng. Địa điểm giáo dục lịch sử và truyền thống.",
+  "summary": "Nhà tù Lao Bảo (nhà đày) thuộc thị trấn Lao Bảo, huyện Hướng Hóa, tỉnh Quảng Trị, là một trong những nhà tù lớn nhất Đông Dương, được thực dân Pháp xây dựng vào năm 1908. Đến năm 1934, Pháp cho xây dựng thêm hệ thống nhà lao bằng bê tông, cốt thép rất kiên cố. Tù nhân bị giam tại nhà tù Lao Bảo ngoài việc bị thực dân Pháp áp dụng các hình phạt dã man còn phải chịu cảnh đày ải, lao động cực nhọc, cuộc sống kham khổ,... Hàng ngàn tù nhân và các chiến sĩ cộng sản đã chết khi bị lưu đày ở đây. Năm 1968, khi mở rộng chiến tranh ra Quảng Trị, đế quốc Mỹ đã ném bom làm sập toàn bộ hệ thống nhà lao.",
+  "images": [
+    {
+      "src": "/images/places/nha-tu-lao-bao-10d19d09cd88.webp",
+      "alt": "Nhà tù Lao Bảo",
+      "credit": "Nhà tù Lao Bảo",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://quangtri.gov.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/8399738491",
