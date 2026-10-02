@@ -250,7 +250,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   const aboutHtml = () => `
     <section class="about">
       <h2 class="section-title">${t.about}</h2>
-      <p>${esc(PROVINCE.fullName)} được hình thành từ việc hợp nhất tỉnh Quảng Bình và tỉnh Quảng Trị, gồm ${wards.size} xã, phường, đặc khu. Bản đồ giới thiệu các điểm đến du lịch, địa chỉ giáo dục truyền thống, cơ sở giáo dục và sẽ bổ sung sản phẩm nông sản khi có danh mục chính thức.</p>
+      <p>${esc(PROVINCE.fullName)} được hình thành từ việc hợp nhất tỉnh Quảng Bình và tỉnh Quảng Trị, gồm ${wards.size} xã, phường, đặc khu. Bản đồ giới thiệu các điểm đến du lịch, sản phẩm và vùng nông sản đặc trưng, địa chỉ giáo dục truyền thống và cơ sở giáo dục trên địa bàn tỉnh.</p>
       <p class="sample-note">⚠ ${t.sampleNote}</p>
       <p class="small muted">${t.dataSources}: ranh giới hành chính của NXB Tài nguyên, Môi trường và Bản đồ Việt Nam (qua vietnamese-provinces-database, MIT); đường, sông, hồ và vị trí địa điểm mẫu © OpenStreetMap contributors (ODbL); đất liền ngoài lãnh thổ: Natural Earth.</p>
       ${imageCreditsHtml()}
