@@ -3,6 +3,15 @@
   "name": "Cổng chào đảo Cồn Cỏ",
   "latLng": "17.153179, 107.335454",
   "summary": "Cổng chào nơi tàu khách cập bến đảo Cồn Cỏ.",
+  "images": [
+    {
+      "src": "/images/places/cong-chao-con-co-32bbbdf10efc.webp",
+      "alt": "Cổng chào đảo Cồn Cỏ",
+      "credit": "Cổng chào đảo Cồn Cỏ",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://quangtri.gov.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/5914162435",
