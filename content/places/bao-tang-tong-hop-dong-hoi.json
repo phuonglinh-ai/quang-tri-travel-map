@@ -1,8 +1,17 @@
 {
   "layer": "bao-tang-thu-vien",
-  "name": "Bảo tàng tổng hợp tỉnh Quảng Trị (Đồng Hới)",
+  "name": "Bảo tàng tổng hợp tỉnh Quảng Trị",
   "latLng": "17.468221, 106.623629",
-  "summary": "Bảo tàng tại trung tâm Đồng Hới, trưng bày hiện vật về lịch sử, văn hóa của vùng đất Quảng Bình xưa.",
+  "summary": "Bảo tàng Quảng Trị được khởi công xây dựng từ năm 2003, với kinh phí đầu tư 34 tỷ đồng và phải dành tới 13 năm để thu thập dữ liệu. Tới đây, du khách có thể cảm nhận được chiều sâu thông tin toát lên từ khối hiện vật đồ sộ và phong phú.Hiện nơi đây đang lưu giữ hơn 15.000 tranh ảnh, hiện vật có liên quan đến văn hóa, lịch sử của tỉnh Quảng Bình qua nhiều thời kỳ khác nhau. Trong đó có một số bảo vật quốc gia mang giá trị rất lớn.Việc Bảo tàng được tỉnh Quảng Trị tiếp tục đầu tư hoàn thiện và mở cửa đón khách đã khiến nhiều người dân vui mừng và kỳ vọng góp phần đưa ngành du lịch Quảng Trị phát triển.",
+  "images": [
+    {
+      "src": "/images/places/bao-tang-tong-hop-dong-hoi-100a45ae1753.webp",
+      "alt": "Bảo tàng tổng hợp tỉnh Quảng Trị",
+      "credit": "Bảo tàng tổng hợp tỉnh Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baotang.quangtri.gov.vn/"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/10756203755",
