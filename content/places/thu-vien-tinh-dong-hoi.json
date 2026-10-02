@@ -2,7 +2,16 @@
   "layer": "bao-tang-thu-vien",
   "name": "Thư viện tỉnh Quảng Trị",
   "latLng": "17.473878, 106.607243",
-  "summary": "Thư viện công cộng tại Đồng Hới, phục vụ bạn đọc và học sinh, sinh viên.",
+  "summary": "Thư viện tỉnh Quảng Trị là trung tâm của hệ thống thư viện công cộng trên địa bàn tỉnh, đồng thời là thiết chế văn hóa - thông tin - giáo dục quan trọng của cộng đồng. Với vai trò lưu giữ di sản thư tịch của dân tộc và địa phương, Thư viện thực hiện nhiệm vụ thu thập, bảo quản, tổ chức khai thác và phổ biến tri thức đến mọi tầng lớp nhân dân, góp phần nâng cao dân trí, đào tạo nhân lực, bồi dưỡng nhân tài và thúc đẩy phát triển khoa học - công nghệ, kinh tế, văn hóa phục vụ sự nghiệp công nghiệp hóa - hiện đại hóa quê hương.",
+  "images": [
+    {
+      "src": "/images/places/thu-vien-tinh-dong-hoi-f3f49160feef.webp",
+      "alt": "Thư viện tỉnh Quảng Trị",
+      "credit": "Thư viện tỉnh Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://thuvien.quangtri.gov.vn/"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/941166730",
