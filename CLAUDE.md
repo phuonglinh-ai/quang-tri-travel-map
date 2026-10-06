@@ -22,7 +22,7 @@ Người dùng (chủ dự án) làm trong lĩnh vực giáo dục và chính s�
 
 ## 2. Trạng thái hiện tại
 
-- **Đã xong Phase 0, Phase 1 (MVP), phần ảnh địa điểm và trang quản trị Sveltia CMS** (30/09–01/10/2026). Chi tiết ở mục 11.
+- **Đã xong Phase 0, Phase 1 (MVP), phần ảnh địa điểm, trang quản trị Sveltia CMS** (30/09–01/10/2026) **và biển số, tên đường trên bản đồ** (01/10/2026). Từ 02/10/2026 người dùng tự nhập thêm địa điểm và ảnh qua CMS. Chi tiết ở mục 11.
 - **Git:** nhánh `main`, đã commit lần đầu (01/10/2026) và đẩy lên GitHub (xem mục 10.7). Các commit có tác giả "Phương Linh AI" do CMS tạo khi sửa nội dung trên `/admin/`; trước khi sửa code nên `git pull` để lấy các thay đổi này. Claude chỉ commit/push khi người dùng yêu cầu.
 - **Tỉnh đã chọn: Quảng Trị** — tỉnh mới, sáp nhập từ Quảng Bình cũ và Quảng Trị cũ (xem hồ sơ tỉnh ở mục 5.4).
 - Toàn bộ code vẫn phải tham số hóa theo tỉnh thông qua một file cấu hình (`src/config/province.ts`). **Không** hard-code tên tỉnh trong component, để sau này có thể mở rộng sang tỉnh khác hoặc cấp vùng.
@@ -145,7 +145,7 @@ DATA_PATH          = json/geojson/44_quang_tri/
 - *Du lịch – thiên nhiên:* Vườn quốc gia Phong Nha – Kẻ Bàng (Di sản thiên nhiên thế giới), các bãi biển (Nhật Lệ, Cửa Tùng…), đảo Cồn Cỏ.
 - *Du lịch – di tích / Giáo dục – địa chỉ đỏ:* Thành cổ Quảng Trị, Địa đạo Vịnh Mốc, Di tích Hiền Lương – Bến Hải, Nghĩa trang Liệt sĩ Quốc gia Trường Sơn, Nghĩa trang Liệt sĩ Quốc gia Đường 9, Khe Sanh.
   → Đây là **thế mạnh đặc thù của tỉnh**. Nên thiết kế lớp "Địa chỉ đỏ" và tuyến trải nghiệm "Hành trình về nguồn" thật chỉn chu, vì phù hợp với giáo dục truyền thống và du lịch ký ức chiến tranh.
-- *Nông sản:* để trống, chờ người dùng cung cấp danh mục sản phẩm OCOP và chỉ dẫn địa lý chính thức. Không tự liệt kê.
+- *Nông sản:* Claude không tự liệt kê; chỉ dùng địa điểm do người dùng nhập. Từ 02/10/2026 người dùng đã nhập 3 điểm (OCOP: Cà phê Khe Sanh; chỉ dẫn địa lý: Hạt tiêu Quảng Trị; HTX: HTX du lịch nông nghiệp VN Khe Sanh), vẫn là dữ liệu mẫu.
 - *Hạ tầng:* sân bay Đồng Hới, ga Đồng Hới, ga Đông Hà, cửa khẩu Lao Bảo.
 
 **Lưu ý hiển thị:** Nên làm mờ nhẹ phần lãnh thổ bên ngoài tỉnh (các tỉnh lân cận và Lào) để bản đồ không bị "lơ lửng" giữa khoảng trống. Có thể lấy polygon các tỉnh lân cận từ cùng repo: `42_ha_tinh`, `46_hue`. (Thực tế đang dùng 7 tỉnh lân cận, xem `neighbors` trong `src/config/province.data.json` và mục 11.) Nhãn nước láng giềng ghi là "Lào", tự đặt, không lấy từ OSM.
@@ -262,7 +262,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 1. **Tỉnh:** Quảng Trị (mã 44).
 2. **Bộ nhận diện:** chưa có, Claude tự đề xuất. **Đã áp dụng ở Phase 1** (người dùng chưa phản đối, có thể đổi): màu chủ đạo xanh Trường Sơn `#1f5c4a`, màu nhấn đỏ di tích `#b3261e`, nền cát biển, biển `#cfe3ea` (`src/config/theme.ts` và biến CSS trong `src/style.css`); font giao diện Be Vietnam Pro (tự lưu trữ qua `@fontsource`), font nhãn bản đồ Noto Sans; logo là hình ghim bản đồ kèm dải sóng (SVG trong `src/ui/panel.ts`, `public/favicon.svg`); tên hiển thị "Khám phá {tên tỉnh}".
 3. **Danh nghĩa:** dự án **cá nhân**, làm bản demo để giới thiệu cho tỉnh; sau này tỉnh sẽ tự duy trì. Chân trang ghi rõ "Dự án cá nhân – bản demo", **không** dùng danh nghĩa, logo hay quốc huy của cơ quan nhà nước. Code và dữ liệu phải dễ bàn giao (tài liệu rõ, cấu hình tập trung).
-4. **Nông sản:** tạm thời để trống, chờ danh mục OCOP và chỉ dẫn địa lý chính thức.
+4. **Nông sản:** ban đầu để trống, chờ danh mục OCOP và chỉ dẫn địa lý chính thức. Cập nhật 02/10/2026: người dùng tự nhập địa điểm nông sản qua CMS; Claude vẫn không tự thêm.
 5. **Carousel nổi bật:** dùng địa điểm mẫu bất kỳ (`isSample: true`).
 6. **Dữ liệu POI thật:** chưa có nguồn, phụ thuộc vào việc phân công quản trị sau này. **Việc cần làm sau:** xác định đơn vị/cán bộ phụ trách từng trụ cột (Du lịch, Nông sản, Giáo dục) và quy trình cập nhật (xem Phase 3).
 7. **Hosting và tên miền (cập nhật 01/10/2026):** code ở GitHub `phuonglinh-ai/quang-tri-travel-map` (công khai, nhánh `main`), deploy trên Vercel (project `dulichquangtri`, https://dulichquangtri.vercel.app), tự deploy khi push lên `main`. Chưa có tên miền riêng. `base` của Vite vẫn chỉnh được qua `BASE_PATH` (chỉ dùng cho GitHub Pages).
@@ -271,7 +271,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 
 ## 11. Lệnh và quy ước
 
-**Trạng thái:** Phase 0 và Phase 1 (MVP) đã xong (30/09/2026); bổ sung ảnh thật và ghim ảnh trên bản đồ, trang quản trị Sveltia CMS, dải Nổi bật quản lý trong CMS, commit và deploy Vercel (01/10/2026). Bước tiếp theo: Phase 2. Stack: Vite 8, TypeScript, MapLibre GL JS 6, UI vanilla TS.
+**Trạng thái:** Phase 0 và Phase 1 (MVP) đã xong (30/09/2026); bổ sung ảnh thật và ghim ảnh trên bản đồ, trang quản trị Sveltia CMS, dải Nổi bật quản lý trong CMS, commit và deploy Vercel, biển số và tên đường (01/10/2026); người dùng nhập thêm địa điểm, ảnh qua CMS (02–06/10/2026). Bước tiếp theo: Phase 2. Stack: Vite 8, TypeScript, MapLibre GL JS 6, UI vanilla TS.
 
 | Lệnh | Việc làm |
 |---|---|
@@ -303,7 +303,7 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 .claude/launch.json        cấu hình server dev (5173) và preview (4173) cho khung trình duyệt
 ```
 
-**Số liệu hiện tại (rà soát 01/10/2026):** 78 xã/phường/đặc khu; 96 địa điểm, tất cả vẫn là mẫu `isSample: true` (Địa chỉ đỏ 23, Danh thắng 19, Lưu trú 12, Làng nghề 11, Di tích 9, Giao thông 9, Bảo tàng/thư viện 7, Trường học 6); 12 điểm nổi bật (`content/featured.json`); 24 điểm có ảnh (22 ảnh Commons, 2 ảnh "Do cơ quan cung cấp, có văn bản đồng ý": Nghĩa trang Quốc gia Đường 9, Nghĩa trang Hướng Hóa); 2 điểm đã nhập `months` (hai nghĩa trang trên, tháng 7) nhưng giao diện chưa dùng trường này. Các lớp Lễ hội, Ẩm thực, Nông sản (3 lớp), Trải nghiệm STEM hiện trong giao diện nhưng làm mờ với ghi chú "Chờ dữ liệu chính thức". Đã bỏ điểm trùng "Đài tưởng niệm trận Thành cổ" (cách Thành cổ 3 m).
+**Số liệu hiện tại (rà soát 06/10/2026):** 78 xã/phường/đặc khu; 102 địa điểm, tất cả vẫn là mẫu `isSample: true` (Địa chỉ đỏ 23, Danh thắng 19, Lưu trú 12, Làng nghề 11, Di tích 9, Giao thông 9, Bảo tàng/thư viện 7, Trường học 6, và mỗi lớp 1 điểm: Lễ hội, Ẩm thực, OCOP, Vùng trồng, HTX/trang trại, Trải nghiệm STEM); 12 điểm nổi bật (`content/featured.json`); 58 điểm có ảnh (22 ảnh Commons, 34 ảnh "Do cơ quan cung cấp, có văn bản đồng ý", 2 ảnh "Ảnh tự chụp, tác giả đồng ý cho sử dụng"), 44 điểm chưa có ảnh (chủ yếu lưu trú, trường học, bến xe, cửa khẩu, làng nghề); 5 điểm đã nhập `months` (hai nghĩa trang tháng 7, Bánh bột lọc Mỹ Chánh và Cà phê Khe Sanh tháng 3–4, Mường Thanh Quảng Trị tháng 5–6) nhưng giao diện chưa dùng trường này. Không còn lớp nào trống: lớp có ít nhất 1 địa điểm tự bật, ghi chú `pendingNote` trong `layers.data.json` chỉ hiện khi lớp trống. Đã bỏ điểm trùng "Đài tưởng niệm trận Thành cổ" (cách Thành cổ 3 m). `npm run places` còn 2 cảnh báo (không phải lỗi): Cổng chào Cồn Cỏ nằm ngoài ranh giới 3 m, Vũng Chùa 246 m, đều được gán vào xã gần nhất.
 
 **Quy ước và bài học kỹ thuật:**
 
@@ -341,13 +341,14 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 - **Biển số và tên đường (01/10/2026):** dữ liệu từ thẻ `ref`/`name` của OSM, xử lý trong `build-basemap.mjs` bằng các hàm thuần ở `scripts/road-labels.mjs` (có test). Biển số (`road-shields.geojson`, lớp `road-shield`): chuẩn hóa `QL1`→`QL.1`, `TL`→`ĐT`; số trơn trên đường trunk chỉ thành `QL.<số>` khi số hiệu đó có thật trong dữ liệu; bỏ số hiệu không rõ loại (số trơn ở cấp khác, `ĐH`, `ĐVB`); đoạn nhiều số hiệu hiện chung một biển ("QL.15 · HCM"). Các đoạn cùng số hiệu được nối liền (`mergeLines`) và bỏ mảnh < 0,5 km, nếu không biển số mọc dày ở mỗi cây cầu. Màu: cao tốc xanh lá, quốc lộ/HCM nâu cam, đường tỉnh nền trắng (`SHIELDS` trong `theme.ts`); ảnh nền vẽ bằng canvas, nạp qua `setMissingStyleImageResolver` (MapLibre 6 không cho sự kiện `styleimagemissing` tự nạp ảnh). Cao tốc/QL/HCM hiện từ zoom 6,8 (toàn tỉnh trên điện thoại), ĐT từ zoom 10. Tên đường (`label` trong `roads.geojson`, lớp `road-name`): giữ nguyên chính tả OSM, bỏ tên cầu/cống/đập/làn xe/vòng xoay, tên chỉ là số, và tên nhắc lại số hiệu khi đã có biển số; hiện từ zoom 12 (đường chính) / 13 (đường nhỏ). Thứ tự ưu tiên chỗ: ghim địa điểm và bong bóng cụm > biển số > nhãn xã > tên đường. Bong bóng cụm là lớp `circle`, mà lớp circle không tham gia xét va chạm nhãn, nên lớp số đếm (`place-cluster-count`) mang một ảnh trong suốt đúng cỡ bong bóng (`cluster-footprint`, `icon-padding: 0`) để biển số không nằm dưới bong bóng; hệ quả là ở góc nhìn toàn tỉnh chỉ còn vài biển số (điện thoại: 1–2), phóng to thì hiện đủ. Bán kính bong bóng khai báo một chỗ (`CLUSTER_RADII` trong `places-layer.ts`). Cao tốc qua tỉnh mang cả hai số hiệu CT.01 và CT.02 (người dùng xác nhận 01/10/2026), biển số hiện "CT.01 · CT.02".
 
 - **Ảnh (30/09/2026):** 22 địa điểm có ảnh Wikimedia Commons (CC BY, CC BY-SA hoặc Public domain). Ảnh được chọn bằng cách xem từng ảnh bằng mắt, vì tìm theo tên thường ra ảnh sai (núi ở Iran, chùa ở Vũng Tàu, nghĩa trang ở Bỉ, Cửa Lò lẫn vào Nhật Lệ). Không dùng ảnh tư liệu chiến tranh chụp lính nước ngoài làm ảnh đại diện cho địa chỉ đỏ. Ghi công hiển thị trên ảnh ở thẻ địa điểm và trong mục "Nguồn ảnh". `build-places` báo lỗi nếu ảnh thiếu tác giả, giấy phép hoặc nguồn. Trang duyệt ảnh chỉ dùng khi dev: `/tools/review-images.html`.
-- Chưa có ảnh phù hợp trên Commons: Nhà tù Lao Bảo, Làng Vây, Dốc Miếu, Hang Tám Cô, Suối Nước Moọc, Cồn Cỏ, Giếng cổ Gio An, Bàu Tró, Vũng Chùa. Những điểm này cần ảnh tự chụp hoặc ảnh do tỉnh cung cấp.
+- Các điểm không có ảnh phù hợp trên Commons (Nhà tù Lao Bảo, Hang Tám Cô, Suối Nước Moọc, Cồn Cỏ, Giếng cổ Gio An, Bàu Tró, Vũng Chùa) đã được người dùng bổ sung ảnh do cơ quan cung cấp (02–06/10/2026). Còn thiếu ảnh: Di tích Làng Vây, Dốc Miếu.
 
-**Việc còn treo (rà soát 01/10/2026):**
+**Việc còn treo (rà soát 06/10/2026):**
 - Link góp ý/báo lỗi: **chưa làm**, giao diện chưa có link nào. Cần hỏi người dùng địa chỉ nhận (email, form hay GitHub Issues của repo công khai), không tự dùng email cá nhân.
-- Xác minh dữ liệu mẫu: **chưa làm**, cả 96 địa điểm vẫn `isSample: true`. Cần người dùng hoặc tỉnh xác minh (đặc biệt mô tả các Địa chỉ đỏ) trước khi bỏ cờ mẫu.
-- Ảnh cho các điểm còn thiếu (danh sách ở mục Ảnh phía trên): chờ ảnh tự chụp hoặc ảnh do tỉnh cung cấp, nhập qua CMS.
+- Xác minh dữ liệu mẫu: **chưa làm**, cả 102 địa điểm vẫn `isSample: true`. Cần người dùng hoặc tỉnh xác minh (đặc biệt mô tả các Địa chỉ đỏ) trước khi bỏ cờ mẫu.
+- Ảnh cho 44 điểm còn thiếu (trong đó có Làng Vây, Dốc Miếu): chờ ảnh tự chụp hoặc ảnh do tỉnh cung cấp, nhập qua CMS.
+- Đoạn giới thiệu trong `aboutHtml` (`src/ui/panel.ts`) còn viết cứng "tỉnh Quảng Bình và tỉnh Quảng Trị", trái quy tắc tham số hóa theo tỉnh (mục 2). Nên chuyển câu này vào `province.data.json` khi làm song ngữ hoặc mở rộng tỉnh khác. Câu mô tả nội dung bản đồ đã sửa ngày 02/10/2026 vì lớp nông sản đã có dữ liệu.
 - `npm audit`: 8 mục (1 critical, 4 high, 3 moderate), **tất cả nằm trong devDependencies**; `npm audit --omit=dev` báo 0. Hai gốc: `mapshaper` (kéo theo `adm-zip`, `fflate`, `@xmldom/xmldom`, `@ngageoint/geopackage` → `file-type`, `image-size`) và `osmtogeojson` (kéo theo `@xmldom/xmldom` 0.8.3). `sharp` không liên quan. Hai gói này chỉ chạy trong `data:build` / `data:fetch` trên máy, với dữ liệu tải từ nguồn đã biết; app web chỉ import `maplibre-gl` và `@fontsource`. Không chạy `npm audit fix --force` vì sẽ hạ mapshaper xuống 0.6.13 và osmtogeojson xuống 2.2.12 (đổi phiên bản lớn). Chờ hai gói này cập nhật phụ thuộc.
 - Dung lượng `wards.geojson` (906 KB, gzip khoảng 230 KB): chưa chia tile; chỉ làm nếu thấy chậm trên điện thoại.
-- Phase 2: **chưa bắt đầu**. Lịch mùa vụ/lễ hội (`months` đã có trong mô hình dữ liệu và CMS, mới 2 điểm có giá trị, chưa có thanh trượt tháng), tuyến trải nghiệm, song ngữ (chuỗi đã gom ở `src/i18n.ts`, chưa có bản tiếng Anh).
+- Phase 2: **chưa bắt đầu**. Lịch mùa vụ/lễ hội (`months` đã có trong mô hình dữ liệu và CMS, mới 5 điểm có giá trị, chưa có thanh trượt tháng), tuyến trải nghiệm, song ngữ (chuỗi đã gom ở `src/i18n.ts`, chưa có bản tiếng Anh).
 - Phân công quản trị nội dung theo trụ cột (mục 10.6): chưa có; hiện chỉ chủ dự án sửa qua CMS.
