@@ -2,7 +2,16 @@
   "layer": "danh-thang",
   "name": "Khu dự trữ thiên nhiên Động Châu – Khe Nước Trong",
   "latLng": "16.998869, 106.679383",
-  "summary": "Khu dự trữ thiên nhiên với rừng đất thấp, suối và cảnh quan núi rừng phía Tây Nam.",
+  "summary": "Động Châu – Khe Nước Trong là một khu dự trữ thiên nhiên mà tạo hóa đã ban cho tỉnh Quảng Bình. Mảnh đất gắn liền với những chiến tích anh hùng lịch sử của con đường mòn nhánh Tây Hồ Chí Minh. Nơi đây sự giao hòa của rừng nguyên sinh Khe Nước Trong, Sông Rào Chân, cùng với những ngọn núi cao trên 1000 m và đa dạng nhiều loài động thực vật tạo nên một bức tranh thiên nhiên tuyệt đẹp.  Đây sẽ là điểm đến phát triển du lịch gắn liền với thiên nhiên trong tương lai của phía Nam tỉnh Quảng Bình (cũ).\nNằm trong hệ thống dãy núi Trung Trường Sơn, ở phía Tây Nam của tỉnh Quảng Bình thuộc địa phận huyện Lệ Thủy cách thành phố Đồng Hới khoảng 70 km về phía Tây Bắc, giáp Khu Bảo tồn Bắc Hướng Hóa ở tỉnh Quảng Trị, nước Lào về phía Tây, cách biển Đông 40 km về phía Đông. Khu dự trữ thiên nhiên Động Châu – Khe Nước Trong được các chuyên gia, các nhà khoa học gọi với cái tên trìu mến là “Khu rừng hy vọng”.",
+  "images": [
+    {
+      "src": "/images/places/kdt-dong-chau-khe-nuoc-trong-e6bca42889f1.webp",
+      "alt": "Khu dự trữ thiên nhiên Động Châu – Khe Nước Trong",
+      "credit": "Quảng Trị",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng",
+      "sourceUrl": "https://baoquangtri.vn/"
+    }
+  ],
   "isSample": true,
   "mapZoom": 10,
   "source": {
