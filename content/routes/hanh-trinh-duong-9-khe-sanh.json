@@ -1,0 +1,15 @@
+{
+  "name": "Hành trình Đường 9 – Khe Sanh",
+  "theme": "ve-nguon",
+  "summary": "Đi dọc Quốc lộ 9 từ Đông Hà lên Khe Sanh và Lao Bảo, qua các điểm tưởng niệm và di tích gắn với chiến dịch Đường 9 – Khe Sanh năm 1968.",
+  "stops": [
+    { "place": "nghia-trang-quoc-gia-duong-9", "note": "Điểm khởi hành, dâng hương tưởng niệm." },
+    { "place": "cao-diem-241" },
+    { "place": "cao-diem-rockpile" },
+    { "place": "tuong-dai-chien-thang-khe-sanh" },
+    { "place": "san-bay-ta-con" },
+    { "place": "di-tich-lang-vay" },
+    { "place": "nha-tu-lao-bao", "note": "Điểm cuối hành trình, gần cửa khẩu Lao Bảo." }
+  ],
+  "isSample": true
+}

@@ -12,7 +12,7 @@
     "test": "node --test scripts/",
     "data:fetch": "node scripts/fetch-boundaries.mjs && node scripts/fetch-osm.mjs && node scripts/fetch-land.mjs && node scripts/fetch-fonts.mjs",
     "data:build": "node scripts/build-boundaries.mjs && node scripts/build-basemap.mjs && npm run places && node scripts/verify-data.mjs",
-    "places": "node scripts/build-cms-config.mjs && node scripts/build-places.mjs",
+    "places": "node scripts/build-cms-config.mjs && node scripts/build-places.mjs && node scripts/build-routes.mjs",
     "osm:pois": "node scripts/fetch-osm-pois.mjs",
     "images:find": "node scripts/find-images.mjs",
     "images": "node scripts/fetch-images.mjs",

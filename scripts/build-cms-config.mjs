@@ -8,6 +8,7 @@ import { ROOT, province, readJson, LICENSES, IMAGES_PUBLIC_PREFIX } from './lib.
 
 const { cms } = province;
 const { groups, layers } = readJson(path.join(ROOT, 'src', 'config', 'layers.data.json'));
+const { themes, maxStops } = readJson(path.join(ROOT, 'src', 'config', 'routes.data.json'));
 const groupLabel = new Map(groups.map((g) => [g.id, g.label]));
 
 const LATLNG = '^\\s*-?\\d+(\\.\\d+)?\\s*,\\s*-?\\d+(\\.\\d+)?\\s*$';
@@ -145,6 +146,49 @@ const config = {
       thumbnail: 'images.*.src',
       preview_path: '/?place={{slug}}',
       fields: placeFields,
+    },
+    {
+      name: 'routes',
+      label: 'Tuyến trải nghiệm',
+      label_singular: 'tuyến',
+      folder: 'content/routes',
+      format: 'json',
+      extension: 'json',
+      create: true,
+      delete: true,
+      identifier_field: 'name',
+      // Tên file = id tuyến, dùng trong liên kết (?route=<id>): chỉ đặt khi tạo mới, không đổi sau đó.
+      slug: { template: '{{name}}', editable: ['create'] },
+      summary: '{{name}}',
+      sortable_fields: ['name', 'theme'],
+      view_groups: [{ label: 'Chủ đề', field: 'theme' }],
+      preview_path: '/?route={{slug}}',
+      fields: [
+        { name: 'name', label: 'Tên tuyến', widget: 'string' },
+        {
+          name: 'theme', label: 'Chủ đề', widget: 'select',
+          options: themes.map((t) => ({ label: `${t.icon} ${t.label}`, value: t.id })),
+        },
+        { name: 'summary', label: 'Mô tả ngắn', widget: 'text', hint: '1–2 câu: tuyến đi qua đâu và vì sao nên đi. Không ghi giá vé, giờ mở cửa khi chưa được xác minh.' },
+        { name: 'duration', label: 'Thời lượng gợi ý', widget: 'string', ...optional, hint: 'Ví dụ "1 ngày". Chỉ nhập khi đã tính toán thực tế; hệ thống không tự ước tính thời gian.' },
+        { name: 'audience', label: 'Đối tượng phù hợp', widget: 'string', ...optional, hint: 'Ví dụ "Học sinh THPT".' },
+        {
+          name: 'stops', label: 'Điểm dừng', label_singular: 'điểm dừng', widget: 'list', min: 2, max: maxStops,
+          collapsed: 'auto', summary: '{{fields.place}}',
+          hint: `Thứ tự trong danh sách là thứ tự tham quan (tối đa ${maxStops} điểm). Đổi thứ tự: kéo nút ═ ở đầu mỗi mục. Đường đi giữa các điểm được tự vẽ theo đường bộ khi đăng tải.`,
+          fields: [
+            {
+              name: 'place', label: 'Địa điểm', widget: 'relation',
+              collection: 'places', value_field: '{{slug}}', search_fields: ['name'], display_fields: ['name'],
+            },
+            { name: 'note', label: 'Ghi chú cho điểm dừng', widget: 'string', ...optional, hint: 'Ví dụ "Điểm khởi hành". Chỉ ghi thông tin đã được xác minh.' },
+          ],
+        },
+        {
+          name: 'isSample', label: 'Dữ liệu minh họa', widget: 'boolean', default: true,
+          hint: 'Chỉ tắt khi tuyến **đã được cơ quan có thẩm quyền xác minh**. Khi bật, tuyến có nhãn "Dữ liệu minh họa".',
+        },
+      ],
     },
   ],
 };

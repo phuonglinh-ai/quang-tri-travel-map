@@ -404,6 +404,121 @@
           ]
         }
       ]
+    },
+    {
+      "name": "routes",
+      "label": "Tuyến trải nghiệm",
+      "label_singular": "tuyến",
+      "folder": "content/routes",
+      "format": "json",
+      "extension": "json",
+      "create": true,
+      "delete": true,
+      "identifier_field": "name",
+      "slug": {
+        "template": "{{name}}",
+        "editable": [
+          "create"
+        ]
+      },
+      "summary": "{{name}}",
+      "sortable_fields": [
+        "name",
+        "theme"
+      ],
+      "view_groups": [
+        {
+          "label": "Chủ đề",
+          "field": "theme"
+        }
+      ],
+      "preview_path": "/?route={{slug}}",
+      "fields": [
+        {
+          "name": "name",
+          "label": "Tên tuyến",
+          "widget": "string"
+        },
+        {
+          "name": "theme",
+          "label": "Chủ đề",
+          "widget": "select",
+          "options": [
+            {
+              "label": "🚩 Hành trình về nguồn",
+              "value": "ve-nguon"
+            },
+            {
+              "label": "🌾 Trải nghiệm nông nghiệp",
+              "value": "nong-nghiep"
+            },
+            {
+              "label": "📚 Học tập ngoại khóa",
+              "value": "hoc-tap"
+            }
+          ]
+        },
+        {
+          "name": "summary",
+          "label": "Mô tả ngắn",
+          "widget": "text",
+          "hint": "1–2 câu: tuyến đi qua đâu và vì sao nên đi. Không ghi giá vé, giờ mở cửa khi chưa được xác minh."
+        },
+        {
+          "name": "duration",
+          "label": "Thời lượng gợi ý",
+          "widget": "string",
+          "required": false,
+          "hint": "Ví dụ \"1 ngày\". Chỉ nhập khi đã tính toán thực tế; hệ thống không tự ước tính thời gian."
+        },
+        {
+          "name": "audience",
+          "label": "Đối tượng phù hợp",
+          "widget": "string",
+          "required": false,
+          "hint": "Ví dụ \"Học sinh THPT\"."
+        },
+        {
+          "name": "stops",
+          "label": "Điểm dừng",
+          "label_singular": "điểm dừng",
+          "widget": "list",
+          "min": 2,
+          "max": 11,
+          "collapsed": "auto",
+          "summary": "{{fields.place}}",
+          "hint": "Thứ tự trong danh sách là thứ tự tham quan (tối đa 11 điểm). Đổi thứ tự: kéo nút ═ ở đầu mỗi mục. Đường đi giữa các điểm được tự vẽ theo đường bộ khi đăng tải.",
+          "fields": [
+            {
+              "name": "place",
+              "label": "Địa điểm",
+              "widget": "relation",
+              "collection": "places",
+              "value_field": "{{slug}}",
+              "search_fields": [
+                "name"
+              ],
+              "display_fields": [
+                "name"
+              ]
+            },
+            {
+              "name": "note",
+              "label": "Ghi chú cho điểm dừng",
+              "widget": "string",
+              "required": false,
+              "hint": "Ví dụ \"Điểm khởi hành\". Chỉ ghi thông tin đã được xác minh."
+            }
+          ]
+        },
+        {
+          "name": "isSample",
+          "label": "Dữ liệu minh họa",
+          "widget": "boolean",
+          "default": true,
+          "hint": "Chỉ tắt khi tuyến **đã được cơ quan có thẩm quyền xác minh**. Khi bật, tuyến có nhãn \"Dữ liệu minh họa\"."
+        }
+      ]
     }
   ]
 }

@@ -10,6 +10,7 @@ import type { Feature, FeatureCollection, MultiPolygon, Polygon, Point } from 'g
 import { PROVINCE } from '../config/province';
 import { buildStyle } from './style';
 import { addPlacesLayer, PLACE_LAYERS, setSelectedPlace, zoomIntoCluster } from './places-layer';
+import { addRouteLayers, ROUTE_LAYERS, setRoute, setRouteActive, type RouteView } from './route-layer';
 import { addShieldImage } from './icons';
 
 export { setPlaces } from './places-layer';
@@ -60,6 +61,12 @@ export interface TravelMap {
   showWard(code: string | null, fit?: boolean): void;
   showPlace(id: string | null, coordinates?: [number, number], zoom?: number): void;
   fitProvince(): void;
+  /** Hiện tuyến trải nghiệm (hoặc xóa khi null). */
+  showRoute(view: RouteView | null): void;
+  /** Đổi điểm dừng đang xem của tuyến. */
+  setRouteActive(id: string | null): void;
+  /** Đưa camera ôm trọn tuyến: bbox [tây, nam, đông, bắc]. */
+  fitRoute(bbox: Bbox): void;
 }
 
 maplibregl.setWorkerUrl(workerUrl);
@@ -147,14 +154,18 @@ export async function createMap(container: HTMLElement, opts: MapOptions): Promi
     pointer(false);
     tooltip.remove();
   });
+  map.on('mouseenter', ROUTE_LAYERS.stop, () => pointer(true));
+  map.on('mouseleave', ROUTE_LAYERS.stop, () => pointer(false));
   map.on('mouseenter', PLACE_LAYERS.cluster, () => pointer(true));
   map.on('mouseleave', PLACE_LAYERS.cluster, () => pointer(false));
 
   // Một lần bấm chỉ xử lý lớp trên cùng: địa điểm > cụm > xã.
   map.on('click', (e) => {
-    const [hit] = map.queryRenderedFeatures(e.point, { layers: [PLACE_LAYERS.pin, PLACE_LAYERS.cluster, 'ward-fill'] });
+    const [hit] = map.queryRenderedFeatures(e.point, { layers: [ROUTE_LAYERS.stop, PLACE_LAYERS.pin, PLACE_LAYERS.cluster, 'ward-fill'] });
     if (!hit) return;
-    if (hit.layer.id === PLACE_LAYERS.pin) {
+    if (hit.layer.id === ROUTE_LAYERS.stop) {
+      opts.onPlaceClick(String(hit.properties.id));
+    } else if (hit.layer.id === PLACE_LAYERS.pin) {
       tooltip.remove();
       opts.onPlaceClick(String(hit.properties.id));
     } else if (hit.layer.id === PLACE_LAYERS.cluster) {
@@ -166,6 +177,18 @@ export async function createMap(container: HTMLElement, opts: MapOptions): Promi
 
   await new Promise<void>((resolve) => map.once('load', () => resolve()));
   addPlacesLayer(map);
+  addRouteLayers(map);
 
-  return { map, wards, showWard, showPlace, fitProvince };
+  const fitRoute = ([w, s, e, n]: Bbox) => map.fitBounds([[w, s], [e, n]], { padding: opts.padding(), maxZoom: 13, duration: DURATION });
+
+  return {
+    map,
+    wards,
+    showWard,
+    showPlace,
+    fitProvince,
+    showRoute: (view) => setRoute(map, view),
+    setRouteActive: (id) => setRouteActive(map, id),
+    fitRoute,
+  };
 }

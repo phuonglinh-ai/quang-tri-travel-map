@@ -3,7 +3,7 @@ import path from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 
 // Khi chạy `npm run dev`: sửa content/ (bằng Sveltia CMS chế độ cục bộ hoặc sửa tay) thì tự chạy
-// scripts/build-places.mjs và tải lại trang, không cần gõ `npm run places`.
+// scripts/build-places.mjs và scripts/build-routes.mjs rồi tải lại trang, không cần gõ `npm run places`.
 function rebuildPlacesOnContentChange(): Plugin {
   return {
     name: 'rebuild-places',
@@ -14,11 +14,16 @@ function rebuildPlacesOnContentChange(): Plugin {
       let timer: ReturnType<typeof setTimeout> | undefined;
       let running = false;
       let again = false;
+      // Tuyến phụ thuộc places.json nên phải chạy sau địa điểm.
+      const runScripts = (scripts: string[], done: (code: number | null) => void) => {
+        const [first, ...rest] = scripts;
+        const child = spawn(process.execPath, [first], { stdio: 'inherit' });
+        child.on('exit', (code) => (code === 0 && rest.length ? runScripts(rest, done) : done(code)));
+      };
       const run = () => {
         if (running) { again = true; return; }
         running = true;
-        const child = spawn(process.execPath, ['scripts/build-places.mjs'], { stdio: 'inherit' });
-        child.on('exit', (code) => {
+        runScripts(['scripts/build-places.mjs', 'scripts/build-routes.mjs'], (code) => {
           running = false;
           if (code === 0) server.ws.send({ type: 'full-reload' });
           else server.config.logger.error('[places] Dữ liệu địa điểm có lỗi, xem thông báo ở trên.');

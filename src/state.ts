@@ -7,6 +7,8 @@ export interface AppState {
   activeLayers: Set<string>;
   selectedPlace: string | null;
   selectedWard: string | null;
+  /** Tuyến trải nghiệm đang xem (id); null = không xem tuyến nào. */
+  route: string | null;
   /** Tháng đang chọn trên lịch mùa vụ (1–12); null = không lọc theo mùa. */
   month: number | null;
   /** Khi có tháng: chỉ hiện trên bản đồ các điểm đang vào mùa (mặc định chỉ làm mờ điểm còn lại). */

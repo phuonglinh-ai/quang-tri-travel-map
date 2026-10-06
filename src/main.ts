@@ -8,6 +8,9 @@ import './style.css';
 import { PROVINCE } from './config/province';
 import { LAYERS } from './config/layers';
 import { loadPlaces } from './data/places';
+import { loadRoutes } from './data/routes';
+import { THEME_BY_ID } from './config/routes';
+import type { RouteView } from './map/route-layer';
 import { createMap, loadWards, setPlaces, type TravelMap, type WardFeature } from './map/map';
 import { createStore, type AppState } from './state';
 import { parseMonth } from './lib/months';
@@ -18,8 +21,9 @@ import { t } from './i18n';
 document.title = `Khám phá ${PROVINCE.name} – Bản đồ tương tác`;
 
 const panelEl = document.getElementById('panel')!;
-const [places, wardsFc] = await Promise.all([loadPlaces(), loadWards()]);
+const [places, wardsFc, routes] = await Promise.all([loadPlaces(), loadWards(), loadRoutes()]);
 const placeById = new Map(places.map((p) => [p.id, p]));
+const routeById = new Map(routes.map((r) => [r.id, r]));
 const wards = new Map(wardsFc.features.map((f) => [f.properties.code, f as WardFeature]));
 const layersWithData = LAYERS.filter((l) => places.some((p) => p.layer === l.id)).map((l) => l.id);
 
@@ -31,6 +35,7 @@ const store = createStore({
   activeLayers: new Set(layersParam?.length ? layersParam : layersWithData),
   selectedPlace: null,
   selectedWard: null,
+  route: routeById.has(params.get('route') ?? '') ? params.get('route') : null,
   month: parseMonth(params.get('month')),
   monthOnly: params.get('only') === '1',
   sharedList: sharedParam?.length ? sharedParam : null,
@@ -40,6 +45,9 @@ let tm: TravelMap | null = null;
 
 function selectPlace(id: string | null) {
   if (id && !placeById.has(id)) id = null;
+  // Mở địa điểm không thuộc tuyến đang xem (ví dụ từ tìm kiếm): rời khỏi tuyến.
+  const route = routeById.get(store.get().route ?? '');
+  if (id && route && !route.stops.some((s) => s.place === id)) store.set({ route: null });
   // Địa điểm thuộc lớp đang tắt (ví dụ mở từ liên kết): bật lớp đó để ghim hiện trên bản đồ.
   if (id) {
     const layer = placeById.get(id)!.layer;
@@ -53,7 +61,25 @@ function selectPlace(id: string | null) {
 function selectWard(code: string | null) {
   if (code && !wards.has(code)) code = null;
   if (isMobile()) sheet.setSnap(code ? 'half' : 'peek');
-  store.set({ selectedWard: code, selectedPlace: null });
+  store.set({ selectedWard: code, selectedPlace: null, route: null });
+}
+
+function selectRoute(id: string | null) {
+  if (id && !routeById.has(id)) id = null;
+  // Đặt nấc panel trước khi camera di chuyển, để lề camera tính theo nấc mới.
+  if (id && isMobile() && sheet.snap === 'peek') sheet.setSnap('half');
+  store.set({ route: id, selectedPlace: null, selectedWard: null });
+}
+
+/** Dữ liệu vẽ tuyến trên bản đồ (đường, ghim số theo thứ tự điểm dừng). */
+function routeView(id: string, activeId: string | null): RouteView {
+  const r = routeById.get(id)!;
+  return {
+    color: THEME_BY_ID.get(r.theme)!.color,
+    line: r.line,
+    stops: r.stops.map((s) => ({ id: s.place, name: placeById.get(s.place)!.name, coordinates: placeById.get(s.place)!.coordinates })),
+    activeId,
+  };
 }
 
 async function share(url: string, title: string) {
@@ -73,8 +99,9 @@ async function share(url: string, title: string) {
   }
 }
 
-const panel = createPanel(panelEl, store, places, wards, {
+const panel = createPanel(panelEl, store, places, routes, wards, {
   selectPlace,
+  selectRoute,
   selectWard,
   recenter: () => (store.get().selectedWard ? tm?.showWard(store.get().selectedWard) : tm?.fitProvince()),
   share,
@@ -99,6 +126,7 @@ function syncUrl() {
   const s = store.get();
   const url = new URL(location.href);
   const setParam = (k: string, v: string | null) => (v ? url.searchParams.set(k, v) : url.searchParams.delete(k));
+  setParam('route', s.route);
   setParam('place', s.selectedPlace);
   setParam('ward', s.selectedPlace ? null : s.selectedWard);
   const all = s.activeLayers.size === layersWithData.length;
@@ -113,6 +141,8 @@ function syncUrl() {
 // Điểm đang mở luôn hiện, kể cả khi bị lọc theo mùa.
 const visiblePlaces = () => {
   const s = store.get();
+  // Khi xem tuyến, các điểm dừng được vẽ bằng ghim số riêng; ẩn các địa điểm khác cho bản đồ gọn.
+  if (s.route) return [];
   const onlyMonth = s.month !== null && s.monthOnly;
   return places.filter((p) => s.activeLayers.has(p.layer) && (!onlyMonth || p.months.includes(s.month!) || p.id === s.selectedPlace));
 };
@@ -120,8 +150,17 @@ const visiblePlaces = () => {
 function applyToMap(s: AppState, changed: Set<keyof AppState>) {
   if (!tm) return;
   const filterByMonth = s.month !== null && s.monthOnly;
-  if (changed.has('activeLayers') || changed.has('month') || changed.has('monthOnly') || (filterByMonth && changed.has('selectedPlace'))) setPlaces(tm.map, visiblePlaces(), s.month);
-  if (changed.has('selectedWard')) tm.showWard(s.selectedWard, !s.selectedPlace);
+  if (changed.has('route') || changed.has('activeLayers') || changed.has('month') || changed.has('monthOnly') || (filterByMonth && changed.has('selectedPlace'))) setPlaces(tm.map, visiblePlaces(), s.month);
+  if (changed.has('route')) {
+    tm.showRoute(s.route ? routeView(s.route, s.selectedPlace) : null);
+    if (s.route && !s.selectedPlace) tm.fitRoute(routeById.get(s.route)!.bbox);
+    else if (!s.route && !s.selectedPlace && !s.selectedWard) tm.fitProvince();
+  } else if (changed.has('selectedPlace') && s.route) {
+    tm.setRouteActive(s.selectedPlace);
+    if (!s.selectedPlace) tm.fitRoute(routeById.get(s.route)!.bbox);
+  }
+  // Đang xem tuyến thì camera do tuyến điều khiển, không để bước "về toàn tỉnh" ghi đè.
+  if (changed.has('selectedWard')) tm.showWard(s.selectedWard, !s.selectedPlace && !s.route);
   if (changed.has('selectedPlace')) {
     const p = s.selectedPlace ? placeById.get(s.selectedPlace) : null;
     tm.showPlace(p?.id ?? null, p?.coordinates, p?.mapZoom);
@@ -136,6 +175,7 @@ store.subscribe((s, changed) => {
 // --- Mở theo liên kết sâu (mã QR tại điểm thật dùng ?place=<id>) ------------------------
 const initialPlace = params.get('place');
 const initialWard = params.get('ward');
+if (store.get().route && isMobile()) sheet.setSnap('half');
 if (initialPlace && placeById.has(initialPlace)) selectPlace(initialPlace);
 else if (initialWard && wards.has(initialWard)) selectWard(initialWard);
 else if (store.get().sharedList && isMobile()) sheet.setSnap('half');
@@ -163,4 +203,4 @@ tm = await createMap(document.getElementById('map')!, {
   onPlaceClick: selectPlace,
 });
 // Áp toàn bộ trạng thái hiện có (người dùng có thể đã thao tác trên panel khi bản đồ đang tải).
-applyToMap(store.get(), new Set(['activeLayers', 'selectedWard', 'selectedPlace', 'month']));
+applyToMap(store.get(), new Set(['activeLayers', 'selectedWard', 'selectedPlace', 'month', 'route']));

@@ -41,6 +41,16 @@ Dữ liệu lưu ở `content/featured.json`. Nếu xóa một địa điểm đ
 
 **Lưu ý:** id địa điểm (tên file) được dùng trong dải Nổi bật, liên kết chia sẻ và mã QR. Muốn đổi tên hiển thị thì sửa trường **Tên**, đừng tạo địa điểm mới rồi xóa địa điểm cũ.
 
+### Tuyến trải nghiệm
+
+Mục **Tuyến trải nghiệm** trong CMS (file `content/routes/<id>.json`, tên file là id, dùng trong liên kết `?route=<id>`):
+
+1. Bấm **Tuyến mới**, nhập tên, chọn chủ đề, viết mô tả ngắn.
+2. Ở **Điểm dừng**, thêm từng địa điểm theo đúng thứ tự tham quan (2–11 điểm, kéo nút ═ để đổi thứ tự). Mỗi điểm có thể kèm một ghi chú ngắn, chỉ ghi thông tin đã xác minh.
+3. Lưu. Khi đăng tải, hệ thống **tự vẽ đường đi bám theo đường bộ** giữa các điểm (dùng dữ liệu đường OpenStreetMap của dự án), tính quãng đường từng chặng và cả tuyến; không cần nhập tay.
+
+Lưu ý: địa điểm đã nằm trong tuyến thì không nên xóa hay đổi tên file (id); nếu xóa, lần build sau sẽ báo lỗi chỉ rõ tuyến và vị trí điểm dừng cần sửa. Quãng đường chỉ là ước tính để tham khảo; thời lượng chỉ hiển thị khi người biên tập nhập. Chủ đề (icon, màu) khai báo trong `src/config/routes.data.json`.
+
 ### Thêm ảnh
 
 Trong địa điểm → mục **Ảnh** → **Add ảnh** → chọn file. Điền đủ:

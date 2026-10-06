@@ -9,3 +9,4 @@ dist/
 public/images/places/
 # Sinh từ content/ bởi `npm run places` (chạy trong build và predev); CMS chỉ commit content/
 public/data/places.json
+public/data/routes.json

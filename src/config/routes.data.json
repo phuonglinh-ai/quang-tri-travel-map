@@ -1,0 +1,8 @@
+{
+  "maxStops": 11,
+  "themes": [
+    { "id": "ve-nguon", "label": "Hành trình về nguồn", "icon": "🚩", "color": "#b3261e" },
+    { "id": "nong-nghiep", "label": "Trải nghiệm nông nghiệp", "icon": "🌾", "color": "#6f8a2a" },
+    { "id": "hoc-tap", "label": "Học tập ngoại khóa", "icon": "📚", "color": "#4a58a8" }
+  ]
+}

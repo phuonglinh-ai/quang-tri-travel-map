@@ -1,0 +1,12 @@
+{
+  "name": "Hành trình Thành cổ – Hiền Lương – Vịnh Mốc",
+  "theme": "ve-nguon",
+  "summary": "Từ Thành cổ Quảng Trị ngược ra phía bắc, qua Dốc Miếu và đôi bờ Hiền Lương – Bến Hải, kết thúc ở Địa đạo Vịnh Mốc ven biển.",
+  "stops": [
+    { "place": "thanh-co-quang-tri", "note": "Điểm khởi hành." },
+    { "place": "doc-mieu" },
+    { "place": "hien-luong-ben-hai" },
+    { "place": "dia-dao-vinh-moc", "note": "Điểm cuối hành trình." }
+  ],
+  "isSample": true
+}

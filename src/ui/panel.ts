@@ -3,7 +3,9 @@
 // Nút "Quay lại" gỡ lần lượt từng tầng, nên không cần ngăn xếp điều hướng riêng.
 import { PROVINCE } from '../config/province';
 import { GROUPS, LAYERS, LAYER_BY_ID, type LayerDef } from '../config/layers';
+import { THEME_BY_ID } from '../config/routes';
 import { assetPath, matchScore, type IndexedPlace, type PlaceImage } from '../data/places';
+import { googleMapsUrl, routeShapeSvg, type TravelRoute } from '../data/routes';
 import type { WardFeature } from '../map/map';
 import type { Store } from '../state';
 import { t } from '../i18n';
@@ -24,14 +26,16 @@ type ListView = { kind: 'layer'; id: string } | { kind: 'saved' } | { kind: 'sha
 export interface PanelActions {
   selectPlace(id: string | null): void;
   selectWard(code: string | null): void;
+  selectRoute(id: string | null): void;
   recenter(): void;
   share(url: string, title: string): void;
   setBasemapVisible(ids: string[], visible: boolean): void;
   onSearchFocus(): void;
 }
 
-export function createPanel(root: HTMLElement, store: Store, places: IndexedPlace[], wards: Map<string, WardFeature>, actions: PanelActions) {
+export function createPanel(root: HTMLElement, store: Store, places: IndexedPlace[], routes: TravelRoute[], wards: Map<string, WardFeature>, actions: PanelActions) {
   const byId = new Map(places.map((p) => [p.id, p]));
+  const routeById = new Map(routes.map((r) => [r.id, r]));
   const counts = new Map<string, number>();
   const wardCounts = new Map<string, number>();
   for (const p of places) {
@@ -118,6 +122,22 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       case 'recenter':
         actions.recenter();
         break;
+      case 'route':
+        actions.selectRoute(id!);
+        break;
+      case 'route-start':
+        actions.selectPlace(routeById.get(id!)!.stops[0].place);
+        break;
+      case 'route-step': {
+        const r = routeById.get(s.route ?? '');
+        const i = r?.stops.findIndex((x) => x.place === s.selectedPlace) ?? -1;
+        const next = r?.stops[i + Number(el.dataset.delta)];
+        if (next) actions.selectPlace(next.place);
+        break;
+      }
+      case 'share-route':
+        actions.share(shareUrl({ route: id! }), routeById.get(id!)!.name);
+        break;
       case 'month': {
         const m = id ? Number(id) : null;
         store.set({ month: m === s.month ? null : m });
@@ -170,7 +190,8 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       if (list.kind === 'shared') store.set({ sharedList: null });
       list = null;
       render();
-    } else if (s.selectedWard) actions.selectWard(null);
+    } else if (s.route) actions.selectRoute(null);
+    else if (s.selectedWard) actions.selectWard(null);
     else return false;
     return true;
   }
@@ -213,6 +234,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
             .join('')}
         </div>
       </section>
+      ${routesHtml()}
       ${seasonHtml()}
       <section>
         <h2 class="section-title">${t.layers}</h2>
@@ -259,6 +281,95 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       </details>
       ${aboutHtml()}
     `;
+  }
+
+  // --- Tuyến trải nghiệm -----------------------------------------------------------
+  const stopPlaces = (r: TravelRoute) => r.stops.map((s) => byId.get(s.place)!);
+  const km = (n: number) => t.km(n).replace(/^(\d+),0 km$/, '$1 km');
+
+  function routesHtml() {
+    if (!routes.length) return '';
+    return `<section>
+      <h2 class="section-title">${t.routes}</h2>
+      <ul class="route-cards">
+        ${routes
+          .map((r) => {
+            const theme = THEME_BY_ID.get(r.theme)!;
+            return `<li><button class="route-card" data-action="route" data-id="${r.id}" style="--c:${theme.color}">
+              ${routeShapeSvg(r, stopPlaces(r).map((p) => p.coordinates), theme.color)}
+              <span class="rc-body">
+                <small class="rc-theme">${theme.icon} ${esc(theme.label)}</small>
+                <strong>${esc(r.name)}</strong>
+                <span class="rc-meta">${t.routeStops(r.stops.length)} · ${t.routeKm(r.totalKm)}${r.duration ? ` · ${esc(r.duration)}` : ''}</span>
+              </span>
+              <span class="chev" aria-hidden="true">›</span>
+            </button></li>`;
+          })
+          .join('')}
+      </ul>
+    </section>`;
+  }
+
+  function routeHtml(r: TravelRoute) {
+    const theme = THEME_BY_ID.get(r.theme)!;
+    const stops = stopPlaces(r);
+    return `${backBtn()}
+      <article class="route" style="--c:${theme.color}">
+        <p class="route-theme"><span class="dot" aria-hidden="true">${theme.icon}</span>${esc(theme.label)}</p>
+        <h2 class="route-name">${esc(r.name)}</h2>
+        <p class="summary">${esc(r.summary)}</p>
+        <ul class="route-meta">
+          <li><strong>${r.stops.length}</strong> điểm dừng</li>
+          <li><strong>${t.routeKm(r.totalKm)}</strong> đường bộ</li>
+          ${r.duration ? `<li>${esc(r.duration)}</li>` : ''}
+          ${r.audience ? `<li>${esc(r.audience)}</li>` : ''}
+        </ul>
+        <div class="actions">
+          <button class="btn btn-primary" data-action="route-start" data-id="${r.id}">▶ ${t.routeStart}</button>
+          <a class="btn" href="${esc(googleMapsUrl(stops.map((p) => p.coordinates)))}" target="_blank" rel="noopener">➤ ${t.routeOpenMaps}</a>
+          <button class="btn" data-action="share-route" data-id="${r.id}">↗ ${t.routeShare}</button>
+        </div>
+        <ol class="route-stops">
+          ${stops
+            .map((p, i) => {
+              const layer = LAYER_BY_ID.get(p.layer)!;
+              const img = p.images[0];
+              const note = r.stops[i].note;
+              const leg = r.legs[i];
+              return `<li class="rs-item">
+                <button class="rs-btn" data-action="place" data-id="${p.id}">
+                  <span class="rs-num" aria-hidden="true">${i + 1}</span>
+                  <span class="rs-body">
+                    <strong>${esc(p.name)}</strong>
+                    <small>${esc([p.wardName, layer.label].filter(Boolean).join(' · '))}</small>
+                    ${note ? `<em>${esc(note)}</em>` : ''}
+                  </span>
+                  ${img ? `<img class="thumb" src="${assetPath(img.thumb ?? img.src)}" alt="" loading="lazy" width="48" height="48">` : ''}
+                </button>
+                ${leg ? `<p class="rs-leg">${leg.approx ? '≈ ' : ''}${km(leg.km)}${leg.approx ? ` · ${t.routeLegApprox}` : ' đường bộ'}</p>` : ''}
+              </li>`;
+            })
+            .join('')}
+        </ol>
+        ${r.isSample ? `<p class="sample-note">⚠ ${t.sampleNote}</p>` : ''}
+        <p class="small muted">${t.routeNote}</p>
+      </article>`;
+  }
+
+  /** Thanh "Điểm 2/7" trên thẻ địa điểm khi đang xem một tuyến, kèm nút sang điểm trước/sau. */
+  function routeStepHtml(p: IndexedPlace) {
+    const r = routeById.get(store.get().route ?? '');
+    const i = r ? r.stops.findIndex((s) => s.place === p.id) : -1;
+    if (!r || i < 0) return '';
+    const theme = THEME_BY_ID.get(r.theme)!;
+    const note = r.stops[i].note;
+    const step = (delta: number, label: string, glyph: string) =>
+      `<button class="rstep-btn" data-action="route-step" data-delta="${delta}" aria-label="${label}" ${r.stops[i + delta] ? '' : 'disabled'}>${glyph}</button>`;
+    return `<div class="route-step" style="--c:${theme.color}">
+      <span class="rs-num" aria-hidden="true">${i + 1}</span>
+      <span class="rstep-text"><strong>${t.routeStepOf(i + 1, r.stops.length)}</strong><small>${esc(r.name)}</small></span>
+      ${step(-1, t.routePrev, '‹')}${step(1, t.routeNext, '›')}
+    </div>${note ? `<p class="route-stop-note">${esc(note)}</p>` : ''}`;
   }
 
   function seasonHtml() {
@@ -364,6 +475,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       .slice(0, 5);
     const osmUrl = p.source?.osm ? `https://www.openstreetmap.org/${p.source.osm}` : null;
     return `${backBtn()}
+      ${routeStepHtml(p)}
       <article class="place">
         ${
           p.images[0]
@@ -430,6 +542,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     else if (query.trim()) [key, html] = ['search', searchHtml()];
     else if (list?.kind === 'layer') [key, html] = [`layer:${list.id}`, layerHtml(list.id)];
     else if (list) [key, html] = [list.kind, savedHtml(list.kind === 'shared')];
+    else if (s.route) [key, html] = [`route:${s.route}`, routeHtml(routeById.get(s.route)!)];
     else if (s.selectedWard) [key, html] = [`ward:${s.selectedWard}`, wardHtml(s.selectedWard)];
     else [key, html] = ['home', homeHtml()];
 
@@ -448,7 +561,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   });
 
   store.subscribe((_, changed) => {
-    if (changed.has('selectedPlace') || changed.has('selectedWard') || changed.has('saved') || changed.has('activeLayers') || changed.has('sharedList') || changed.has('month') || changed.has('monthOnly')) {
+    if (changed.has('selectedPlace') || changed.has('selectedWard') || changed.has('saved') || changed.has('activeLayers') || changed.has('sharedList') || changed.has('month') || changed.has('monthOnly') || changed.has('route')) {
       if (changed.has('selectedWard') && store.get().selectedWard) list = null;
       render();
     }
