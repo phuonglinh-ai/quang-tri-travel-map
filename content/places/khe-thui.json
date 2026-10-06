@@ -2,7 +2,16 @@
   "layer": "dia-chi-do",
   "name": "Khu di tích lịch sử Khe Thùi",
   "latLng": "17.911136, 105.826713",
-  "summary": "Khu di tích lịch sử ở vùng núi phía Tây, gắn với tuyến giao thông thời chiến.",
+  "summary": "Trong cuộc kháng chiến chống Mỹ cứu nước, ngã ba Khe Ve, xã Hóa Thanh là một trong những trọng điểm vô cùng các liệt. Nơi đây được coi như là “túi bom” mà máy bay Mỹ ngày đêm dội xuống. Bởi trọng điểm này là “yết hầu” của tuyến  vận chuyển hàng hóa, vũ khí từ Bắc vào Nam theo quốc lộ 15A và sang nước bạn Lào theo quốc lộ 12A.\n\nKhe Thui tại Km468, cách ngã ba Khe Ve chừng 300m, cũng là một trong những trọng điểm \"tọa độ lửa\"  mà không quân Mỹ đã tập trung đánh phá.",
+  "images": [
+    {
+      "src": "/images/places/khe-thui-9bcc9e8705fb.webp",
+      "alt": "Khu di tích lịch sử Khe Thùi",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn/"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/1314845892",
