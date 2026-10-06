@@ -2,7 +2,16 @@
   "layer": "lang-nghe",
   "name": "Làng nón Thổ Ngọa",
   "latLng": "17.739117, 106.438906",
-  "summary": "Làng nghề làm nón lá truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "summary": "Ra đời từ thuở khai sinh lập làng, nghề làm nón lá làng Thổ Ngọa không chỉ là phương tiện kiếm cơm mà còn là một phần không thể thiếu trong đời sống văn hóa của người dân nơi đây. Trải qua thời gian cùng những biến cố thăng trầm của lịch sử, người làng Thổ Ngọa vẫn gắn bó với nghề truyền thống, song chuyện giữ nghề cũng gặp không ít gian nan… Người Thổ Ngọa luôn tự hào với nghề truyền thống cùng những giá trị văn hóa dân gian của làng. Những chủ nhân của làng nghề còn tham gia dạy nghề nón cho các làng lân cận. Vậy nhưng, nghề nón của họ đang đứng trước nguy cơ mai một, thất truyền khi thế hệ trẻ không muốn học nghề và khi sản phẩm nón lá mất dần chỗ đứng trên các thị trường.",
+  "images": [
+    {
+      "src": "/images/places/lang-non-tho-ngoa-852d1e87dc77.webp",
+      "alt": "Làng nón Thổ Ngọa",
+      "credit": "Truyền hình Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn/"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9959964417",
