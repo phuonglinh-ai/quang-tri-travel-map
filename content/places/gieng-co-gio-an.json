@@ -2,7 +2,16 @@
   "layer": "di-tich",
   "name": "Giếng cổ Gio An",
   "latLng": "16.922389, 107.012185",
-  "summary": "Hệ thống giếng cổ còn sử dụng đến nay, là di sản văn hóa và kỹ thuật khai thác nước độc đáo.",
+  "summary": "Giếng cổ Gio An nằm tại xã Gio An, huyện Gio Linh, tỉnh Quảng Trị, là một di tích lịch sử – văn hóa cấp quốc gia, nổi tiếng với hệ thống giếng cổ độc đáo có từ thời Chăm Pa cổ đại, cách đây hơn 1000 năm.",
+  "images": [
+    {
+      "src": "/images/places/gieng-co-gio-an-755283801db1.webp",
+      "alt": "Giếng cổ Gio An",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn/"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/5126103952",
