@@ -2,7 +2,16 @@
   "layer": "giao-thong",
   "name": "Ga Đông Hà",
   "latLng": "16.811172, 107.111894",
-  "summary": "Ga đường sắt Bắc – Nam tại Đông Hà.",
+  "summary": "Ga Đông Hà nằm ngay tại trung tâm thị xã Đông Hà, cách trung tâm thành phố Quảng Trị khoảng 10km, là một trong những điểm đến quan trọng và thuận tiện cho người dân cũng như du khách. Với vị trí mặt tiền hướng ra đường Hùng Vương, ga Đông Hà phục vụ nhu cầu đi lại trên tuyến đường sắt Bắc Nam, kết nối với nhiều ga lớn nhỏ trên cả nước.",
+  "images": [
+    {
+      "src": "/images/places/ga-dong-ha-de2b9cd2b825.webp",
+      "alt": "Ga Đông Hà",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://baoquangtri.vn/"
+    }
+  ],
   "isSample": true,
   "icon": "🚉",
   "source": {
