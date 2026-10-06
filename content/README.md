@@ -72,7 +72,7 @@ Lệnh này sinh lại cấu hình CMS, kiểm tra dữ liệu, tự gán xã/ph
 | `summary` | ✓ | 1–2 câu nêu lý do nên đến. |
 | `images` | | Danh sách ảnh `{ src, alt, credit, license, sourceUrl, licenseUrl }`. `src` có dạng `/images/places/<tên file>` (file thật nằm ở `content/images/<tên file>`). `licenseUrl` để trống thì tự điền theo giấy phép. |
 | `links` | | `[{ "label": "...", "url": "https://..." }]`. |
-| `months` | | Các tháng nổi bật (1–12), dùng cho lịch mùa vụ, lễ hội ở Phase 2. |
+| `months` | | Các tháng đang vào mùa hoặc có lễ hội (1–12). Dùng cho "Lịch mùa vụ, lễ hội" ở trang chủ: chọn tháng thì các địa điểm có tháng đó được làm nổi bật trên bản đồ. Chỉ nhập khi biết chắc thời điểm. |
 | `isSample` | ✓ | `true` = dữ liệu minh họa, thẻ sẽ gắn nhãn "Dữ liệu minh họa". Chỉ đặt `false` khi thông tin **đã được cơ quan có thẩm quyền xác minh**. |
 | `mapZoom` | | Mức zoom khi mở địa điểm dạng vùng rộng (6–17), ví dụ vườn quốc gia là `9.5`. |
 | `icon` | | Emoji riêng, thay icon mặc định của lớp. |

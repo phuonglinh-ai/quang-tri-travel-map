@@ -9,6 +9,7 @@ import type { Store } from '../state';
 import { t } from '../i18n';
 import { distanceKm, esc, fold } from '../lib/text';
 import { feedbackUrl } from '../lib/feedback';
+import { formatMonths, MONTHS } from '../lib/months';
 
 export const BASE_LAYERS = [
   { label: 'Ranh giới xã/phường', ids: ['ward-line'] },
@@ -37,6 +38,9 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     counts.set(p.layer, (counts.get(p.layer) ?? 0) + 1);
     if (p.wardCode) wardCounts.set(p.wardCode, (wardCounts.get(p.wardCode) ?? 0) + 1);
   }
+
+  const monthCounts = new Map<number, number>(MONTHS.map((m) => [m, places.filter((p) => p.months.includes(m)).length]));
+  const withMonths = places.filter((p) => p.months.length).length;
 
   let query = '';
   let list: ListView | null = null;
@@ -114,6 +118,11 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       case 'recenter':
         actions.recenter();
         break;
+      case 'month': {
+        const m = id ? Number(id) : null;
+        store.set({ month: m === s.month ? null : m });
+        break;
+      }
       case 'save':
         store.toggleSaved(id!);
         break;
@@ -138,6 +147,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   body.addEventListener('change', (e) => {
     const el = e.target as HTMLInputElement;
     if (el.dataset.toggleLayer) store.toggleLayer(el.dataset.toggleLayer, el.checked);
+    if (el.dataset.monthOnly !== undefined) store.set({ monthOnly: el.checked });
     if (el.dataset.basemap) actions.setBasemapVisible(BASE_LAYERS[Number(el.dataset.basemap)].ids, el.checked);
   });
   body.addEventListener('input', (e) => {
@@ -174,9 +184,11 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   const placeItem = (p: IndexedPlace, meta?: string) => {
     const layer = LAYER_BY_ID.get(p.layer)!;
     const img = p.images[0];
-    return `<li><button class="place-item" data-action="place" data-id="${p.id}">
+    const month = store.get().month;
+    const seasonal = month !== null && p.months.includes(month);
+    return `<li><button class="place-item${seasonal ? ' is-season' : ''}" data-action="place" data-id="${p.id}">
       ${img ? `<img class="thumb" src="${assetPath(img.thumb ?? img.src)}" alt="" loading="lazy" width="40" height="40">` : dot(layer, iconOf(p))}
-      <span class="pi-text"><strong>${esc(p.name)}</strong>${(meta = meta ?? [p.wardName, layer.label].filter(Boolean).join(' · ')) ? `<small>${esc(meta)}</small>` : ''}</span>
+      <span class="pi-text"><strong>${esc(p.name)}</strong>${(meta = [seasonal ? `● ${t.inSeason}` : '', meta ?? [p.wardName, layer.label].filter(Boolean).join(' · ')].filter(Boolean).join(' · ')) ? `<small>${esc(meta)}</small>` : ''}</span>
     </button></li>`;
   };
 
@@ -201,6 +213,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
             .join('')}
         </div>
       </section>
+      ${seasonHtml()}
       <section>
         <h2 class="section-title">${t.layers}</h2>
         ${GROUPS.map(
@@ -246,6 +259,28 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       </details>
       ${aboutHtml()}
     `;
+  }
+
+  function seasonHtml() {
+    const s = store.get();
+    const inSeason = s.month ? places.filter((p) => p.months.includes(s.month!)) : [];
+    return `<section class="season">
+      <h2 class="section-title">${t.season}</h2>
+      <div class="months" role="group" aria-label="${esc(t.season)}">
+        ${MONTHS.map((m) => {
+          const n = monthCounts.get(m) ?? 0;
+          return `<button class="month-chip${s.month === m ? ' is-on' : ''}${n ? '' : ' is-empty'}" data-action="month" data-id="${m}" aria-pressed="${s.month === m}" aria-label="${esc(t.seasonMonthLabel(m, n))}">${m}${n ? `<small>${n}</small>` : ''}</button>`;
+        }).join('')}
+      </div>
+      ${
+        s.month
+          ? `<p class="season-sum">${t.seasonSummary(s.month, inSeason.length)}</p>
+             ${inSeason.length ? `<label class="toggle"><input type="checkbox" data-month-only ${s.monthOnly ? 'checked' : ''}> ${t.seasonOnly}</label><ul class="items">${inSeason.map((p) => placeItem(p)).join('')}</ul>` : ''}
+             <button class="btn btn-quiet" data-action="month" data-id="">${t.seasonClear}</button>`
+          : `<p class="small muted">${t.seasonHint}</p>`
+      }
+      <p class="small muted">${t.seasonCoverage(withMonths, places.length)}</p>
+    </section>`;
   }
 
   const joinVi = (items: readonly string[]) =>
@@ -343,6 +378,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
         ${p.nameEn ? `<p class="name-en" lang="en">${esc(p.nameEn)}</p>` : ''}
         ${wardFullName(p) ? `<p class="loc"><button class="link" data-action="ward" data-id="${p.wardCode}">📍 ${esc(wardFullName(p)!)}</button></p>` : ''}
         <p class="summary">${esc(p.summary)}</p>
+        ${p.months.length ? `<p class="season-line">📅 ${t.seasonOfPlace}: <strong>${formatMonths(p.months)}</strong>${s.month !== null && p.months.includes(s.month) ? ` <span class="in-season">● ${t.inSeason}</span>` : ''}</p>` : ''}
         <div class="actions">
           <button class="btn ${saved ? 'is-on' : ''}" data-action="save" data-id="${p.id}" aria-pressed="${saved}">${saved ? '♥ ' + t.unsave : '♡ ' + t.save}</button>
           <button class="btn" data-action="share-place" data-id="${p.id}">↗ ${t.share}</button>
@@ -412,7 +448,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   });
 
   store.subscribe((_, changed) => {
-    if (changed.has('selectedPlace') || changed.has('selectedWard') || changed.has('saved') || changed.has('activeLayers') || changed.has('sharedList')) {
+    if (changed.has('selectedPlace') || changed.has('selectedWard') || changed.has('saved') || changed.has('activeLayers') || changed.has('sharedList') || changed.has('month') || changed.has('monthOnly')) {
       if (changed.has('selectedWard') && store.get().selectedWard) list = null;
       render();
     }

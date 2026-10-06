@@ -10,6 +10,7 @@ import { LAYERS } from './config/layers';
 import { loadPlaces } from './data/places';
 import { createMap, loadWards, setPlaces, type TravelMap, type WardFeature } from './map/map';
 import { createStore, type AppState } from './state';
+import { parseMonth } from './lib/months';
 import { createPanel } from './ui/panel';
 import { createSheet, isMobile } from './ui/sheet';
 import { t } from './i18n';
@@ -30,6 +31,8 @@ const store = createStore({
   activeLayers: new Set(layersParam?.length ? layersParam : layersWithData),
   selectedPlace: null,
   selectedWard: null,
+  month: parseMonth(params.get('month')),
+  monthOnly: params.get('only') === '1',
   sharedList: sharedParam?.length ? sharedParam : null,
 });
 
@@ -100,16 +103,24 @@ function syncUrl() {
   setParam('ward', s.selectedPlace ? null : s.selectedWard);
   const all = s.activeLayers.size === layersWithData.length;
   setParam('layers', all ? null : [...s.activeLayers].join(','));
+  setParam('month', s.month ? String(s.month) : null);
+  setParam('only', s.month && s.monthOnly ? '1' : null);
   setParam('saved', s.sharedList?.join(',') ?? null);
   // Giữ dấu phẩy nguyên dạng cho liên kết ngắn gọn (in mã QR, dán tin nhắn).
   history.replaceState(null, '', url.toString().replace(/%2C/g, ','));
 }
 
-const visiblePlaces = () => places.filter((p) => store.get().activeLayers.has(p.layer));
+// Điểm đang mở luôn hiện, kể cả khi bị lọc theo mùa.
+const visiblePlaces = () => {
+  const s = store.get();
+  const onlyMonth = s.month !== null && s.monthOnly;
+  return places.filter((p) => s.activeLayers.has(p.layer) && (!onlyMonth || p.months.includes(s.month!) || p.id === s.selectedPlace));
+};
 
 function applyToMap(s: AppState, changed: Set<keyof AppState>) {
   if (!tm) return;
-  if (changed.has('activeLayers')) setPlaces(tm.map, visiblePlaces());
+  const filterByMonth = s.month !== null && s.monthOnly;
+  if (changed.has('activeLayers') || changed.has('month') || changed.has('monthOnly') || (filterByMonth && changed.has('selectedPlace'))) setPlaces(tm.map, visiblePlaces(), s.month);
   if (changed.has('selectedWard')) tm.showWard(s.selectedWard, !s.selectedPlace);
   if (changed.has('selectedPlace')) {
     const p = s.selectedPlace ? placeById.get(s.selectedPlace) : null;
@@ -152,4 +163,4 @@ tm = await createMap(document.getElementById('map')!, {
   onPlaceClick: selectPlace,
 });
 // Áp toàn bộ trạng thái hiện có (người dùng có thể đã thao tác trên panel khi bản đồ đang tải).
-applyToMap(store.get(), new Set(['activeLayers', 'selectedWard', 'selectedPlace']));
+applyToMap(store.get(), new Set(['activeLayers', 'selectedWard', 'selectedPlace', 'month']));

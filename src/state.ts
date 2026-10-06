@@ -7,6 +7,10 @@ export interface AppState {
   activeLayers: Set<string>;
   selectedPlace: string | null;
   selectedWard: string | null;
+  /** Tháng đang chọn trên lịch mùa vụ (1–12); null = không lọc theo mùa. */
+  month: number | null;
+  /** Khi có tháng: chỉ hiện trên bản đồ các điểm đang vào mùa (mặc định chỉ làm mờ điểm còn lại). */
+  monthOnly: boolean;
   /** Địa điểm đã lưu trên thiết bị (localStorage). */
   saved: string[];
   /** Danh sách mở từ liên kết chia sẻ (?saved=), không ghi đè danh sách của người dùng. */

@@ -354,7 +354,7 @@
               "value": 12
             }
           ],
-          "hint": "Mùa vụ, lễ hội. Dùng cho lịch mùa vụ (Phase 2)."
+          "hint": "Các tháng đang vào mùa hoặc có lễ hội. Chọn tháng trên lịch mùa vụ ở trang chủ sẽ làm nổi bật địa điểm này."
         },
         {
           "name": "isSample",

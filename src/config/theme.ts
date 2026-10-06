@@ -5,6 +5,8 @@
 export const COLORS = {
   brand: '#1f5c4a',
   accent: '#b3261e',
+  /** Điểm đang vào mùa (lịch mùa vụ); chữ trắng trên nền này đạt tương phản ≥ 4,5:1. */
+  season: '#a86a00',
   sea: '#cfe3ea',
   seaLabel: '#5b8ea3',
   landOutside: '#e6e2d8',

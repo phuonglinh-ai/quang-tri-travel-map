@@ -55,7 +55,7 @@ const placeFields = [
   {
     name: 'months', label: 'Tháng nổi bật', widget: 'select', multiple: true, ...optional,
     options: Array.from({ length: 12 }, (_, i) => ({ label: `Tháng ${i + 1}`, value: i + 1 })),
-    hint: 'Mùa vụ, lễ hội. Dùng cho lịch mùa vụ (Phase 2).',
+    hint: 'Các tháng đang vào mùa hoặc có lễ hội. Chọn tháng trên lịch mùa vụ ở trang chủ sẽ làm nổi bật địa điểm này.',
   },
   {
     name: 'isSample', label: 'Dữ liệu minh họa', widget: 'boolean', default: true,
