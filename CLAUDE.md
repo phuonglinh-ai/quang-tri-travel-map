@@ -267,6 +267,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 6. **Dữ liệu POI thật:** chưa có nguồn, phụ thuộc vào việc phân công quản trị sau này. **Việc cần làm sau:** xác định đơn vị/cán bộ phụ trách từng trụ cột (Du lịch, Nông sản, Giáo dục) và quy trình cập nhật (xem Phase 3).
 7. **Hosting và tên miền (cập nhật 01/10/2026):** code ở GitHub `phuonglinh-ai/quang-tri-travel-map` (công khai, nhánh `main`), deploy trên Vercel (project `dulichquangtri`, https://dulichquangtri.vercel.app), tự deploy khi push lên `main`. Chưa có tên miền riêng. `base` của Vite vẫn chỉnh được qua `BASE_PATH` (chỉ dùng cho GitHub Pages).
 
+8. **Góp ý/báo lỗi (06/10/2026):** gửi qua GitHub Issues của repo công khai (`cms.repo` trong `province.data.json`). Giao diện có link "Góp ý, báo lỗi" ở mục Giới thiệu và link "Báo lỗi hoặc góp ý về địa điểm này" trên thẻ địa điểm, điền sẵn tên, id và liên kết `?place=` (`src/lib/feedback.ts`). Hạn chế đã ghi trên giao diện: người góp ý cần tài khoản GitHub và nội dung hiển thị công khai. Nếu tỉnh tiếp quản, đổi `cms.repo` hoặc thay bằng form/email.
 ---
 
 ## 11. Lệnh và quy ước
@@ -344,10 +345,8 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 - Các điểm không có ảnh phù hợp trên Commons (Nhà tù Lao Bảo, Hang Tám Cô, Suối Nước Moọc, Cồn Cỏ, Giếng cổ Gio An, Bàu Tró, Vũng Chùa) đã được người dùng bổ sung ảnh do cơ quan cung cấp (02–06/10/2026). Còn thiếu ảnh: Di tích Làng Vây, Dốc Miếu.
 
 **Việc còn treo (rà soát 06/10/2026):**
-- Link góp ý/báo lỗi: **chưa làm**, giao diện chưa có link nào. Cần hỏi người dùng địa chỉ nhận (email, form hay GitHub Issues của repo công khai), không tự dùng email cá nhân.
 - Xác minh dữ liệu mẫu: **chưa làm**, cả 102 địa điểm vẫn `isSample: true`. Cần người dùng hoặc tỉnh xác minh (đặc biệt mô tả các Địa chỉ đỏ) trước khi bỏ cờ mẫu.
 - Ảnh cho 44 điểm còn thiếu (trong đó có Làng Vây, Dốc Miếu): chờ ảnh tự chụp hoặc ảnh do tỉnh cung cấp, nhập qua CMS.
-- Đoạn giới thiệu trong `aboutHtml` (`src/ui/panel.ts`) còn viết cứng "tỉnh Quảng Bình và tỉnh Quảng Trị", trái quy tắc tham số hóa theo tỉnh (mục 2). Nên chuyển câu này vào `province.data.json` khi làm song ngữ hoặc mở rộng tỉnh khác. Câu mô tả nội dung bản đồ đã sửa ngày 02/10/2026 vì lớp nông sản đã có dữ liệu.
 - `npm audit`: 8 mục (1 critical, 4 high, 3 moderate), **tất cả nằm trong devDependencies**; `npm audit --omit=dev` báo 0. Hai gốc: `mapshaper` (kéo theo `adm-zip`, `fflate`, `@xmldom/xmldom`, `@ngageoint/geopackage` → `file-type`, `image-size`) và `osmtogeojson` (kéo theo `@xmldom/xmldom` 0.8.3). `sharp` không liên quan. Hai gói này chỉ chạy trong `data:build` / `data:fetch` trên máy, với dữ liệu tải từ nguồn đã biết; app web chỉ import `maplibre-gl` và `@fontsource`. Không chạy `npm audit fix --force` vì sẽ hạ mapshaper xuống 0.6.13 và osmtogeojson xuống 2.2.12 (đổi phiên bản lớn). Chờ hai gói này cập nhật phụ thuộc.
 - Dung lượng `wards.geojson` (906 KB, gzip khoảng 230 KB): chưa chia tile; chỉ làm nếu thấy chậm trên điện thoại.
 - Phase 2: **chưa bắt đầu**. Lịch mùa vụ/lễ hội (`months` đã có trong mô hình dữ liệu và CMS, mới 5 điểm có giá trị, chưa có thanh trượt tháng), tuyến trải nghiệm, song ngữ (chuỗi đã gom ở `src/i18n.ts`, chưa có bản tiếng Anh).

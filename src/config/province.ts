@@ -11,6 +11,8 @@ export const PROVINCE = {
   ...data,
   name: 'Quảng Trị',
   fullName: 'Tỉnh Quảng Trị',
+  /** Các đơn vị cấp tỉnh cũ đã hợp nhất thành tỉnh này (dùng cho đoạn giới thiệu); để trống nếu không sáp nhập. */
+  mergedFrom: ['tỉnh Quảng Bình', 'tỉnh Quảng Trị'] as readonly string[],
   /** Bbox dữ liệu chính thức [tây, nam, đông, bắc], dùng cho fitBounds lúc khởi tạo. */
   bbox: [105.606055, 16.300464, 107.385952, 18.090919] as [number, number, number, number],
   /** Nhãn tự đặt cho vùng lân cận (không lấy từ OSM hay Natural Earth). */

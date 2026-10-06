@@ -8,6 +8,7 @@ import type { WardFeature } from '../map/map';
 import type { Store } from '../state';
 import { t } from '../i18n';
 import { distanceKm, esc, fold } from '../lib/text';
+import { feedbackUrl } from '../lib/feedback';
 
 export const BASE_LAYERS = [
   { label: 'Ranh giới xã/phường', ids: ['ward-line'] },
@@ -247,13 +248,18 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     `;
   }
 
+  const joinVi = (items: readonly string[]) =>
+    items.length > 1 ? `${items.slice(0, -1).join(', ')} và ${items[items.length - 1]}` : items[0] ?? '';
+
   const aboutHtml = () => `
     <section class="about">
       <h2 class="section-title">${t.about}</h2>
-      <p>${esc(PROVINCE.fullName)} được hình thành từ việc hợp nhất tỉnh Quảng Bình và tỉnh Quảng Trị, gồm ${wards.size} xã, phường, đặc khu. Bản đồ giới thiệu các điểm đến du lịch, sản phẩm và vùng nông sản đặc trưng, địa chỉ giáo dục truyền thống và cơ sở giáo dục trên địa bàn tỉnh.</p>
+      <p>${esc(PROVINCE.fullName)}${PROVINCE.mergedFrom.length > 1 ? ` được hình thành từ việc hợp nhất ${esc(joinVi(PROVINCE.mergedFrom))},` : ''} gồm ${wards.size} xã, phường, đặc khu. Bản đồ giới thiệu các điểm đến du lịch, sản phẩm và vùng nông sản đặc trưng, địa chỉ giáo dục truyền thống và cơ sở giáo dục trên địa bàn tỉnh.</p>
       <p class="sample-note">⚠ ${t.sampleNote}</p>
       <p class="small muted">${t.dataSources}: ranh giới hành chính của NXB Tài nguyên, Môi trường và Bản đồ Việt Nam (qua vietnamese-provinces-database, MIT); đường, sông, hồ và vị trí địa điểm mẫu © OpenStreetMap contributors (ODbL); đất liền ngoài lãnh thổ: Natural Earth.</p>
       ${imageCreditsHtml()}
+      <p class="small"><a href="${esc(feedbackUrl())}" target="_blank" rel="noopener">⚑ ${t.feedback} ↗</a></p>
+      <p class="small muted">${t.feedbackNote}</p>
       <p class="small muted">${t.footerProject}</p>
     </section>`;
 
@@ -344,6 +350,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
         </div>
         ${p.links.length ? `<ul class="links">${p.links.map((l) => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a></li>`).join('')}</ul>` : ''}
         ${p.isSample ? `<p class="sample-note">⚠ ${t.sampleNote}${osmUrl ? ` <a href="${osmUrl}" target="_blank" rel="noopener">${t.viewOnOsm} ↗</a>` : ''}</p>` : ''}
+        <p class="small muted"><a href="${esc(feedbackUrl(p))}" target="_blank" rel="noopener">⚑ ${t.feedbackPlace} ↗</a></p>
         ${near.length ? `<h3 class="group-title">${t.nearby}</h3><ul class="items">${near.map(({ x, d }) => placeItem(x, `${t.km(d)} · ${LAYER_BY_ID.get(x.layer)!.label}`)).join('')}</ul>` : ''}
       </article>`;
   }
