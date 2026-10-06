@@ -2,7 +2,16 @@
   "layer": "lang-nghe",
   "name": "Nghề làm nước mắm Bảo Ninh",
   "latLng": "17.468591, 106.634757",
-  "summary": "Nghề làm nước mắm truyền thống của cư dân vùng biển bên sông Nhật Lệ. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "summary": "Làng nghề nước mắm Bảo Ninh, nằm ven biển xã Bảo Ninh, TP. Đồng Hới (Quảng Bình cũ), là làng nghề truyền thống lâu đời nổi tiếng với hương vị nước mắm đậm đà, màu vàng đẹp mắt, đậm đà hương vị miền Trung, là thương hiệu được người dân nơi đây tự hào về văn hoá ẩm thực của quê hương. Bảo Ninh là làng chài có nghề làm mắm hàng trăm năm, điểm sáng của làng nghề truyền thống ở Quảng Bình, từng được chọn để \"tiến cung vua\" nhờ chất lượng đặc biệt và được lưu truyền cho đến hiện tại. Nguyên liệu chủ yếu dùng từ cá nục nụ (loại nhỏ, nhiều thịt) trộn với muối sạch, ủ trong chum/vại, sau đó phơi nắng tự nhiên trong thời gian từ 8 đến 12 tháng.",
+  "images": [
+    {
+      "src": "/images/places/nuoc-mam-bao-ninh-1b9cbf06f3a5.webp",
+      "alt": "Nghề làm nước mắm Bảo Ninh",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://quangtri.gov.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9959964318",
