@@ -2,7 +2,16 @@
   "layer": "danh-thang",
   "name": "Mũi Lay",
   "latLng": "17.08453, 107.116505",
-  "summary": "Mũi đất đỏ bazan nhô ra biển gần Địa đạo Vịnh Mốc, có cảnh quan biển đẹp.",
+  "summary": "Mũi Lay, còn có tên gọi khác là Mũi Lai, là một mũi đá lấn ra biển khoảng 500m thuộc thôn Vịnh Mốc, xã Vĩnh Thạch trực thuộc Vĩnh Linh, cách Cửa Tùng khoảng 7km về phía Bắc. Mũi Lay được người dân trong vùng và người đi biển biết tới vì có ngọn đèn biển (hải đăng) Mũi Lay khá cao nằm trên đất liền. Người đi biển trong vùng lấy hải đăng Mũi Lay để định hướng cho chuyến đi biển của mình, đặc biệt trong những ngày sương mù và giông tố.",
+  "images": [
+    {
+      "src": "/images/places/mui-lay-095284eaedf1.webp",
+      "alt": "Mũi Lay",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://quangtri.gov.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/1336602595",
