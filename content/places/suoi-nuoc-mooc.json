@@ -2,7 +2,16 @@
   "layer": "danh-thang",
   "name": "Suối nước Moọc",
   "latLng": "17.555392, 106.235736",
-  "summary": "Khu du lịch sinh thái với suối nước trong xanh giữa rừng, thuộc vùng Phong Nha – Kẻ Bàng.",
+  "summary": "Suối Nước Moọc hay còn gọi là Suối Moọc thuộc vườn quốc gia Phong Nha - Kẻ Bàng là một trong những địa điểm vui chơi dưới nước hàng đầu khi đến du lịch Quảng Bình. Dòng suối tự nhiên \"moọc\" lên từ chân núi, trong vắt và mát rượi, len lỏi giữa khu rừng nguyên sinh xanh ngắt. Du khách đến Suối Moọc có thể tham gia hoạt động thú vị như chèo kayak, nhảy cầu, bơi lội, hoặc đơn giản là đi bộ trên cầu gỗ, ngắm hoa, lắng nghe tiếng suối róc rách và chim chóc líu lo. Không khí trong lành, cảnh quan tự nhiên tuyệt đẹp cùng những tiếng cười vang vọng giữa núi rừng của các du khách đã biến Suối Nước Moọc trở thành điểm đến \"must-try\" cho nhóm bạn, gia đình hay các công ty đang tìm kiếm chuyến du lịch sinh thái đáng nhớ.",
+  "images": [
+    {
+      "src": "/images/places/suoi-nuoc-mooc-2495d47d1dc7.webp",
+      "alt": "Suối nước Moọc",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý",
+      "sourceUrl": "https://quangtri.gov.vn"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4387487189",
