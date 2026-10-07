@@ -1,7 +1,7 @@
 // Lớp địa điểm: nguồn GeoJSON có gom cụm (cluster) ở mức zoom thấp, ghim theo lớp, vòng chọn.
 import type { ExpressionSpecification, GeoJSONSource, Map as MlMap } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
-import { assetPath, type Place } from '../data/places';
+import { assetPath, placeName, type Place } from '../data/places';
 import { LAYER_BY_ID } from '../config/layers';
 import { COLORS, FONTS } from '../config/theme';
 import { addPhotoPin, addPinImage, photoKey } from './icons';
@@ -149,7 +149,7 @@ function draw(map: MlMap) {
       return {
         type: 'Feature',
         geometry: { type: 'Point', coordinates: p.coordinates },
-        properties: { id: p.id, name: p.name, photo, hot, dim: currentMonth !== null && !hot, icon: photo ? photoKey(p.id) : addPinImage(map, layer.color, p.icon ?? layer.icon) },
+        properties: { id: p.id, name: placeName(p), photo, hot, dim: currentMonth !== null && !hot, icon: photo ? photoKey(p.id) : addPinImage(map, layer.color, p.icon ?? layer.icon) },
       };
     }),
   };

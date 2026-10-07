@@ -51,6 +51,15 @@ Mục **Tuyến trải nghiệm** trong CMS (file `content/routes/<id>.json`, t�
 
 Lưu ý: địa điểm đã nằm trong tuyến thì không nên xóa hay đổi tên file (id); nếu xóa, lần build sau sẽ báo lỗi chỉ rõ tuyến và vị trí điểm dừng cần sửa. Quãng đường chỉ là ước tính để tham khảo; thời lượng chỉ hiển thị khi người biên tập nhập. Chủ đề (icon, màu) khai báo trong `src/config/routes.data.json`.
 
+### Bản tiếng Anh
+
+Trang có nút **VI | EN** ở đầu panel. Khung giao diện (nút, nhãn, tên lớp, chủ đề) đã dịch sẵn; **nội dung do bạn nhập** có thêm các trường tiếng Anh riêng, đều tùy chọn:
+
+- Địa điểm: `nameEn`, `summaryEn`; ảnh: `altEn`; liên kết: `labelEn`.
+- Tuyến: `nameEn`, `summaryEn`, `durationEn`, `audienceEn`; điểm dừng: `noteEn`.
+
+Từng trường được xử lý riêng: trường tiếng Anh nào chưa nhập thì **tự hiển thị bản tiếng Việt thay thế** (riêng mô tả có dòng ghi chú nhỏ), nhập xong thì lần deploy sau hiển thị tiếng Anh. Mỗi lần chạy `npm run places` in ra độ phủ bản tiếng Anh (ví dụ "tên 18/102, mô tả 0/102") để theo dõi tiến độ. Tên xã/phường tiếng Anh lấy từ dữ liệu ranh giới chính thức, không cần nhập.
+
 ### Thêm ảnh
 
 Trong địa điểm → mục **Ảnh** → **Add ảnh** → chọn file. Điền đủ:
@@ -77,11 +86,12 @@ Lệnh này sinh lại cấu hình CMS, kiểm tra dữ liệu, tự gán xã/ph
 |---|---|---|
 | `layer` | ✓ | Mã lớp, xem `src/config/layers.data.json` (ví dụ `dia-chi-do`, `danh-thang`, `ocop`). |
 | `name` | ✓ | Tên tiếng Việt. |
-| `nameEn` | | Tên tiếng Anh. |
+| `nameEn` | | Tên tiếng Anh, hiển thị khi người dùng chọn tiếng Anh (để trống thì hiển thị tên tiếng Việt). |
 | `latLng` | ✓ | **"vĩ độ, kinh độ"** như Google Maps, ví dụ `"16.75393, 107.189536"`. Cách lấy: nhấp chuột phải vào địa điểm trên Google Maps, bấm dòng số đầu tiên để sao chép. |
 | `summary` | ✓ | 1–2 câu nêu lý do nên đến. |
-| `images` | | Danh sách ảnh `{ src, alt, credit, license, sourceUrl, licenseUrl }`. `src` có dạng `/images/places/<tên file>` (file thật nằm ở `content/images/<tên file>`). `licenseUrl` để trống thì tự điền theo giấy phép. |
-| `links` | | `[{ "label": "...", "url": "https://..." }]`. |
+| `summaryEn` | | Bản tiếng Anh của `summary`. Để trống thì thẻ địa điểm hiển thị mô tả tiếng Việt kèm dòng "Description available in Vietnamese only". |
+| `images` | | Danh sách ảnh `{ src, alt, altEn, credit, license, sourceUrl, licenseUrl }` (`altEn`: mô tả ảnh tiếng Anh, tùy chọn). `src` có dạng `/images/places/<tên file>` (file thật nằm ở `content/images/<tên file>`). `licenseUrl` để trống thì tự điền theo giấy phép. |
+| `links` | | `[{ "label": "...", "labelEn": "...", "url": "https://..." }]` (`labelEn` tùy chọn). |
 | `months` | | Các tháng đang vào mùa hoặc có lễ hội (1–12). Dùng cho "Lịch mùa vụ, lễ hội" ở trang chủ: chọn tháng thì các địa điểm có tháng đó được làm nổi bật trên bản đồ. Chỉ nhập khi biết chắc thời điểm. |
 | `isSample` | ✓ | `true` = dữ liệu minh họa, thẻ sẽ gắn nhãn "Dữ liệu minh họa". Chỉ đặt `false` khi thông tin **đã được cơ quan có thẩm quyền xác minh**. |
 | `mapZoom` | | Mức zoom khi mở địa điểm dạng vùng rộng (6–17), ví dụ vườn quốc gia là `9.5`. |

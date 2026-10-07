@@ -1,10 +1,12 @@
 // Mô hình dữ liệu tuyến trải nghiệm (public/data/routes.json, sinh bởi scripts/build-routes.mjs).
 import type { FeatureCollection, LineString } from 'geojson';
+import { isUntranslated, localized } from '../i18n';
 
 export interface RouteStop {
   /** Id địa điểm. */
   place: string;
   note?: string;
+  noteEn?: string;
 }
 
 export interface RouteLeg {
@@ -24,10 +26,14 @@ export interface LineProps {
 export interface TravelRoute {
   id: string;
   name: string;
+  nameEn?: string;
   theme: string;
   summary: string;
+  summaryEn?: string;
   duration?: string;
+  durationEn?: string;
   audience?: string;
+  audienceEn?: string;
   isSample: boolean;
   stops: RouteStop[];
   legs: RouteLeg[];
@@ -36,6 +42,13 @@ export interface TravelRoute {
   bbox: [number, number, number, number];
   line: FeatureCollection<LineString, LineProps>;
 }
+
+export const routeName = (r: TravelRoute) => localized(r.name, r.nameEn);
+export const routeSummary = (r: TravelRoute) => localized(r.summary, r.summaryEn);
+export const routeSummaryUntranslated = (r: TravelRoute) => isUntranslated(r.summaryEn);
+export const routeDuration = (r: TravelRoute) => (r.duration ? localized(r.duration, r.durationEn) : '');
+export const routeAudience = (r: TravelRoute) => (r.audience ? localized(r.audience, r.audienceEn) : '');
+export const stopNote = (s: RouteStop) => (s.note ? localized(s.note, s.noteEn) : '');
 
 export async function loadRoutes(): Promise<TravelRoute[]> {
   try {

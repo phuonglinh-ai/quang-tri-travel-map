@@ -17,14 +17,16 @@
     "coordinates": [
       105.75,
       16.85
-    ]
+    ],
+    "textEn": "Laos"
   },
   "seaLabel": {
     "text": "Biển Đông",
     "coordinates": [
       107.15,
       17.85
-    ]
+    ],
+    "textEn": "East Sea"
   },
   "cms": {
     "title": "Quản trị nội dung – Khám phá Quảng Trị",

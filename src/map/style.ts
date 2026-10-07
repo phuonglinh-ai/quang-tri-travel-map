@@ -13,17 +13,12 @@ const byZoom = (...stops: (number | ExpressionSpecification)[]): ExpressionSpeci
 
 const isMajor: ExpressionSpecification = ['match', ['get', 'class'], ['motorway', 'trunk'], true, false];
 
-export const ATTRIBUTION = [
-  'Ranh giới hành chính: NXB Tài nguyên, Môi trường và Bản đồ Việt Nam (sapnhap.bando.com.vn), qua <a href="https://github.com/thanglequoc/vietnamese-provinces-database" target="_blank" rel="noopener">vietnamese-provinces-database</a> (MIT)',
-  'Đường, sông, hồ, vị trí địa điểm mẫu: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors (ODbL)',
-].join(' · ');
-
 export function buildStyle(): StyleSpecification {
   return {
     version: 8,
     glyphs: assetUrl('fonts/{fontstack}/{range}.pbf'),
     sources: {
-      land: { ...data('land'), attribution: ATTRIBUTION },
+      land: data('land'),
       neighbors: data('neighbors'),
       province: data('province'),
       wards: { ...data('wards'), promoteId: 'code' },

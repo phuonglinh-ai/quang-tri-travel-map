@@ -1,24 +1,30 @@
 // Nội dung panel. Màn hình hiện tại được suy ra từ trạng thái, theo thứ tự ưu tiên:
 //   thẻ địa điểm > kết quả tìm kiếm > danh sách (lớp / đã lưu / được chia sẻ) > xã/phường > trang chủ.
 // Nút "Quay lại" gỡ lần lượt từng tầng, nên không cần ngăn xếp điều hướng riêng.
-import { PROVINCE } from '../config/province';
-import { GROUPS, LAYERS, LAYER_BY_ID, type LayerDef } from '../config/layers';
-import { THEME_BY_ID } from '../config/routes';
-import { assetPath, matchScore, type IndexedPlace, type PlaceImage } from '../data/places';
-import { googleMapsUrl, routeShapeSvg, type TravelRoute } from '../data/routes';
+import { PROVINCE, fastTravelLabel, provinceFullName, provinceMergedFrom, provinceName } from '../config/province';
+import { GROUPS, LAYERS, LAYER_BY_ID, layerLabel, layerPendingNote, type LayerDef } from '../config/layers';
+import { THEME_BY_ID, themeLabel } from '../config/routes';
+import {
+  assetPath, imageAlt, imageLicense, linkLabel, matchScore, placeAltName, placeName, placeSummary, placeSummaryUntranslated,
+  type IndexedPlace, type PlaceImage,
+} from '../data/places';
+import {
+  googleMapsUrl, routeAudience, routeDuration, routeName, routeShapeSvg, routeSummary, routeSummaryUntranslated, stopNote,
+  type TravelRoute,
+} from '../data/routes';
 import type { WardFeature } from '../map/map';
 import type { Store } from '../state';
-import { t } from '../i18n';
+import { LANGS, getLang, isUntranslated, localized, numberLocale, t, type Lang } from '../i18n';
 import { distanceKm, esc, fold } from '../lib/text';
 import { feedbackUrl } from '../lib/feedback';
 import { formatMonths, MONTHS } from '../lib/months';
 
 export const BASE_LAYERS = [
-  { label: 'Ranh giới xã/phường', ids: ['ward-line'] },
-  { label: 'Tên xã/phường', ids: ['ward-label'] },
-  { label: 'Đường chính', ids: ['road', 'road-casing'] },
-  { label: 'Đường sắt', ids: ['rail'] },
-  { label: 'Sông, hồ', ids: ['water-area', 'river', 'river-label'] },
+  { ids: ['ward-line'] },
+  { ids: ['ward-label'] },
+  { ids: ['road', 'road-casing'] },
+  { ids: ['rail'] },
+  { ids: ['water-area', 'river', 'river-label'] },
 ];
 
 type ListView = { kind: 'layer'; id: string } | { kind: 'saved' } | { kind: 'shared' };
@@ -54,18 +60,21 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
 
   root.innerHTML = `
     <div class="panel-top">
-      <div class="sheet-handle" role="button" aria-label="Kéo để mở rộng"></div>
+      <div class="sheet-handle" role="button"></div>
       <header class="brand">
         ${LOGO_SVG}
-        <div>
-          <p class="brand-name">Khám phá ${esc(PROVINCE.name)}</p>
-          <p class="brand-tag">${esc(t.appTagline)}</p>
+        <div class="brand-text">
+          <p class="brand-name"></p>
+          <p class="brand-tag"></p>
+        </div>
+        <div class="lang-switch" role="group">
+          ${LANGS.map((l) => `<button type="button" data-lang="${l}" lang="${l}">${l.toUpperCase()}</button>`).join('')}
         </div>
       </header>
       <div class="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="search" type="search" autocomplete="off" enterkeyhint="search" placeholder="${esc(t.searchPlaceholder)}" aria-label="${esc(t.searchPlaceholder)}">
-        <button class="search-clear" type="button" aria-label="${esc(t.searchClear)}" hidden>×</button>
+        <input id="search" type="search" autocomplete="off" enterkeyhint="search">
+        <button class="search-clear" type="button" hidden>×</button>
       </div>
     </div>
     <div class="panel-body" id="panel-body"></div>
@@ -73,6 +82,23 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   const body = root.querySelector<HTMLElement>('#panel-body')!;
   const input = root.querySelector<HTMLInputElement>('#search')!;
   const clearBtn = root.querySelector<HTMLButtonElement>('.search-clear')!;
+
+  /** Văn bản của phần đầu panel (không dựng lại theo từng màn hình): gọi lúc khởi tạo và khi đổi ngôn ngữ. */
+  function applyStaticText() {
+    root.querySelector('.sheet-handle')!.setAttribute('aria-label', t.sheetHandle);
+    root.querySelector('.brand-name')!.textContent = t.brandName(provinceName());
+    root.querySelector('.brand-tag')!.textContent = t.appTagline;
+    input.placeholder = t.searchPlaceholder;
+    input.setAttribute('aria-label', t.searchPlaceholder);
+    clearBtn.setAttribute('aria-label', t.searchClear);
+    const sw = root.querySelector<HTMLElement>('.lang-switch')!;
+    sw.setAttribute('aria-label', t.language);
+    sw.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === getLang())));
+  }
+  root.querySelector('.lang-switch')!.addEventListener('click', (e) => {
+    const lang = (e.target as HTMLElement).closest<HTMLElement>('[data-lang]')?.dataset.lang as Lang | undefined;
+    if (lang) store.set({ lang });
+  });
 
   input.addEventListener('input', () => {
     query = input.value;
@@ -136,7 +162,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
         break;
       }
       case 'share-route':
-        actions.share(shareUrl({ route: id! }), routeById.get(id!)!.name);
+        actions.share(shareUrl({ route: id! }), routeName(routeById.get(id!)!));
         break;
       case 'month': {
         const m = id ? Number(id) : null;
@@ -148,11 +174,11 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
         break;
       case 'share-place': {
         const p = byId.get(id!)!;
-        actions.share(shareUrl({ place: p.id }), p.name);
+        actions.share(shareUrl({ place: p.id }), placeName(p));
         break;
       }
       case 'share-saved':
-        actions.share(shareUrl({ saved: s.saved.join(',') }), `${t.saved} – ${PROVINCE.name}`);
+        actions.share(shareUrl({ saved: s.saved.join(',') }), `${t.saved} – ${provinceName()}`);
         break;
       case 'clear-saved':
         if (confirm(t.savedClearConfirm)) store.set({ saved: [] });
@@ -198,7 +224,15 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
 
   // --- Các khối HTML -------------------------------------------------------------
   const iconOf = (p: IndexedPlace) => p.icon ?? LAYER_BY_ID.get(p.layer)!.icon;
-  const wardFullName = (p: IndexedPlace) => (p.wardCode ? wards.get(p.wardCode)?.properties.fullName ?? p.wardName : null);
+  // Tên xã/phường: tiếng Anh dùng tên chính thức trong dữ liệu ranh giới; không có thì dùng tên tiếng Việt.
+  const wardFullName = (p: IndexedPlace) => {
+    const props = p.wardCode ? wards.get(p.wardCode)?.properties : undefined;
+    return props ? localized(props.fullName, props.fullNameEn) : p.wardName;
+  };
+  const wardLabel = (p: IndexedPlace) => {
+    const props = p.wardCode ? wards.get(p.wardCode)?.properties : undefined;
+    return props ? localized(props.name, props.nameEn) : p.wardName;
+  };
   const dot = (layer: LayerDef, icon = layer.icon) => `<span class="dot" style="--c:${layer.color}" aria-hidden="true">${icon}</span>`;
   const backBtn = (label = t.back) => `<button class="back" data-action="back">‹ ${esc(label)}</button>`;
 
@@ -209,7 +243,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     const seasonal = month !== null && p.months.includes(month);
     return `<li><button class="place-item${seasonal ? ' is-season' : ''}" data-action="place" data-id="${p.id}">
       ${img ? `<img class="thumb" src="${assetPath(img.thumb ?? img.src)}" alt="" loading="lazy" width="40" height="40">` : dot(layer, iconOf(p))}
-      <span class="pi-text"><strong>${esc(p.name)}</strong>${(meta = [seasonal ? `● ${t.inSeason}` : '', meta ?? [p.wardName, layer.label].filter(Boolean).join(' · ')].filter(Boolean).join(' · ')) ? `<small>${esc(meta)}</small>` : ''}</span>
+      <span class="pi-text"><strong>${esc(placeName(p))}</strong>${(meta = [seasonal ? `● ${t.inSeason}` : '', meta ?? [wardLabel(p), layerLabel(layer)].filter(Boolean).join(' · ')].filter(Boolean).join(' · ')) ? `<small>${esc(meta)}</small>` : ''}</span>
     </button></li>`;
   };
 
@@ -225,9 +259,9 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
               const layer = LAYER_BY_ID.get(p.layer)!;
               const img = p.images[0];
               return `<button class="feat-card${img ? ' has-photo' : ''}" role="listitem" data-action="place" data-id="${p.id}" style="--c:${layer.color}">
-                ${img ? `<img class="feat-img" src="${assetPath(img.thumb ?? img.src)}" alt="" loading="lazy" title="Ảnh: ${esc(img.credit)} · ${esc(img.license)}">` : ''}
+                ${img ? `<img class="feat-img" src="${assetPath(img.thumb ?? img.src)}" alt="" loading="lazy" title="${esc(t.photo)}: ${esc(img.credit)} · ${esc(imageLicense(img))}">` : ''}
                 <span class="feat-icon" aria-hidden="true">${iconOf(p)}</span>
-                <span class="feat-text"><strong>${esc(p.name)}</strong><small>${esc(p.wardName ?? '')}</small></span>
+                <span class="feat-text"><strong>${esc(placeName(p))}</strong><small>${esc(wardLabel(p) ?? '')}</small></span>
                 ${p.isSample ? `<span class="badge-sample">${t.sample}</span>` : ''}
               </button>`;
             })
@@ -240,21 +274,21 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
         <h2 class="section-title">${t.layers}</h2>
         ${GROUPS.map(
           (g) => `
-          <h3 class="group-title">${esc(g.label)}</h3>
+          <h3 class="group-title">${esc(layerLabel(g))}</h3>
           <ul class="layer-list">
             ${LAYERS.filter((l) => l.group === g.id)
               .map((l) => {
                 const n = counts.get(l.id) ?? 0;
                 const on = s.activeLayers.has(l.id);
                 return `<li class="layer-row${n ? '' : ' is-empty'}">
-                  <label class="switch" title="${n ? 'Bật/tắt lớp' : t.noData}">
-                    <input type="checkbox" data-toggle-layer="${l.id}" ${on ? 'checked' : ''} ${n ? '' : 'disabled'} aria-label="${esc(l.label)}">
+                  <label class="switch" title="${n ? t.layerToggle : t.noData}">
+                    <input type="checkbox" data-toggle-layer="${l.id}" ${on ? 'checked' : ''} ${n ? '' : 'disabled'} aria-label="${esc(layerLabel(l))}">
                     <span></span>
                   </label>
                   ${
                     n
-                      ? `<button class="layer-open" data-action="open-layer" data-id="${l.id}">${dot(l)}<span class="layer-label">${esc(l.label)}</span><span class="count">${n}</span><span class="chev" aria-hidden="true">›</span></button>`
-                      : `<div class="layer-open">${dot(l)}<span class="layer-label">${esc(l.label)}<small>${esc(l.pendingNote ?? t.noData)}</small></span></div>`
+                      ? `<button class="layer-open" data-action="open-layer" data-id="${l.id}">${dot(l)}<span class="layer-label">${esc(layerLabel(l))}</span><span class="count">${n}</span><span class="chev" aria-hidden="true">›</span></button>`
+                      : `<div class="layer-open">${dot(l)}<span class="layer-label">${esc(layerLabel(l))}<small>${esc(layerPendingNote(l) ?? t.noData)}</small></span></div>`
                   }
                 </li>`;
               })
@@ -265,8 +299,8 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       <section>
         <h2 class="section-title">${t.fastTravel}</h2>
         <div class="chips">
-          <button class="chip" data-action="province">${esc(PROVINCE.name)} (toàn tỉnh)</button>
-          ${PROVINCE.fastTravel.map((f) => `<button class="chip" data-action="ward" data-id="${f.wardCode}">${esc(f.label)}</button>`).join('')}
+          <button class="chip" data-action="province">${esc(t.wholeProvince(provinceName()))}</button>
+          ${PROVINCE.fastTravel.map((f) => `<button class="chip" data-action="ward" data-id="${f.wardCode}">${esc(fastTravelLabel(f))}</button>`).join('')}
         </div>
       </section>
       <section>
@@ -277,7 +311,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       </section>
       <details class="basemap">
         <summary>${t.basemap}</summary>
-        ${BASE_LAYERS.map((l, i) => `<label class="toggle"><input type="checkbox" data-basemap="${i}" checked> ${esc(l.label)}</label>`).join('')}
+        ${BASE_LAYERS.map((_, i) => `<label class="toggle"><input type="checkbox" data-basemap="${i}" checked> ${esc(t.baseLayerLabels[i])}</label>`).join('')}
       </details>
       ${aboutHtml()}
     `;
@@ -285,7 +319,14 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
 
   // --- Tuyến trải nghiệm -----------------------------------------------------------
   const stopPlaces = (r: TravelRoute) => r.stops.map((s) => byId.get(s.place)!);
-  const km = (n: number) => t.km(n).replace(/^(\d+),0 km$/, '$1 km');
+  const km = (n: number) => t.km(n).replace(/^(\d+)[.,]0 km$/, '$1 km');
+  /** Thuộc tính lang="vi" cho đoạn đang hiển thị tiếng Việt thay thế khi trang ở tiếng Anh. */
+  const viAttr = (enText?: string | null) => (isUntranslated(enText) ? ' lang="vi"' : '');
+  /** Đoạn văn chưa có bản tiếng Anh: giữ tiếng Việt (gắn lang="vi" cho trình đọc màn hình) kèm ghi chú nhỏ. */
+  const textBlock = (cls: string, text: string, untranslated: boolean) =>
+    untranslated && t.viOnly
+      ? `<p class="${cls}" lang="vi">${esc(text)}</p><p class="small muted vi-only">${esc(t.viOnly)}</p>`
+      : `<p class="${cls}">${esc(text)}</p>`;
 
   function routesHtml() {
     if (!routes.length) return '';
@@ -298,9 +339,9 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
             return `<li><button class="route-card" data-action="route" data-id="${r.id}" style="--c:${theme.color}">
               ${routeShapeSvg(r, stopPlaces(r).map((p) => p.coordinates), theme.color)}
               <span class="rc-body">
-                <small class="rc-theme">${theme.icon} ${esc(theme.label)}</small>
-                <strong>${esc(r.name)}</strong>
-                <span class="rc-meta">${t.routeStops(r.stops.length)} · ${t.routeKm(r.totalKm)}${r.duration ? ` · ${esc(r.duration)}` : ''}</span>
+                <small class="rc-theme">${theme.icon} ${esc(themeLabel(theme))}</small>
+                <strong>${esc(routeName(r))}</strong>
+                <span class="rc-meta">${t.routeStops(r.stops.length)} · ${t.routeKm(r.totalKm)}${routeDuration(r) ? ` · ${esc(routeDuration(r))}` : ''}</span>
               </span>
               <span class="chev" aria-hidden="true">›</span>
             </button></li>`;
@@ -315,14 +356,14 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     const stops = stopPlaces(r);
     return `${backBtn()}
       <article class="route" style="--c:${theme.color}">
-        <p class="route-theme"><span class="dot" aria-hidden="true">${theme.icon}</span>${esc(theme.label)}</p>
-        <h2 class="route-name">${esc(r.name)}</h2>
-        <p class="summary">${esc(r.summary)}</p>
+        <p class="route-theme"><span class="dot" aria-hidden="true">${theme.icon}</span>${esc(themeLabel(theme))}</p>
+        <h2 class="route-name">${esc(routeName(r))}</h2>
+        ${textBlock('summary', routeSummary(r), routeSummaryUntranslated(r))}
         <ul class="route-meta">
-          <li><strong>${r.stops.length}</strong> điểm dừng</li>
-          <li><strong>${t.routeKm(r.totalKm)}</strong> đường bộ</li>
-          ${r.duration ? `<li>${esc(r.duration)}</li>` : ''}
-          ${r.audience ? `<li>${esc(r.audience)}</li>` : ''}
+          <li><strong>${t.routeStops(r.stops.length)}</strong></li>
+          <li><strong>${t.routeByRoad(r.totalKm)}</strong></li>
+          ${routeDuration(r) ? `<li>${esc(routeDuration(r))}</li>` : ''}
+          ${routeAudience(r) ? `<li>${esc(routeAudience(r))}</li>` : ''}
         </ul>
         <div class="actions">
           <button class="btn btn-primary" data-action="route-start" data-id="${r.id}">▶ ${t.routeStart}</button>
@@ -334,19 +375,19 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
             .map((p, i) => {
               const layer = LAYER_BY_ID.get(p.layer)!;
               const img = p.images[0];
-              const note = r.stops[i].note;
+              const note = stopNote(r.stops[i]);
               const leg = r.legs[i];
               return `<li class="rs-item">
                 <button class="rs-btn" data-action="place" data-id="${p.id}">
                   <span class="rs-num" aria-hidden="true">${i + 1}</span>
                   <span class="rs-body">
-                    <strong>${esc(p.name)}</strong>
-                    <small>${esc([p.wardName, layer.label].filter(Boolean).join(' · '))}</small>
-                    ${note ? `<em>${esc(note)}</em>` : ''}
+                    <strong>${esc(placeName(p))}</strong>
+                    <small>${esc([wardLabel(p), layerLabel(layer)].filter(Boolean).join(' · '))}</small>
+                    ${note ? `<em${viAttr(r.stops[i].noteEn)}>${esc(note)}</em>` : ''}
                   </span>
                   ${img ? `<img class="thumb" src="${assetPath(img.thumb ?? img.src)}" alt="" loading="lazy" width="48" height="48">` : ''}
                 </button>
-                ${leg ? `<p class="rs-leg">${leg.approx ? '≈ ' : ''}${km(leg.km)}${leg.approx ? ` · ${t.routeLegApprox}` : ' đường bộ'}</p>` : ''}
+                ${leg ? `<p class="rs-leg">${t.legByRoad(km(leg.km), leg.approx)}</p>` : ''}
               </li>`;
             })
             .join('')}
@@ -362,14 +403,14 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     const i = r ? r.stops.findIndex((s) => s.place === p.id) : -1;
     if (!r || i < 0) return '';
     const theme = THEME_BY_ID.get(r.theme)!;
-    const note = r.stops[i].note;
+    const note = stopNote(r.stops[i]);
     const step = (delta: number, label: string, glyph: string) =>
       `<button class="rstep-btn" data-action="route-step" data-delta="${delta}" aria-label="${label}" ${r.stops[i + delta] ? '' : 'disabled'}>${glyph}</button>`;
     return `<div class="route-step" style="--c:${theme.color}">
       <span class="rs-num" aria-hidden="true">${i + 1}</span>
-      <span class="rstep-text"><strong>${t.routeStepOf(i + 1, r.stops.length)}</strong><small>${esc(r.name)}</small></span>
+      <span class="rstep-text"><strong>${t.routeStepOf(i + 1, r.stops.length)}</strong><small>${esc(routeName(r))}</small></span>
       ${step(-1, t.routePrev, '‹')}${step(1, t.routeNext, '›')}
-    </div>${note ? `<p class="route-stop-note">${esc(note)}</p>` : ''}`;
+    </div>${note ? `<p class="route-stop-note"${viAttr(r.stops[i].noteEn)}>${esc(note)}</p>` : ''}`;
   }
 
   function seasonHtml() {
@@ -380,7 +421,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       <div class="months" role="group" aria-label="${esc(t.season)}">
         ${MONTHS.map((m) => {
           const n = monthCounts.get(m) ?? 0;
-          return `<button class="month-chip${s.month === m ? ' is-on' : ''}${n ? '' : ' is-empty'}" data-action="month" data-id="${m}" aria-pressed="${s.month === m}" aria-label="${esc(t.seasonMonthLabel(m, n))}">${m}${n ? `<small>${n}</small>` : ''}</button>`;
+          return `<button class="month-chip${s.month === m ? ' is-on' : ''}${n ? '' : ' is-empty'}" data-action="month" data-id="${m}" aria-pressed="${s.month === m}" aria-label="${esc(t.seasonMonthLabel(m, n))}">${t.monthShort(m)}${n ? `<small>${n}</small>` : ''}</button>`;
         }).join('')}
       </div>
       ${
@@ -394,15 +435,12 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     </section>`;
   }
 
-  const joinVi = (items: readonly string[]) =>
-    items.length > 1 ? `${items.slice(0, -1).join(', ')} và ${items[items.length - 1]}` : items[0] ?? '';
-
   const aboutHtml = () => `
     <section class="about">
       <h2 class="section-title">${t.about}</h2>
-      <p>${esc(PROVINCE.fullName)}${PROVINCE.mergedFrom.length > 1 ? ` được hình thành từ việc hợp nhất ${esc(joinVi(PROVINCE.mergedFrom))},` : ''} gồm ${wards.size} xã, phường, đặc khu. Bản đồ giới thiệu các điểm đến du lịch, sản phẩm và vùng nông sản đặc trưng, địa chỉ giáo dục truyền thống và cơ sở giáo dục trên địa bàn tỉnh.</p>
+      <p>${esc(t.aboutIntro(provinceFullName(), provinceMergedFrom(), wards.size))}</p>
       <p class="sample-note">⚠ ${t.sampleNote}</p>
-      <p class="small muted">${t.dataSources}: ranh giới hành chính của NXB Tài nguyên, Môi trường và Bản đồ Việt Nam (qua vietnamese-provinces-database, MIT); đường, sông, hồ và vị trí địa điểm mẫu © OpenStreetMap contributors (ODbL); đất liền ngoài lãnh thổ: Natural Earth.</p>
+      <p class="small muted">${t.dataSources}: ${t.aboutSources}</p>
       ${imageCreditsHtml()}
       <p class="small"><a href="${esc(feedbackUrl())}" target="_blank" rel="noopener">⚑ ${t.feedback} ↗</a></p>
       <p class="small muted">${t.feedbackNote}</p>
@@ -415,7 +453,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     return `<details class="credits"><summary>${t.imageCredits} (${withImg.length})</summary><ul>${withImg
       .map((p) => {
         const i = p.images[0];
-        return `<li>${esc(p.name)}: ${creditLink(i)}, ${licenseLink(i)}</li>`;
+        return `<li>${esc(placeName(p))}: ${creditLink(i)}, ${licenseLink(i)}</li>`;
       })
       .join('')}</ul><p class="small muted">${t.imageCreditsNote}</p></details>`;
   }
@@ -427,19 +465,19 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     // Nhóm theo xã/phường, xếp theo tên xã.
     const groups = new Map<string, IndexedPlace[]>();
     for (const p of items) {
-      const k = p.wardName ?? '—';
+      const k = wardLabel(p) ?? '—';
       groups.set(k, [...(groups.get(k) ?? []), p]);
     }
     return [...groups]
-      .sort(([a], [b]) => a.localeCompare(b, 'vi'))
-      .map(([ward, ps]) => `<h3 class="group-title">${esc(ward)}</h3><ul class="items">${ps.map((p) => placeItem(p, p.nameEn ?? '')).join('')}</ul>`)
+      .sort(([a], [b]) => a.localeCompare(b, getLang()))
+      .map(([ward, ps]) => `<h3 class="group-title">${esc(ward)}</h3><ul class="items">${ps.map((p) => placeItem(p, placeAltName(p))).join('')}</ul>`)
       .join('');
   }
 
   function layerHtml(id: string) {
     const l = LAYER_BY_ID.get(id)!;
     return `${backBtn()}
-      <header class="view-head">${dot(l)}<div><h2>${esc(l.label)}</h2><p class="muted">${t.places(counts.get(id) ?? 0)} · <span class="badge-sample">${t.sample}</span></p></div></header>
+      <header class="view-head">${dot(l)}<div><h2>${esc(layerLabel(l))}</h2><p class="muted">${t.places(counts.get(id) ?? 0)} · <span class="badge-sample">${t.sample}</span></p></div></header>
       <input id="layer-filter" class="filter" type="search" placeholder="${esc(t.filterInLayer)}" value="${esc(layerFilter)}" aria-label="${esc(t.filterInLayer)}">
       <div id="layer-list">${layerListHtml(id)}</div>`;
   }
@@ -447,17 +485,17 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   function searchHtml() {
     const q = fold(query);
     const wardHits = [...wards.values()]
-      .filter((w) => fold(w.properties.fullName).includes(q))
+      .filter((w) => fold(`${w.properties.fullName} ${w.properties.fullNameEn ?? ''}`).includes(q))
       .slice(0, 6);
     const hits = places
       .map((p) => ({ p, s: matchScore(p, q) }))
       .filter((x) => x.s >= 0)
-      .sort((a, b) => b.s - a.s || a.p.name.localeCompare(b.p.name, 'vi'))
+      .sort((a, b) => b.s - a.s || placeName(a.p).localeCompare(placeName(b.p), getLang()))
       .slice(0, 40);
     if (!wardHits.length && !hits.length) return `<p class="muted">${t.noResults}</p>`;
     return `
       ${wardHits.length ? `<h3 class="group-title">${t.wardsResult}</h3><ul class="items">${wardHits
-        .map((w) => `<li><button class="place-item" data-action="ward" data-id="${w.properties.code}"><span class="dot" style="--c:var(--brand)" aria-hidden="true">📍</span><span class="pi-text"><strong>${esc(w.properties.fullName)}</strong><small>${t.places(wardCounts.get(w.properties.code) ?? 0)}</small></span></button></li>`)
+        .map((w) => `<li><button class="place-item" data-action="ward" data-id="${w.properties.code}"><span class="dot" style="--c:var(--brand)" aria-hidden="true">📍</span><span class="pi-text"><strong>${esc(localized(w.properties.fullName, w.properties.fullNameEn))}</strong><small>${t.places(wardCounts.get(w.properties.code) ?? 0)}</small></span></button></li>`)
         .join('')}</ul>` : ''}
       ${hits.length ? `<h3 class="group-title">${t.results}</h3><ul class="items">${hits.map(({ p }) => placeItem(p)).join('')}</ul>` : ''}`;
   }
@@ -485,21 +523,21 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
                 ${p.isSample ? `<span class="badge-sample">${t.sample}</span>` : ''}
               </div>`
         }
-        <p class="kicker">${esc(group.label)} · ${esc(layer.label)}</p>
-        <h2 class="place-name">${esc(p.name)}</h2>
-        ${p.nameEn ? `<p class="name-en" lang="en">${esc(p.nameEn)}</p>` : ''}
+        <p class="kicker">${esc(layerLabel(group))} · ${esc(layerLabel(layer))}</p>
+        <h2 class="place-name">${esc(placeName(p))}</h2>
+        ${placeAltName(p) ? `<p class="name-en" lang="${getLang() === 'en' ? 'vi' : 'en'}">${esc(placeAltName(p))}</p>` : ''}
         ${wardFullName(p) ? `<p class="loc"><button class="link" data-action="ward" data-id="${p.wardCode}">📍 ${esc(wardFullName(p)!)}</button></p>` : ''}
-        <p class="summary">${esc(p.summary)}</p>
+        ${textBlock('summary', placeSummary(p), placeSummaryUntranslated(p))}
         ${p.months.length ? `<p class="season-line">📅 ${t.seasonOfPlace}: <strong>${formatMonths(p.months)}</strong>${s.month !== null && p.months.includes(s.month) ? ` <span class="in-season">● ${t.inSeason}</span>` : ''}</p>` : ''}
         <div class="actions">
           <button class="btn ${saved ? 'is-on' : ''}" data-action="save" data-id="${p.id}" aria-pressed="${saved}">${saved ? '♥ ' + t.unsave : '♡ ' + t.save}</button>
           <button class="btn" data-action="share-place" data-id="${p.id}">↗ ${t.share}</button>
           <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}" target="_blank" rel="noopener">➤ ${t.directions}</a>
         </div>
-        ${p.links.length ? `<ul class="links">${p.links.map((l) => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a></li>`).join('')}</ul>` : ''}
+        ${p.links.length ? `<ul class="links">${p.links.map((l) => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(linkLabel(l))} ↗</a></li>`).join('')}</ul>` : ''}
         ${p.isSample ? `<p class="sample-note">⚠ ${t.sampleNote}${osmUrl ? ` <a href="${osmUrl}" target="_blank" rel="noopener">${t.viewOnOsm} ↗</a>` : ''}</p>` : ''}
-        <p class="small muted"><a href="${esc(feedbackUrl(p))}" target="_blank" rel="noopener">⚑ ${t.feedbackPlace} ↗</a></p>
-        ${near.length ? `<h3 class="group-title">${t.nearby}</h3><ul class="items">${near.map(({ x, d }) => placeItem(x, `${t.km(d)} · ${LAYER_BY_ID.get(x.layer)!.label}`)).join('')}</ul>` : ''}
+        <p class="small muted"><a href="${esc(feedbackUrl({ id: p.id, name: placeName(p) }))}" target="_blank" rel="noopener">⚑ ${t.feedbackPlace} ↗</a></p>
+        ${near.length ? `<h3 class="group-title">${t.nearby}</h3><ul class="items">${near.map(({ x, d }) => placeItem(x, `${t.km(d)} · ${layerLabel(LAYER_BY_ID.get(x.layer)!)}`)).join('')}</ul>` : ''}
       </article>`;
   }
 
@@ -509,12 +547,12 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     const inWard = places.filter((p) => p.wardCode === code && s.activeLayers.has(p.layer));
     return `${backBtn(t.backToProvince)}
       <header class="view-head"><span class="dot" style="--c:var(--brand)" aria-hidden="true">📍</span><div>
-        <h2>${esc(w.properties.fullName)}</h2>
-        <p class="muted">${new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 2 }).format(w.properties.areaKm2)} km² · ${t.places(inWard.length)}</p>
+        <h2>${esc(localized(w.properties.fullName, w.properties.fullNameEn))}</h2>
+        <p class="muted">${new Intl.NumberFormat(numberLocale(), { maximumFractionDigits: 2 }).format(w.properties.areaKm2)} km² · ${t.places(inWard.length)}</p>
       </div></header>
       <button class="btn" data-action="recenter">⌖ ${t.recenter}</button>
       <h3 class="group-title">${t.inWard}</h3>
-      ${inWard.length ? `<ul class="items">${inWard.map((p) => placeItem(p, LAYER_BY_ID.get(p.layer)!.label)).join('')}</ul>` : `<p class="muted">${t.wardNoPlaces}</p>`}`;
+      ${inWard.length ? `<ul class="items">${inWard.map((p) => placeItem(p, layerLabel(LAYER_BY_ID.get(p.layer)!))).join('')}</ul>` : `<p class="muted">${t.wardNoPlaces}</p>`}`;
   }
 
   function savedHtml(shared: boolean) {
@@ -561,12 +599,14 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   });
 
   store.subscribe((_, changed) => {
-    if (changed.has('selectedPlace') || changed.has('selectedWard') || changed.has('saved') || changed.has('activeLayers') || changed.has('sharedList') || changed.has('month') || changed.has('monthOnly') || changed.has('route')) {
+    if (changed.has('selectedPlace') || changed.has('selectedWard') || changed.has('saved') || changed.has('activeLayers') || changed.has('sharedList') || changed.has('month') || changed.has('monthOnly') || changed.has('route') || changed.has('lang')) {
       if (changed.has('selectedWard') && store.get().selectedWard) list = null;
+      if (changed.has('lang')) applyStaticText();
       render();
     }
   });
 
+  applyStaticText();
   render();
   return { back, render, isHome: () => currentKey === 'home' };
 }
@@ -575,12 +615,12 @@ const creditLink = (i: PlaceImage) =>
   i.sourceUrl ? `<a href="${esc(i.sourceUrl)}" target="_blank" rel="noopener">${esc(i.credit)}</a>` : esc(i.credit);
 
 const licenseLink = (i: PlaceImage) =>
-  i.licenseUrl ? `<a href="${esc(i.licenseUrl)}" target="_blank" rel="noopener license">${esc(i.license)}</a>` : esc(i.license);
+  i.licenseUrl ? `<a href="${esc(i.licenseUrl)}" target="_blank" rel="noopener license">${esc(imageLicense(i))}</a>` : esc(imageLicense(i));
 
 // Ảnh đầu thẻ, kèm ghi công tác giả + giấy phép ngay trên ảnh (yêu cầu của CC BY / CC BY-SA).
 function photoHero(i: PlaceImage, isSample: boolean) {
   return `<figure class="place-hero has-photo">
-    <img src="${assetPath(i.src)}" alt="${esc(i.alt)}" loading="lazy">
+    <img src="${assetPath(i.src)}" alt="${esc(imageAlt(i))}" loading="lazy">
     ${isSample ? `<span class="badge-sample">${t.sample}</span>` : ''}
     <figcaption>${t.photo}: ${creditLink(i)} · ${licenseLink(i)}</figcaption>
   </figure>`;
@@ -589,6 +629,7 @@ function photoHero(i: PlaceImage, isSample: boolean) {
 function shareUrl(params: Record<string, string>) {
   const url = new URL(import.meta.env.BASE_URL, location.origin);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+  if (getLang() === 'en') url.searchParams.set('lang', 'en');
   return url.toString().replace(/%2C/g, ',');
 }
 

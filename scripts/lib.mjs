@@ -127,6 +127,6 @@ export const LICENSES = [
   { name: 'CC BY-SA 2.0', url: 'https://creativecommons.org/licenses/by-sa/2.0' },
   { name: 'CC0', url: 'https://creativecommons.org/publicdomain/zero/1.0' },
   { name: 'Public domain', url: null },
-  { name: 'Ảnh tự chụp, tác giả đồng ý cho sử dụng', url: null, ownSource: true },
-  { name: 'Do cơ quan cung cấp, có văn bản đồng ý', url: null, ownSource: true },
+  { name: 'Ảnh tự chụp, tác giả đồng ý cho sử dụng', nameEn: 'Own photo, used with the author’s permission', url: null, ownSource: true },
+  { name: 'Do cơ quan cung cấp, có văn bản đồng ý', nameEn: 'Provided by the agency, with written consent', url: null, ownSource: true },
 ];

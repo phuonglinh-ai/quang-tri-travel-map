@@ -58,6 +58,14 @@ a { color: var(--brand); }
 .logo { width: 40px; height: 40px; flex: none; }
 .brand-name { margin: 0; font-weight: 700; font-size: 1.1rem; color: var(--brand-ink); letter-spacing: -0.01em; }
 .brand-tag { margin: 1px 0 0; font-size: 0.78rem; color: var(--muted); }
+.brand-text { flex: 1; min-width: 0; }
+
+/* --- Chuyển ngôn ngữ VI | EN --------------------------------------------------------- */
+.lang-switch { flex: none; display: inline-flex; border: 1px solid var(--line); border-radius: 999px; background: var(--sand); padding: 2px; }
+.lang-switch button { min-width: 40px; min-height: 38px; padding: 0 8px; border: 0; border-radius: 999px; background: none; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); }
+.lang-switch button[aria-pressed='true'] { background: var(--brand); color: #fff; }
+.lang-switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.vi-only { margin-top: -6px; font-style: italic; }
 
 .search { position: relative; }
 .search svg { position: absolute; left: 12px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; }

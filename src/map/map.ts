@@ -1,13 +1,14 @@
 // Khởi tạo MapLibre và điều hướng hai cấp: Tỉnh → Xã/phường. Bản đồ chỉ nhận lệnh (select, fly)
 // và phát sự kiện (bấm xã, bấm địa điểm); trạng thái nằm ở store.
 import * as maplibregl from 'maplibre-gl';
-import type { LngLatBoundsLike, MapGeoJSONFeature, PaddingOptions } from 'maplibre-gl';
+import type { ExpressionSpecification, LngLatBoundsLike, MapGeoJSONFeature, PaddingOptions } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 tự tìm worker bằng đường dẫn động mà Vite không phân tích được, nên phải để Vite
 // đóng gói worker (kèm module dùng chung) rồi chỉ định URL một cách tường minh.
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import type { Feature, FeatureCollection, MultiPolygon, Polygon, Point } from 'geojson';
 import { PROVINCE } from '../config/province';
+import { t, type Lang } from '../i18n';
 import { buildStyle } from './style';
 import { addPlacesLayer, PLACE_LAYERS, setSelectedPlace, zoomIntoCluster } from './places-layer';
 import { addRouteLayers, ROUTE_LAYERS, setRoute, setRouteActive, type RouteView } from './route-layer';
@@ -19,6 +20,9 @@ export interface WardProps {
   code: string;
   name: string;
   fullName: string;
+  /** Tên tiếng Anh chính thức (dữ liệu ranh giới). */
+  nameEn?: string;
+  fullNameEn?: string;
   areaKm2: number;
 }
 export type WardFeature = Feature<Polygon | MultiPolygon, WardProps>;
@@ -61,6 +65,8 @@ export interface TravelMap {
   showWard(code: string | null, fit?: boolean): void;
   showPlace(id: string | null, coordinates?: [number, number], zoom?: number): void;
   fitProvince(): void;
+  /** Đổi ngôn ngữ nhãn trên bản đồ (nhãn biển, nước láng giềng, ghi nguồn). Tên xã, đường giữ tiếng Việt. */
+  setLanguage(lang: Lang): void;
   /** Hiện tuyến trải nghiệm (hoặc xóa khi null). */
   showRoute(view: RouteView | null): void;
   /** Đổi điểm dừng đang xem của tuyến. */
@@ -87,7 +93,7 @@ export async function createMap(container: HTMLElement, opts: MapOptions): Promi
     maxBounds: MAX_BOUNDS,
     minZoom: 6,
     maxZoom: 17,
-    attributionControl: { compact: true },
+    attributionControl: false,
     dragRotate: false,
     pitchWithRotate: false,
   });
@@ -95,7 +101,18 @@ export async function createMap(container: HTMLElement, opts: MapOptions): Promi
   // Ảnh nền biển số đường vẽ bằng canvas, tạo khi style cần tới lần đầu.
   map.setMissingStyleImageResolver((id) => void addShieldImage(map, id));
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-  map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
+  // Ghi nguồn tự dựng để đổi được ngôn ngữ; thước tỷ lệ gắn lại sau để giữ nguyên thứ tự trên màn hình.
+  let attribution: maplibregl.AttributionControl | null = null;
+  let scale: maplibregl.ScaleControl | null = null;
+  const mountBottomControls = () => {
+    if (attribution) map.removeControl(attribution);
+    if (scale) map.removeControl(scale);
+    attribution = new maplibregl.AttributionControl({ compact: true, customAttribution: t.attributionHtml });
+    scale = new maplibregl.ScaleControl({ unit: 'metric' });
+    map.addControl(attribution, 'bottom-right');
+    map.addControl(scale, 'bottom-right');
+  };
+  mountBottomControls();
 
   let selectedWard: string | null = null;
   let hovered: string | null = null;
@@ -175,6 +192,16 @@ export async function createMap(container: HTMLElement, opts: MapOptions): Promi
     }
   });
 
+  // Nhãn biển và nước láng giềng lấy từ cấu hình tỉnh; các nhãn còn lại (tên tỉnh lân cận) giữ nguyên.
+  const regionText = (lang: Lang): ExpressionSpecification =>
+    lang === 'en'
+      ? ['match', ['get', 'kind'], 'country', PROVINCE.neighborCountryLabel.textEn, 'sea', PROVINCE.seaLabel.textEn, ['get', 'text']]
+      : ['get', 'text'];
+  const setLanguage = (lang: Lang) => {
+    mountBottomControls();
+    map.setLayoutProperty('region-label', 'text-field', regionText(lang));
+  };
+
   await new Promise<void>((resolve) => map.once('load', () => resolve()));
   addPlacesLayer(map);
   addRouteLayers(map);
@@ -187,6 +214,7 @@ export async function createMap(container: HTMLElement, opts: MapOptions): Promi
     showWard,
     showPlace,
     fitProvince,
+    setLanguage,
     showRoute: (view) => setRoute(map, view),
     setRouteActive: (id) => setRouteActive(map, id),
     fitRoute,

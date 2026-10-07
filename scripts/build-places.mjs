@@ -58,8 +58,10 @@ const out = readPlaces().map(({ id, data: p }) => {
       src: `images/places/${base}.jpg`,
       thumb: `images/places/${base}-sm.jpg`,
       alt: img.alt,
+      ...(img.altEn?.trim() && { altEn: img.altEn.trim() }),
       credit: img.credit,
       license: img.license,
+      ...(license?.nameEn && { licenseEn: license.nameEn }),
       licenseUrl: img.licenseUrl || license?.url || null,
       sourceUrl,
     };
@@ -94,12 +96,13 @@ const out = readPlaces().map(({ id, data: p }) => {
   return {
     id,
     ...rest,
-    nameEn: p.nameEn || null,
+    nameEn: p.nameEn?.trim() || null,
+    summaryEn: p.summaryEn?.trim() || undefined,
     coordinates,
     wardCode: ward?.properties.code ?? null,
     wardName: ward?.properties.name ?? null,
     images,
-    links: p.links ?? [],
+    links: (p.links ?? []).map((l) => ({ label: l.label, ...(l.labelEn?.trim() && { labelEn: l.labelEn.trim() }), url: l.url })),
     months: p.months ?? [],
     featured: featuredRank.has(id),
     extra: p.extra ?? {},
@@ -146,3 +149,4 @@ for (const p of out) counts[p.layer] = (counts[p.layer] ?? 0) + 1;
 const byLayer = Object.entries(counts).map(([k, n]) => `${k} ${n}`);
 console.log(`✓ places.json  ${kb(file)}  ${out.length} địa điểm (${out.filter((p) => p.isSample).length} mẫu): ${byLayer.join(', ')}`);
 console.log(`✓ ảnh  ${imageJobs.size} ảnh (tạo mới ${made})`);
+console.log(`✓ tiếng Anh  tên ${out.filter((p) => p.nameEn).length}/${out.length}, mô tả ${out.filter((p) => p.summaryEn).length}/${out.length} (chưa nhập thì hiển thị tiếng Việt)`);

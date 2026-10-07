@@ -1,8 +1,11 @@
 // Trạng thái ứng dụng, luồng một chiều: thao tác → store.set() → các thành phần đăng ký cập nhật.
 import { PROVINCE } from './config/province';
 import { readJson, writeJson } from './lib/storage';
+import { parseLang, type Lang } from './i18n';
 
 export interface AppState {
+  /** Ngôn ngữ giao diện và nội dung. */
+  lang: Lang;
   /** Lớp địa điểm đang bật. */
   activeLayers: Set<string>;
   selectedPlace: string | null;
@@ -23,6 +26,12 @@ type Key = keyof AppState;
 type Listener = (state: AppState, changed: Set<Key>) => void;
 
 const SAVED_KEY = `travel-map:${PROVINCE.code}:saved`;
+const LANG_KEY = `travel-map:${PROVINCE.code}:lang`;
+
+/** Ngôn ngữ ban đầu: ?lang= trên URL, rồi lựa chọn đã lưu trên thiết bị, mặc định tiếng Việt (không tự đoán theo trình duyệt). */
+export function initialLang(urlValue: string | null): Lang {
+  return parseLang(urlValue) ?? parseLang(readJson<string | null>(LANG_KEY, null)) ?? 'vi';
+}
 
 export function createStore(initial: Omit<AppState, 'saved'>) {
   const loaded = readJson<unknown>(SAVED_KEY, []);
@@ -38,6 +47,7 @@ export function createStore(initial: Omit<AppState, 'saved'>) {
       }
     }
     if (changed.has('saved')) writeJson(SAVED_KEY, state.saved);
+    if (changed.has('lang')) writeJson(LANG_KEY, state.lang);
     if (changed.size) listeners.forEach((l) => l(state, changed));
   }
 

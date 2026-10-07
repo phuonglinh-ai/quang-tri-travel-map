@@ -17,6 +17,9 @@ const graph = buildGraph(readJson(path.join(OUT, 'roads.geojson')).features);
 /** Quãng đường thực tế dài hơn đường chim bay quá mức này thường là do mạng đường thiếu hoặc điểm dừng sai thứ tự. */
 const DETOUR_WARN = 2.5;
 
+/** Trường văn bản tùy chọn: bỏ khỏi đầu ra nếu trống. */
+const opt = (key, value) => (value?.trim() ? { [key]: value.trim() } : {});
+
 const errors = [];
 const warnings = [];
 const files = fs.existsSync(ROUTES_DIR) ? fs.readdirSync(ROUTES_DIR).filter((f) => f.endsWith('.json')).sort() : [];
@@ -57,12 +60,16 @@ const routes = files.map((file) => {
   return {
     id,
     name: r.name.trim(),
+    ...opt('nameEn', r.nameEn),
     theme: r.theme,
     summary: r.summary.trim(),
-    ...(r.duration?.trim() && { duration: r.duration.trim() }),
-    ...(r.audience?.trim() && { audience: r.audience.trim() }),
+    ...opt('summaryEn', r.summaryEn),
+    ...opt('duration', r.duration),
+    ...opt('durationEn', r.durationEn),
+    ...opt('audience', r.audience),
+    ...opt('audienceEn', r.audienceEn),
     isSample: r.isSample,
-    stops: stops.map((s) => ({ place: s.place, ...(s.note?.trim() && { note: s.note.trim() }) })),
+    stops: stops.map((s) => ({ place: s.place, ...opt('note', s.note), ...opt('noteEn', s.noteEn) })),
     legs: legs.map((l) => ({ km: Math.round(l.km * 10) / 10, approx: l.approx })),
     totalKm: Math.round(legs.reduce((sum, l) => sum + l.km, 0) * 10) / 10,
     bbox: [round(Math.min(...xs)), round(Math.min(...ys)), round(Math.max(...xs)), round(Math.max(...ys))],
@@ -80,4 +87,5 @@ const out = routes.filter(Boolean).sort((a, b) => themeIndex.get(a.theme) - them
 const file = path.join(OUT, 'routes.json');
 writeJson(file, out);
 const detail = out.map((r) => `${r.id} (${r.stops.length} điểm, ${r.totalKm} km)`).join('; ');
+console.log(`✓ tiếng Anh  tên tuyến ${out.filter((r) => r.nameEn).length}/${out.length}, mô tả ${out.filter((r) => r.summaryEn).length}/${out.length}`);
 console.log(`✓ routes.json  ${kb(file)}  ${out.length} tuyến (${out.filter((r) => r.isSample).length} mẫu)${detail ? `: ${detail}` : ''}`);

@@ -21,13 +21,14 @@ const placeFields = [
     options: layers.map((l) => ({ label: `${l.icon} ${groupLabel.get(l.group)} – ${l.label}`, value: l.id })),
   },
   { name: 'name', label: 'Tên', widget: 'string' },
-  { name: 'nameEn', label: 'Tên tiếng Anh', widget: 'string', ...optional },
+  { name: 'nameEn', label: 'Tên tiếng Anh', widget: 'string', ...optional, hint: 'Hiển thị khi người dùng chọn tiếng Anh. Để trống thì hiển thị tên tiếng Việt.' },
   {
     name: 'latLng', label: 'Tọa độ (vĩ độ, kinh độ)', widget: 'string',
     hint: 'Cách lấy: trên Google Maps, nhấp chuột phải vào địa điểm, bấm vào dòng số đầu tiên để sao chép, rồi dán vào đây. Ví dụ: `16.75393, 107.189536`. Xã/phường được tự tính theo tọa độ.',
     pattern: [LATLNG, 'Cần dạng "vĩ độ, kinh độ", ví dụ 16.75393, 107.189536'],
   },
   { name: 'summary', label: 'Mô tả ngắn', widget: 'text', hint: '1–2 câu: vì sao nên đến. Không ghi giá vé, giờ mở cửa, số điện thoại khi chưa được xác minh.' },
+  { name: 'summaryEn', label: 'Mô tả ngắn (tiếng Anh)', widget: 'text', ...optional, hint: 'Bản dịch của mô tả trên, hiển thị khi người dùng chọn tiếng Anh. Để trống thì hiển thị mô tả tiếng Việt kèm ghi chú "Vietnamese only".' },
   {
     name: 'images', label: 'Ảnh', label_singular: 'ảnh', widget: 'list', ...optional,
     collapsed: 'auto', summary: '{{fields.credit}} · {{fields.license}}', thumbnail: 'src',
@@ -35,6 +36,7 @@ const placeFields = [
     fields: [
       { name: 'src', label: 'File ảnh', widget: 'image', choose_url: false },
       { name: 'alt', label: 'Mô tả nội dung ảnh', widget: 'string', hint: 'Cho người dùng trình đọc màn hình, ví dụ "Cổng chính Thành cổ Quảng Trị".' },
+      { name: 'altEn', label: 'Mô tả nội dung ảnh (tiếng Anh)', widget: 'string', ...optional, hint: 'Để trống thì dùng mô tả tiếng Việt.' },
       { name: 'credit', label: 'Tác giả', widget: 'string', hint: 'Tên người chụp hoặc đơn vị cung cấp. Bắt buộc ghi theo giấy phép.' },
       { name: 'license', label: 'Giấy phép', widget: 'select', options: LICENSES.map((l) => l.name), default: LICENSES.find((l) => l.ownSource).name },
       {
@@ -50,6 +52,7 @@ const placeFields = [
     collapsed: 'auto', summary: '{{fields.label}}',
     fields: [
       { name: 'label', label: 'Tên hiển thị', widget: 'string' },
+      { name: 'labelEn', label: 'Tên hiển thị (tiếng Anh)', widget: 'string', ...optional },
       { name: 'url', label: 'Địa chỉ', widget: 'string', type: 'url', pattern: [HTTPS, 'Liên kết phải bắt đầu bằng https://'] },
     ],
   },
@@ -165,13 +168,17 @@ const config = {
       preview_path: '/?route={{slug}}',
       fields: [
         { name: 'name', label: 'Tên tuyến', widget: 'string' },
+        { name: 'nameEn', label: 'Tên tuyến (tiếng Anh)', widget: 'string', ...optional, hint: 'Để trống thì hiển thị tên tiếng Việt.' },
         {
           name: 'theme', label: 'Chủ đề', widget: 'select',
           options: themes.map((t) => ({ label: `${t.icon} ${t.label}`, value: t.id })),
         },
         { name: 'summary', label: 'Mô tả ngắn', widget: 'text', hint: '1–2 câu: tuyến đi qua đâu và vì sao nên đi. Không ghi giá vé, giờ mở cửa khi chưa được xác minh.' },
+        { name: 'summaryEn', label: 'Mô tả ngắn (tiếng Anh)', widget: 'text', ...optional, hint: 'Để trống thì hiển thị mô tả tiếng Việt kèm ghi chú "Vietnamese only".' },
         { name: 'duration', label: 'Thời lượng gợi ý', widget: 'string', ...optional, hint: 'Ví dụ "1 ngày". Chỉ nhập khi đã tính toán thực tế; hệ thống không tự ước tính thời gian.' },
+        { name: 'durationEn', label: 'Thời lượng gợi ý (tiếng Anh)', widget: 'string', ...optional, hint: 'Ví dụ "1 day".' },
         { name: 'audience', label: 'Đối tượng phù hợp', widget: 'string', ...optional, hint: 'Ví dụ "Học sinh THPT".' },
+        { name: 'audienceEn', label: 'Đối tượng phù hợp (tiếng Anh)', widget: 'string', ...optional, hint: 'Ví dụ "High-school students".' },
         {
           name: 'stops', label: 'Điểm dừng', label_singular: 'điểm dừng', widget: 'list', min: 2, max: maxStops,
           collapsed: 'auto', summary: '{{fields.place}}',
@@ -182,6 +189,7 @@ const config = {
               collection: 'places', value_field: '{{slug}}', search_fields: ['name'], display_fields: ['name'],
             },
             { name: 'note', label: 'Ghi chú cho điểm dừng', widget: 'string', ...optional, hint: 'Ví dụ "Điểm khởi hành". Chỉ ghi thông tin đã được xác minh.' },
+            { name: 'noteEn', label: 'Ghi chú (tiếng Anh)', widget: 'string', ...optional },
           ],
         },
         {

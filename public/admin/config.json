@@ -185,7 +185,8 @@
           "name": "nameEn",
           "label": "Tên tiếng Anh",
           "widget": "string",
-          "required": false
+          "required": false,
+          "hint": "Hiển thị khi người dùng chọn tiếng Anh. Để trống thì hiển thị tên tiếng Việt."
         },
         {
           "name": "latLng",
@@ -202,6 +203,13 @@
           "label": "Mô tả ngắn",
           "widget": "text",
           "hint": "1–2 câu: vì sao nên đến. Không ghi giá vé, giờ mở cửa, số điện thoại khi chưa được xác minh."
+        },
+        {
+          "name": "summaryEn",
+          "label": "Mô tả ngắn (tiếng Anh)",
+          "widget": "text",
+          "required": false,
+          "hint": "Bản dịch của mô tả trên, hiển thị khi người dùng chọn tiếng Anh. Để trống thì hiển thị mô tả tiếng Việt kèm ghi chú \"Vietnamese only\"."
         },
         {
           "name": "images",
@@ -225,6 +233,13 @@
               "label": "Mô tả nội dung ảnh",
               "widget": "string",
               "hint": "Cho người dùng trình đọc màn hình, ví dụ \"Cổng chính Thành cổ Quảng Trị\"."
+            },
+            {
+              "name": "altEn",
+              "label": "Mô tả nội dung ảnh (tiếng Anh)",
+              "widget": "string",
+              "required": false,
+              "hint": "Để trống thì dùng mô tả tiếng Việt."
             },
             {
               "name": "credit",
@@ -285,6 +300,12 @@
               "name": "label",
               "label": "Tên hiển thị",
               "widget": "string"
+            },
+            {
+              "name": "labelEn",
+              "label": "Tên hiển thị (tiếng Anh)",
+              "widget": "string",
+              "required": false
             },
             {
               "name": "url",
@@ -440,6 +461,13 @@
           "widget": "string"
         },
         {
+          "name": "nameEn",
+          "label": "Tên tuyến (tiếng Anh)",
+          "widget": "string",
+          "required": false,
+          "hint": "Để trống thì hiển thị tên tiếng Việt."
+        },
+        {
           "name": "theme",
           "label": "Chủ đề",
           "widget": "select",
@@ -465,6 +493,13 @@
           "hint": "1–2 câu: tuyến đi qua đâu và vì sao nên đi. Không ghi giá vé, giờ mở cửa khi chưa được xác minh."
         },
         {
+          "name": "summaryEn",
+          "label": "Mô tả ngắn (tiếng Anh)",
+          "widget": "text",
+          "required": false,
+          "hint": "Để trống thì hiển thị mô tả tiếng Việt kèm ghi chú \"Vietnamese only\"."
+        },
+        {
           "name": "duration",
           "label": "Thời lượng gợi ý",
           "widget": "string",
@@ -472,11 +507,25 @@
           "hint": "Ví dụ \"1 ngày\". Chỉ nhập khi đã tính toán thực tế; hệ thống không tự ước tính thời gian."
         },
         {
+          "name": "durationEn",
+          "label": "Thời lượng gợi ý (tiếng Anh)",
+          "widget": "string",
+          "required": false,
+          "hint": "Ví dụ \"1 day\"."
+        },
+        {
           "name": "audience",
           "label": "Đối tượng phù hợp",
           "widget": "string",
           "required": false,
           "hint": "Ví dụ \"Học sinh THPT\"."
+        },
+        {
+          "name": "audienceEn",
+          "label": "Đối tượng phù hợp (tiếng Anh)",
+          "widget": "string",
+          "required": false,
+          "hint": "Ví dụ \"High-school students\"."
         },
         {
           "name": "stops",
@@ -508,6 +557,12 @@
               "widget": "string",
               "required": false,
               "hint": "Ví dụ \"Điểm khởi hành\". Chỉ ghi thông tin đã được xác minh."
+            },
+            {
+              "name": "noteEn",
+              "label": "Ghi chú (tiếng Anh)",
+              "widget": "string",
+              "required": false
             }
           ]
         },

@@ -1,6 +1,7 @@
 // Định dạng và so khớp tháng cho lịch mùa vụ, lễ hội.
+import { t } from '../i18n';
 
-/** "Tháng 3–4, 7" từ [3, 4, 7]; gộp các tháng liên tiếp. */
+/** "Tháng 3–4, 7" (hoặc "Mar–Apr, Jul") từ [3, 4, 7]; gộp các tháng liên tiếp. */
 export function formatMonths(months: readonly number[]): string {
   const sorted = [...new Set(months)].sort((a, b) => a - b);
   const groups: [number, number][] = [];
@@ -9,7 +10,7 @@ export function formatMonths(months: readonly number[]): string {
     if (last && m === last[1] + 1) last[1] = m;
     else groups.push([m, m]);
   }
-  return `Tháng ${groups.map(([a, b]) => (a === b ? `${a}` : `${a}–${b}`)).join(', ')}`;
+  return t.monthsLabel(groups);
 }
 
 export const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
