@@ -1,4 +1,4 @@
-# Biên tập địa điểm và ảnh
+# Biên tập địa điểm, tuyến, ảnh và bản dịch
 
 Mỗi địa điểm là một file `content/places/<id>.json`. **Tên file chính là id** của địa điểm, dùng trong liên kết và mã QR (`?place=<id>`), nên **không đổi tên file sau khi đã in QR**.
 
@@ -103,9 +103,25 @@ Lệnh này sinh lại cấu hình CMS, kiểm tra dữ liệu, tự gán xã/ph
 
 ## Dữ liệu mẫu hiện tại
 
-96 địa điểm mẫu. Tên và tọa độ lấy từ OpenStreetMap (© OpenStreetMap contributors, ODbL), có biên tập lại tên cho đúng tiếng Việt; tên gốc trong OSM được giữ ở `source.osmName`. Mô tả do người biên tập viết, không có giá vé, giờ mở cửa hay số điện thoại. **Tất cả cần được xác minh trước khi coi là dữ liệu thật.**
+102 địa điểm mẫu (cập nhật 07/10/2026; một phần do người biên tập nhập qua CMS). Tên và tọa độ lấy từ OpenStreetMap (© OpenStreetMap contributors, ODbL), có biên tập lại tên cho đúng tiếng Việt; tên gốc trong OSM được giữ ở `source.osmName`. Mô tả do người biên tập viết, không có giá vé, giờ mở cửa hay số điện thoại. **Tất cả cần được xác minh trước khi coi là dữ liệu thật.**
 
 Để tìm thêm gợi ý từ OSM: `npm run osm:pois` sẽ tải các điểm quan tâm vào `.cache/osm-pois.geojson`.
+
+## Theo dõi tiến độ nhập liệu
+
+Mỗi lần chạy `npm run places` (hoặc `npm run build`, `npm run dev`), lệnh in ra các số liệu để biết còn thiếu gì:
+
+| Dòng in ra | Ý nghĩa |
+|---|---|
+| `places.json … 102 địa điểm (102 mẫu): …` | Tổng số địa điểm, số còn là dữ liệu mẫu, số địa điểm theo từng lớp (lớp chưa có điểm nào không có trong danh sách) |
+| `ảnh  58 ảnh` | Số ảnh đang dùng |
+| `tiếng Anh  tên 18/102, mô tả 0/102` | Độ phủ bản dịch của địa điểm; địa điểm chưa dịch hiển thị tiếng Việt |
+| `tiếng Anh  tên tuyến 0/2, mô tả 0/2` | Độ phủ bản dịch của tuyến |
+| `routes.json … N tuyến` | Số tuyến và quãng đường |
+| Dòng bắt đầu bằng `!` | Cảnh báo (không dừng build), ví dụ điểm nằm sát ranh giới, chặng tuyến dài bất thường hoặc không nối được vào đường |
+| Dòng bắt đầu bằng `✗` | Lỗi: build dừng và nói rõ file nào, trường nào sai |
+
+Việc nên làm dần: nhập `months` (mùa vụ, lễ hội), `summaryEn` và `nameEn`, thêm ảnh cho các điểm chưa có, thêm điểm nông sản và điểm STEM rồi tạo tuyến mới, và chỉ đặt `isSample: false` khi thông tin đã được xác minh.
 
 ## Ảnh từ Wikimedia Commons (bằng script)
 

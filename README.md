@@ -6,6 +6,16 @@ Bản đồ tương tác quảng bá **du lịch, nông sản, giáo dục** c�
 - Ranh giới hành chính theo dữ liệu chính thức sau sáp nhập (chính quyền 2 cấp, từ 01/07/2025).
 - Toàn bộ thông tin riêng của tỉnh nằm trong `src/config/`, nên đổi sang tỉnh khác không phải sửa component.
 
+## Tính năng
+
+- **Bản đồ nhiều lớp:** du lịch, nông sản, giáo dục, hạ tầng; bật/tắt từng lớp, bộ đếm, gom cụm, ghim ảnh, biển số và tên đường.
+- **Điều hướng Tỉnh → xã/phường**, tìm kiếm không phân biệt dấu, thẻ địa điểm, dải Nổi bật, lưu địa điểm (trên thiết bị) và chia sẻ danh sách bằng liên kết.
+- **Lịch mùa vụ, lễ hội:** chọn tháng để làm nổi bật các địa điểm đang vào mùa.
+- **Tuyến trải nghiệm theo chủ đề** (ví dụ "Hành trình về nguồn"): đường đi vẽ bám theo đường bộ, ghim đánh số, quãng đường từng chặng, nút mở trong Google Maps.
+- **Song ngữ Việt–Anh** (nút VI | EN): trường tiếng Anh chưa nhập thì tự hiển thị tiếng Việt thay thế.
+- **Liên kết sâu và mã QR** tại điểm thật; **góp ý, báo lỗi** qua GitHub Issues.
+- **Quản trị nội dung** bằng Sveltia CMS tại `/admin/`, không cần sửa JSON.
+
 Yêu cầu và quy tắc chi tiết: xem [CLAUDE.md](CLAUDE.md).
 
 ## Chạy thử
@@ -26,10 +36,11 @@ Dữ liệu đã build sẵn trong `public/data/`, nên không cần chạy lạ
 | `npm run dev` | Chạy server phát triển |
 | `npm run build` | Kiểm tra kiểu (TypeScript) và build site tĩnh vào `dist/` |
 | `npm run preview` | Xem thử bản build |
+| `npm test` | Chạy test đơn vị (xử lý nhãn đường, tìm đường cho tuyến trải nghiệm) |
 | `npm run data` | Tải lại toàn bộ dữ liệu nguồn rồi build lại `public/data/` |
 | `npm run data:fetch` | Chỉ tải dữ liệu nguồn vào `.cache/` (git sparse checkout, Overpass API, Natural Earth, glyph font) |
 | `npm run data:build` | Xử lý `.cache/` thành `public/data/`, sau đó chạy kiểm tra |
-| `npm run places` | Sinh cấu hình CMS, kiểm tra `content/places/*.json`, tạo ảnh cho web và xuất `public/data/places.json` (xem [content/README.md](content/README.md)) |
+| `npm run places` | Sinh cấu hình CMS, kiểm tra `content/places/*.json` và `content/routes/*.json`, tạo ảnh cho web, xuất `public/data/places.json` và `public/data/routes.json` (kèm đường đi của tuyến), in độ phủ bản tiếng Anh (xem [content/README.md](content/README.md)) |
 | `npm run images` | Tải ảnh đã chọn từ Wikimedia Commons (`content/image-selection.json`) kèm thông tin ghi công |
 | `npm run images:find` | Tìm ảnh ứng viên trên Commons cho các địa điểm |
 | `npm run osm:pois` | Tải gợi ý địa điểm từ OpenStreetMap vào `.cache/` để biên tập |
@@ -40,17 +51,19 @@ Dữ liệu đã build sẵn trong `public/data/`, nên không cần chạy lạ
 ```
 scripts/          Pipeline dữ liệu (Node.js + mapshaper)
   fetch-*.mjs     Tải dữ liệu nguồn vào .cache/
-  build-*.mjs     Xử lý thành public/data/
+  build-*.mjs     Xử lý thành public/data/ (build-routes dựng đường đi cho tuyến)
+  route-path.mjs  Tìm đường trên mạng đường OSM của dự án (có test)
   verify-data.mjs Kiểm tra tự động; thoát với mã lỗi nếu vi phạm
-content/          Nguồn nội dung để biên tập (sửa qua CMS): places/<id>.json, images/, featured.json
+content/          Nguồn nội dung để biên tập (sửa qua CMS): places/<id>.json, routes/<id>.json, images/, featured.json
 public/admin/     Trang quản trị Sveltia CMS (/admin/); config.json sinh tự động, không sửa tay
-public/data/      GeoJSON đã xử lý (xem SOURCES.md); places.json sinh tự động, không lưu trong git
+public/data/      GeoJSON đã xử lý (xem SOURCES.md); places.json và routes.json sinh tự động, không lưu trong git
 public/fonts/     Glyph Noto Sans tự lưu trữ cho nhãn bản đồ
-src/config/       Cấu hình tỉnh, lớp địa điểm, bảng màu
-src/map/          MapLibre: style nền, lớp địa điểm (gom cụm), icon ghim
+src/config/       Cấu hình tỉnh, lớp địa điểm, chủ đề tuyến, bảng màu
+src/map/          MapLibre: style nền, lớp địa điểm (gom cụm), lớp tuyến, icon ghim
 src/ui/           Panel (các màn hình), bottom sheet trên điện thoại
 src/state.ts      Trạng thái ứng dụng (luồng một chiều)
-src/i18n.ts       Chuỗi giao diện (chuẩn bị cho song ngữ)
+src/data/         Kiểu dữ liệu và tải địa điểm, tuyến; chọn nội dung theo ngôn ngữ
+src/i18n.ts       Chuỗi giao diện song ngữ Việt–Anh (thêm ngôn ngữ: thêm bộ chuỗi cùng kiểu)
 src/main.ts       Nối store ↔ bản đồ ↔ panel ↔ URL
 ```
 
@@ -61,7 +74,7 @@ src/main.ts       Nối store ↔ bản đồ ↔ panel ↔ URL
 - **Bản gốc là nhánh `main` trên GitHub.** Máy tính chỉ là một bản sao.
 - **CMS trên web** (`/admin/`) lưu thẳng lên `main`: mỗi lần bấm **Save** là một commit (tên tác giả là chủ token, ví dụ "Phương Linh AI"). Vercel tự deploy sau mỗi commit.
 - **CMS chỉ ghi vào thư mục `content/`.** Sửa code thì ghi vào `src/`, `scripts/`, `public/`… Vì hai bên sửa các file khác nhau, git ghép được cả hai mà không mất phần nào, **miễn là luôn kéo về trước khi đẩy lên**.
-- `public/data/places.json` (dữ liệu địa điểm cho bản đồ) là **file sinh ra** từ `content/` và **không lưu trong git** (đã khai báo trong `.gitignore`). File được tạo lại tự động khi chạy `npm run dev`, `npm run build` (kể cả trên Vercel) hoặc `npm run places`, nên không bao giờ phải commit hay đồng bộ file này.
+- `public/data/places.json` và `public/data/routes.json` (dữ liệu địa điểm và tuyến cho bản đồ) là **file sinh ra** từ `content/` và **không lưu trong git** (đã khai báo trong `.gitignore`). Các file này được tạo lại tự động khi chạy `npm run dev`, `npm run build` (kể cả trên Vercel) hoặc `npm run places`, nên không bao giờ phải commit hay đồng bộ chúng.
 - **Không bao giờ dùng `git push --force`.** Lệnh này ghi đè GitHub bằng bản trên máy và **xóa mất các nội dung đã lưu từ CMS** mà máy chưa kéo về.
 
 **Thiết lập một lần (khuyên dùng):** để `git pull` luôn đặt commit trên máy lên sau commit mới từ CMS (không tạo commit "Merge…"), và tự cất tạm thay đổi chưa commit:
@@ -179,3 +192,6 @@ BASE_PATH=/travel-map/ npm run build
 | `ward` | `?ward=18880` | Mở xã/phường theo mã |
 | `layers` | `?layers=dia-chi-do,di-tich` | Chỉ bật các lớp này |
 | `saved` | `?saved=a,b,c` | Mở danh sách địa điểm được chia sẻ |
+| `route` | `?route=hanh-trinh-duong-9-khe-sanh` | Mở một tuyến trải nghiệm (kết hợp được với `place`) |
+| `month` | `?month=3` | Chọn tháng trên lịch mùa vụ; thêm `&only=1` để chỉ hiện các điểm trong mùa |
+| `lang` | `?lang=en` | Bản tiếng Anh (mặc định tiếng Việt); nên thêm vào mã QR dành cho du khách nước ngoài |

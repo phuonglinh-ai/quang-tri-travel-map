@@ -15,14 +15,15 @@ Xây dựng một website **bản đồ tương tác** cho **một tỉnh** (có
 
 Mô hình tham chiếu: https://japantripplanners.com/interactive-map (xem mục 3).
 
-Ngôn ngữ giao diện: **tiếng Việt là chính**, có chuẩn bị sẵn cấu trúc để thêm tiếng Anh.
+Ngôn ngữ giao diện: **tiếng Việt là chính**, có bản **song ngữ Việt–Anh** (nút VI | EN, mặc định tiếng Việt; xem mục 11).
 Người dùng (chủ dự án) làm trong lĩnh vực giáo dục và chính sách. Nội dung phải dùng tiếng Việt chuẩn mực và trang trọng.
 
 ---
 
 ## 2. Trạng thái hiện tại
 
-- **Đã xong Phase 0, Phase 1 (MVP), phần ảnh địa điểm, trang quản trị Sveltia CMS** (30/09–01/10/2026) **và biển số, tên đường trên bản đồ** (01/10/2026). Từ 02/10/2026 người dùng tự nhập thêm địa điểm và ảnh qua CMS. Chi tiết ở mục 11.
+- **Đã xong Phase 0, Phase 1 (MVP), phần ảnh địa điểm, trang quản trị Sveltia CMS** (30/09–01/10/2026), **biển số, tên đường trên bản đồ** (01/10/2026) **và các tính năng Phase 2 phần khung** (06/10/2026): link góp ý qua GitHub Issues, lịch mùa vụ/lễ hội, tuyến trải nghiệm theo chủ đề (2 tuyến mẫu), song ngữ Việt–Anh. Từ 02/10/2026 người dùng tự nhập thêm địa điểm và ảnh qua CMS. Chi tiết ở mục 11.
+- **Việc người dùng tự làm dần (07/10/2026):** nhập dữ liệu địa điểm (kể cả nông sản, điểm STEM, ảnh), dịch song ngữ nội dung biên tập, phân công quản trị CMS theo trụ cột. Claude không tự thêm dữ liệu thật hay tự dịch nội dung biên tập; chỉ làm tính năng và tài liệu khi được yêu cầu.
 - **Git:** nhánh `main`, đã commit lần đầu (01/10/2026) và đẩy lên GitHub (xem mục 10.7). Các commit có tác giả "Phương Linh AI" do CMS tạo khi sửa nội dung trên `/admin/`; trước khi sửa code nên `git pull` để lấy các thay đổi này. Claude chỉ commit/push khi người dùng yêu cầu.
 - **Tỉnh đã chọn: Quảng Trị** — tỉnh mới, sáp nhập từ Quảng Bình cũ và Quảng Trị cũ (xem hồ sơ tỉnh ở mục 5.4).
 - Toàn bộ code vẫn phải tham số hóa theo tỉnh thông qua một file cấu hình (`src/config/province.ts`). **Không** hard-code tên tỉnh trong component, để sau này có thể mở rộng sang tỉnh khác hoặc cấp vùng.
@@ -51,9 +52,9 @@ DATA_PATH          = json/geojson/44_quang_tri/
 
 **Tính năng mới đề xuất** (không có trong bản gốc):
 
-- **Lịch mùa vụ và lễ hội**: thanh trượt theo tháng, bản đồ làm nổi bật các điểm đang vào mùa. Đây là điểm khác biệt chính của dự án (thuộc Phase 2).
-- **Tuyến trải nghiệm theo chủ đề**: ví dụ "Một ngày tham quan nông nghiệp", "Tuyến học tập ngoại khóa", "Hành trình về nguồn". Dùng thay cho Itinerary Builder (Phase 2).
-- **Mã QR tại điểm thật**: URL sâu dạng `?place=<id>` mở thẳng thẻ địa điểm (làm ngay ở MVP, vì chỉ cần hỗ trợ query string).
+- **Lịch mùa vụ và lễ hội**: chọn tháng, bản đồ làm nổi bật các điểm đang vào mùa. Điểm khác biệt chính của dự án. **Đã làm (06/10/2026)**, dùng 12 ô tháng thay cho thanh trượt (dễ bấm trên điện thoại); chờ người dùng nhập thêm `months`.
+- **Tuyến trải nghiệm theo chủ đề**: ví dụ "Một ngày tham quan nông nghiệp", "Tuyến học tập ngoại khóa", "Hành trình về nguồn". Dùng thay cho Itinerary Builder. **Đã làm (06/10/2026)** với 2 tuyến mẫu "Hành trình về nguồn"; đường đi vẽ bám theo đường bộ thật; chưa có tuyến nông nghiệp và học tập ngoại khóa (chờ dữ liệu điểm).
+- **Mã QR tại điểm thật**: URL sâu dạng `?place=<id>` mở thẳng thẻ địa điểm (đã làm ở MVP, vì chỉ cần hỗ trợ query string; thêm `?lang=en` để in mã QR bản tiếng Anh).
 - **Tìm theo tên đơn vị cũ, trước sáp nhập** (Phase 3, cần dữ liệu bổ sung, xem mục 5.3).
 
 ---
@@ -178,7 +179,7 @@ Danh sách lớp phải khai báo trong file cấu hình (`src/config/layers.ts`
 
 ## 7. Mô hình dữ liệu địa điểm (POI)
 
-**Thực tế đã triển khai (cập nhật 01/10/2026):** nguồn biên tập là `content/places/<id>.json`, mỗi địa điểm một file, **tên file là id** (không có trường `id`). Tọa độ nhập dạng `latLng: "vĩ độ, kinh độ"` (kiểu Google Maps); build đổi thành `coordinates` [kinh độ, vĩ độ]. `npm run places` kiểm tra rồi xuất `public/data/places.json` (thêm `id`, `coordinates`, `wardCode`, `wardName`, `thumb`). Hướng dẫn biên tập: `content/README.md`.
+**Thực tế đã triển khai (cập nhật 01/10/2026):** nguồn biên tập là `content/places/<id>.json`, mỗi địa điểm một file, **tên file là id** (không có trường `id`). Tọa độ nhập dạng `latLng: "vĩ độ, kinh độ"` (kiểu Google Maps); build đổi thành `coordinates` [kinh độ, vĩ độ]. `npm run places` kiểm tra rồi xuất `public/data/places.json` (thêm `id`, `coordinates`, `wardCode`, `wardName`, `thumb`). Hướng dẫn biên tập: `content/README.md`. Cập nhật 06/10/2026: thêm các trường tiếng Anh tùy chọn `summaryEn`, `images[].altEn`, `links[].labelEn` (cùng `nameEn` đã có) và `months` đã được dùng cho lịch mùa vụ. Tuyến trải nghiệm có nguồn riêng `content/routes/<id>.json` (`stops: [{place, note?}]`, các trường `*En` tương ứng), xuất `public/data/routes.json` kèm đường đi và km; xem mục 11.
 
 Lưu dạng JSON tại `public/data/places.json`. Giai đoạn sau có thể chuyển sang Google Sheets hoặc CMS (Directus, Strapi, Supabase) để cán bộ các Sở tự cập nhật.
 
@@ -246,8 +247,8 @@ Tải GeoJSON tỉnh `44_quang_tri` và 78 xã (kèm `42_ha_tinh`, `46_hue` làm
 - Toggle và bộ đếm, danh sách và tìm kiếm không dấu, thẻ địa điểm.
 - Lưu địa điểm bằng `localStorage`, URL sâu, carousel nổi bật, ghi nguồn.
 
-**Phase 2**
-Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm theo chủ đề, song ngữ Việt–Anh.
+**Phase 2 — phần khung đã xong (06/10/2026)**
+Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm theo chủ đề, song ngữ Việt–Anh. Còn lại là **nội dung do người dùng nhập** (tháng nổi bật, bản dịch tiếng Anh, điểm cho tuyến nông nghiệp và học tập), không phải việc code.
 
 **Phase 3**
 - Quản trị nội dung: Google Sheets → build, hoặc dùng CMS.
@@ -268,11 +269,15 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 7. **Hosting và tên miền (cập nhật 01/10/2026):** code ở GitHub `phuonglinh-ai/quang-tri-travel-map` (công khai, nhánh `main`), deploy trên Vercel (project `dulichquangtri`, https://dulichquangtri.vercel.app), tự deploy khi push lên `main`. Chưa có tên miền riêng. `base` của Vite vẫn chỉnh được qua `BASE_PATH` (chỉ dùng cho GitHub Pages).
 
 8. **Góp ý/báo lỗi (06/10/2026):** gửi qua GitHub Issues của repo công khai (`cms.repo` trong `province.data.json`). Giao diện có link "Góp ý, báo lỗi" ở mục Giới thiệu và link "Báo lỗi hoặc góp ý về địa điểm này" trên thẻ địa điểm, điền sẵn tên, id và liên kết `?place=` (`src/lib/feedback.ts`). Hạn chế đã ghi trên giao diện: người góp ý cần tài khoản GitHub và nội dung hiển thị công khai. Nếu tỉnh tiếp quản, đổi `cms.repo` hoặc thay bằng form/email.
+
+9. **Song ngữ (06/10/2026), người dùng chọn:** (a) trên bản đồ giữ tiếng Việt cho tên xã/phường, đường, tỉnh lân cận; chỉ đổi nhãn biển "Biển Đông" → "East Sea" và nước láng giềng "Lào" → "Laos"; (b) mặc định tiếng Việt, có nút VI | EN, không tự đoán theo ngôn ngữ trình duyệt; (c) trường tiếng Anh chưa nhập thì hiển thị tiếng Việt thay thế (mô tả kèm ghi chú nhỏ "Description available in Vietnamese only"); trường đã nhập thì hiển thị tiếng Anh.
+10. **Phân công việc (07/10/2026):** người dùng tự nhập dữ liệu địa điểm, dịch song ngữ và phân công quản trị CMS dần dần; Claude không làm thay các việc này.
+
 ---
 
 ## 11. Lệnh và quy ước
 
-**Trạng thái:** Phase 0 và Phase 1 (MVP) đã xong (30/09/2026); bổ sung ảnh thật và ghim ảnh trên bản đồ, trang quản trị Sveltia CMS, dải Nổi bật quản lý trong CMS, commit và deploy Vercel, biển số và tên đường (01/10/2026); người dùng nhập thêm địa điểm, ảnh qua CMS (02–06/10/2026). Bước tiếp theo: Phase 2. Stack: Vite 8, TypeScript, MapLibre GL JS 6, UI vanilla TS.
+**Trạng thái (07/10/2026):** Phase 0 và Phase 1 (MVP) đã xong (30/09/2026); bổ sung ảnh thật và ghim ảnh trên bản đồ, trang quản trị Sveltia CMS, dải Nổi bật quản lý trong CMS, commit và deploy Vercel, biển số và tên đường (01/10/2026); người dùng nhập thêm địa điểm, ảnh qua CMS (02–06/10/2026); link góp ý GitHub Issues, lịch mùa vụ/lễ hội, tuyến trải nghiệm theo chủ đề và song ngữ Việt–Anh (06/10/2026, Phase 2 phần khung). Bước tiếp theo: người dùng nhập nội dung (xem "Việc còn treo"); Phase 3 khi có yêu cầu. Stack: Vite 8, TypeScript, MapLibre GL JS 6, UI vanilla TS.
 
 | Lệnh | Việc làm |
 |---|---|
@@ -281,7 +286,7 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 | `npm run data:fetch` | Tải nguồn vào `.cache/` (gitignore): sparse checkout repo ranh giới, Overpass, Natural Earth, glyph font |
 | `npm run data:build` | Xử lý thành `public/data/` rồi tự chạy `data:verify` |
 | `npm run data:verify` | Kiểm tra: đủ 78 xã, không mất polygon > 1.000 m², Cồn Cỏ, Hoàng Sa, nhãn "Lào"/"Biển Đông" đặt đúng chỗ, biển số đường đúng định dạng và có đủ CT.01, QL.1, QL.9, HCM |
-| `npm test` | Test đơn vị (`node --test scripts/`): chuẩn hóa số hiệu, làm sạch tên đường, nối đoạn đường (`scripts/road-labels.mjs`) |
+| `npm test` | Test đơn vị (`node --test scripts/`, 26 test): chuẩn hóa số hiệu, làm sạch tên đường, nối đoạn đường (`scripts/road-labels.mjs`); tìm đường cho tuyến trải nghiệm (`scripts/route-path.mjs`) |
 | `npm run places` | Sinh `public/admin/config.json` (cấu hình CMS) + kiểm tra `content/places/*.json` → `public/data/places.json` (tự gán `wardCode`, dừng nếu sai quy tắc) + tạo ảnh web từ `content/images/` vào `public/images/places/` + kiểm tra `content/routes/*.json` và dựng đường đi → `public/data/routes.json`. Được gọi trong `npm run build`, khi khởi động `npm run dev` (`predev`) và tự chạy khi `content/` thay đổi lúc `npm run dev` |
 | `npm run osm:pois` | Tải gợi ý POI từ OSM vào `.cache/osm-pois.geojson` (chỉ để biên tập, không đưa thẳng lên web) |
 | `npm run images:find <id>…` | Tìm ảnh ứng viên trên Wikimedia Commons → `.cache/image-candidates.json` (có truy vấn/mã Wikidata chỉ định cho từng điểm trong script) |
@@ -290,26 +295,26 @@ Lịch mùa vụ/lễ hội (bộ lọc theo `months`), tuyến trải nghiệm 
 **Cấu trúc thư mục thực tế:**
 
 ```
-content/            places/<id>.json, images/, featured.json (nguồn biên tập, sửa qua CMS), image-selection.json, README.md (hướng dẫn biên tập)
-scripts/            fetch-*.mjs (tải nguồn), build-*.mjs (xử lý), verify-data.mjs, find-images.mjs, lib.mjs, road-labels.mjs (+ .test.mjs)
-public/data/        GeoJSON + places.json đã xử lý, SOURCES.md (nguồn & giấy phép)
+content/            places/<id>.json, routes/<id>.json, images/, featured.json (nguồn biên tập, sửa qua CMS), image-selection.json, README.md (hướng dẫn biên tập)
+scripts/            fetch-*.mjs (tải nguồn), build-*.mjs (xử lý; build-places, build-routes, build-cms-config chạy trong `npm run places`), verify-data.mjs, find-images.mjs, lib.mjs, road-labels.mjs, route-path.mjs (+ .test.mjs)
+public/data/        GeoJSON đã xử lý, SOURCES.md (nguồn & giấy phép); places.json và routes.json sinh từ content/ (không commit)
 public/fonts/       glyph Noto Sans (+ OFL.txt)
 public/images/places/  ảnh địa điểm (<id>.jpg 960px, <id>-sm.jpg 480x320)
-src/config/         province.data.json + province.ts, layers.data.json + layers.ts, theme.ts
-src/data/places.ts  kiểu dữ liệu, tải, chấm điểm tìm kiếm
-src/map/            map.ts (khởi tạo, sự kiện), style.ts (nền), places-layer.ts (ghim, cụm), icons.ts (vẽ ghim)
+src/config/         province.data.json + province.ts, layers.data.json + layers.ts, routes.data.json + routes.ts (chủ đề tuyến), theme.ts
+src/data/           places.ts (kiểu dữ liệu, tải, tìm kiếm, hàm chọn nội dung theo ngôn ngữ), routes.ts (tuyến, link Google Maps, hình thu nhỏ tuyến)
+src/map/            map.ts (khởi tạo, sự kiện), style.ts (nền), places-layer.ts (ghim, cụm), route-layer.ts (tuyến), icons.ts (vẽ ghim)
 src/ui/             panel.ts (các màn hình), sheet.ts (bottom sheet)
-src/state.ts, src/i18n.ts, src/lib/ (text, storage), src/main.ts
+src/state.ts, src/i18n.ts (chuỗi Việt/Anh), src/lib/ (text, storage, months, feedback), src/main.ts
 tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào bản build)
 .claude/launch.json        cấu hình server dev (5173) và preview (4173) cho khung trình duyệt
 ```
 
-**Số liệu hiện tại (rà soát 06/10/2026):** 78 xã/phường/đặc khu; 102 địa điểm, tất cả vẫn là mẫu `isSample: true` (Địa chỉ đỏ 23, Danh thắng 19, Lưu trú 12, Làng nghề 11, Di tích 9, Giao thông 9, Bảo tàng/thư viện 7, Trường học 6, và mỗi lớp 1 điểm: Lễ hội, Ẩm thực, OCOP, Vùng trồng, HTX/trang trại, Trải nghiệm STEM); 12 điểm nổi bật (`content/featured.json`); 58 điểm có ảnh (22 ảnh Commons, 34 ảnh "Do cơ quan cung cấp, có văn bản đồng ý", 2 ảnh "Ảnh tự chụp, tác giả đồng ý cho sử dụng"), 44 điểm chưa có ảnh (chủ yếu lưu trú, trường học, bến xe, cửa khẩu, làng nghề); 5 điểm đã nhập `months` (hai nghĩa trang tháng 7, Bánh bột lọc Mỹ Chánh và Cà phê Khe Sanh tháng 3–4, Mường Thanh Quảng Trị tháng 5–6), dùng cho lịch mùa vụ. Không còn lớp nào trống: lớp có ít nhất 1 địa điểm tự bật, ghi chú `pendingNote` trong `layers.data.json` chỉ hiện khi lớp trống. Đã bỏ điểm trùng "Đài tưởng niệm trận Thành cổ" (cách Thành cổ 3 m). `npm run places` còn 2 cảnh báo (không phải lỗi): Cổng chào Cồn Cỏ nằm ngoài ranh giới 3 m, Vũng Chùa 246 m, đều được gán vào xã gần nhất.
+**Số liệu hiện tại (rà soát 07/10/2026):** 78 xã/phường/đặc khu; 102 địa điểm, tất cả vẫn là mẫu `isSample: true` (Địa chỉ đỏ 23, Danh thắng 19, Lưu trú 12, Làng nghề 11, Di tích 9, Giao thông 9, Bảo tàng/thư viện 7, Trường học 6, và mỗi lớp 1 điểm: Lễ hội, Ẩm thực, OCOP, Vùng trồng, HTX/trang trại, Trải nghiệm STEM); 12 điểm nổi bật (`content/featured.json`); 58 điểm có ảnh (22 ảnh Commons, 34 ảnh "Do cơ quan cung cấp, có văn bản đồng ý", 2 ảnh "Ảnh tự chụp, tác giả đồng ý cho sử dụng"), 44 điểm chưa có ảnh (chủ yếu lưu trú, trường học, bến xe, cửa khẩu, làng nghề); 5 điểm đã nhập `months` (hai nghĩa trang tháng 7, Bánh bột lọc Mỹ Chánh và Cà phê Khe Sanh tháng 3–4, Mường Thanh Quảng Trị tháng 5–6), dùng cho lịch mùa vụ; 2 tuyến mẫu (91 km và 52 km); **bản tiếng Anh: tên 18/102 địa điểm, mô tả 0/102, tên tuyến 0/2** (`npm run places` in độ phủ này). Không còn lớp nào trống: lớp có ít nhất 1 địa điểm tự bật, ghi chú `pendingNote` trong `layers.data.json` chỉ hiện khi lớp trống. Đã bỏ điểm trùng "Đài tưởng niệm trận Thành cổ" (cách Thành cổ 3 m). `npm run places` còn 2 cảnh báo (không phải lỗi): Cổng chào Cồn Cỏ nằm ngoài ranh giới 3 m, Vũng Chùa 246 m, đều được gán vào xã gần nhất.
 
 **Quy ước và bài học kỹ thuật:**
 
 - `src/config/province.data.json` là nguồn cấu hình dùng chung cho **cả script Node lẫn app**. `province.ts` bổ sung phần chỉ app dùng (Fast Travel, bbox). Bảng màu nằm ở `src/config/theme.ts`.
-- `public/data/` (trừ `places.json`) và `public/fonts/` **được commit** để deploy không cần chạy pipeline dữ liệu. **Không commit** (đã có trong `.gitignore`, người dùng duyệt 01/10/2026): `public/data/places.json` và `public/images/places/`, vì đều sinh từ `content/` bởi `npm run places`, chạy tự động trong `build` và `predev`. CMS chỉ commit `content/`, nên nếu lưu file sinh ra trong git thì file đó sẽ cũ dần và gây xung đột. Quy trình đồng bộ máy ↔ GitHub ↔ CMS (pull --rebase trước khi sửa và trước khi push, không `--force`) ghi ở mục "Đồng bộ giữa máy, GitHub và CMS" của `README.md`. `.cache/`, `dist/`, `node_modules/` không commit (đã có trong `.gitignore`).
+- `public/data/` (trừ `places.json`, `routes.json`) và `public/fonts/` **được commit** để deploy không cần chạy pipeline dữ liệu. **Không commit** (đã có trong `.gitignore`, người dùng duyệt 01/10/2026): `public/data/places.json`, `public/data/routes.json` và `public/images/places/`, vì đều sinh từ `content/` bởi `npm run places`, chạy tự động trong `build` và `predev`. CMS chỉ commit `content/`, nên nếu lưu file sinh ra trong git thì file đó sẽ cũ dần và gây xung đột. Quy trình đồng bộ máy ↔ GitHub ↔ CMS (pull --rebase trước khi sửa và trước khi push, không `--force`) ghi ở mục "Đồng bộ giữa máy, GitHub và CMS" của `README.md`. `.cache/`, `dist/`, `node_modules/` không commit (đã có trong `.gitignore`).
 - **Viền tỉnh được dựng bằng dissolve các xã**, không dùng file tỉnh chính thức. File tỉnh chính thức đã lược bỏ các đảo ven bờ (4 đảo ở Phú Trạch, 1 đảo ở Mỹ Thuỷ), và độ chi tiết của nó thấp hơn nhiều so với file xã (3.600 điểm so với 175.000 điểm).
 - **`keep-shapes` của mapshaper KHÔNG bảo vệ từng phần của MultiPolygon.** Đảo nhỏ nằm chung feature với đất liền vẫn có thể bị xóa (đã xảy ra với Thanh Hóa). Luôn đơn giản hóa qua `simplifyKeepingIslands()` trong `scripts/lib.mjs` (explode → simplify → dissolve theo mã).
 - Vùng ngữ cảnh / `maxBounds` = bbox tỉnh ± `viewPaddingDeg` (2°). Nếu vùng này quá hẹp, MapLibre buộc phải phóng to trên màn hình dọc và làm cắt mất tỉnh. Mọi tỉnh Việt Nam giao với vùng này phải có trong `neighbors`; phần đất còn lại lấy từ Natural Earth, chỉ hình học. Vùng hiện tại kết thúc ở 109,4°E, chưa chạm Hoàng Sa. Nếu mở rộng vùng về phía đông thì Đà Nẵng (đã gồm Hoàng Sa) đã có sẵn, nhưng phải thêm Khánh Hòa nếu vùng chạm tới Trường Sa.
@@ -327,14 +332,14 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 
 **Phase 1 — kiến trúc giao diện:**
 
-- `src/state.ts`: store với luồng một chiều. Mọi thao tác gọi `store.set()`; bản đồ (`applyToMap` trong `main.ts`), panel và URL chỉ phản ứng theo store. Bản đồ chỉ nhận lệnh (`showWard`, `showPlace`) và phát sự kiện.
-- Panel (`src/ui/panel.ts`) không có ngăn xếp điều hướng riêng. Màn hình được suy ra theo thứ tự ưu tiên: thẻ địa điểm > kết quả tìm kiếm > danh sách (lớp/đã lưu/được chia sẻ) > xã > trang chủ. Nút "Quay lại" gỡ lần lượt từng tầng.
+- `src/state.ts`: store với luồng một chiều. Mọi thao tác gọi `store.set()`; bản đồ (`applyToMap` trong `main.ts`), panel và URL chỉ phản ứng theo store. Bản đồ chỉ nhận lệnh (`showWard`, `showPlace`, `showRoute`, `setLanguage`) và phát sự kiện. Trạng thái trong store: lớp đang bật, địa điểm/xã/tuyến đang chọn, tháng và chế độ chỉ hiện điểm trong mùa, ngôn ngữ, danh sách đã lưu.
+- Panel (`src/ui/panel.ts`) không có ngăn xếp điều hướng riêng. Màn hình được suy ra theo thứ tự ưu tiên: thẻ địa điểm > kết quả tìm kiếm > danh sách (lớp/đã lưu/được chia sẻ) > tuyến trải nghiệm > xã > trang chủ. Nút "Quay lại" gỡ lần lượt từng tầng.
 - Panel được dựng **trước** bản đồ, để người dùng xem được danh sách khi bản đồ còn đang tải. Khi sẵn sàng, bản đồ nhận toàn bộ trạng thái qua `applyToMap`.
 - Bottom sheet (`src/ui/sheet.ts`) có 3 nấc (peek 132 px / 50% / toàn màn hình). Luôn **đặt nấc trước khi di chuyển camera**, vì lề camera (`mapPadding`) tính theo nấc hiện tại. Khi panel mở ≥ nửa màn hình, ghi nguồn thu về nút ⓘ.
 - Ghim địa điểm vẽ bằng canvas (`src/map/icons.ts`), vì glyph PBF không có emoji. Gom cụm tới zoom 10.
 - **Ghim ảnh:** địa điểm có `images[0]` hiển thị ghim ảnh tròn (46 px, viền trắng, vòng ngoài theo màu lớp); chưa có ảnh thì dùng ghim icon. Ảnh tải nền sau khi bản đồ hiện: lúc đầu hiện ghim icon, ảnh tải xong thì `places-layer.ts` vẽ lại nguồn dữ liệu (gộp các lần cập nhật). Ảnh lỗi thì giữ icon. Thuộc tính `photo` của feature điều khiển cỡ vòng chọn, khoảng cách nhãn và thứ tự vẽ (ghim ảnh nằm trên).
 - Tìm kiếm không dấu dùng `fold()` trong `src/lib/text.ts` (NFD + bỏ dấu + đ→d).
-- Chuỗi giao diện nằm trong `src/i18n.ts`, chuẩn bị cho song ngữ (Phase 2).
+- Chuỗi giao diện nằm trong `src/i18n.ts` (hai bộ `vi`/`en`); xem mục "Song ngữ" bên dưới để biết cách thêm chuỗi và quy tắc thay thế bằng tiếng Việt.
 - Liên kết chia sẻ giữ dấu phẩy nguyên dạng (không mã hóa thành `%2C`) để URL ngắn khi in mã QR.
 - **Dữ liệu địa điểm mẫu:** tên và tọa độ lấy từ OSM theo mã đối tượng (`source.osm`), mô tả do dự án viết thận trọng (không có số liệu, giá, giờ, xếp hạng di tích chưa chắc chắn). Liên kết Wikipedia chỉ lấy từ thẻ `wikipedia` của OSM và đã kiểm tra đều mở được. Bãi biển Cửa Tùng chưa có trong OSM nên chưa đưa vào.
 - Địa điểm dạng vùng rộng dùng `mapZoom` (vườn quốc gia 9.5) thay cho zoom mặc định 13.
@@ -348,10 +353,19 @@ tools/review-images.html   trang duyệt ảnh, chỉ dùng khi dev (không vào
 - **Ảnh (30/09/2026):** 22 địa điểm có ảnh Wikimedia Commons (CC BY, CC BY-SA hoặc Public domain). Ảnh được chọn bằng cách xem từng ảnh bằng mắt, vì tìm theo tên thường ra ảnh sai (núi ở Iran, chùa ở Vũng Tàu, nghĩa trang ở Bỉ, Cửa Lò lẫn vào Nhật Lệ). Không dùng ảnh tư liệu chiến tranh chụp lính nước ngoài làm ảnh đại diện cho địa chỉ đỏ. Ghi công hiển thị trên ảnh ở thẻ địa điểm và trong mục "Nguồn ảnh". `build-places` báo lỗi nếu ảnh thiếu tác giả, giấy phép hoặc nguồn. Trang duyệt ảnh chỉ dùng khi dev: `/tools/review-images.html`.
 - Các điểm không có ảnh phù hợp trên Commons (Nhà tù Lao Bảo, Hang Tám Cô, Suối Nước Moọc, Cồn Cỏ, Giếng cổ Gio An, Bàu Tró, Vũng Chùa) đã được người dùng bổ sung ảnh do cơ quan cung cấp (02–06/10/2026). Còn thiếu ảnh: Di tích Làng Vây, Dốc Miếu.
 
-**Việc còn treo (rà soát 06/10/2026):**
-- Xác minh dữ liệu mẫu: **chưa làm**, cả 102 địa điểm vẫn `isSample: true`. Cần người dùng hoặc tỉnh xác minh (đặc biệt mô tả các Địa chỉ đỏ) trước khi bỏ cờ mẫu.
-- Ảnh cho 44 điểm còn thiếu (trong đó có Làng Vây, Dốc Miếu): chờ ảnh tự chụp hoặc ảnh do tỉnh cung cấp, nhập qua CMS.
+**Việc còn treo (rà soát 07/10/2026):**
+
+*Người dùng tự làm dần (không phải việc của Claude):*
+- Nhập dữ liệu địa điểm qua CMS: nông sản (hiện 3 điểm, mỗi lớp 1 điểm), điểm STEM (hiện 1), tháng nổi bật `months` (5/102), ảnh cho 44 điểm còn thiếu (trong đó có Làng Vây, Dốc Miếu).
+- Dịch song ngữ: mô tả tiếng Anh 0/102 địa điểm, tên tiếng Anh 18/102, tên và mô tả 2 tuyến, ghi chú điểm dừng, mô tả ảnh. Chưa nhập thì giao diện tự hiển thị tiếng Việt.
+- Xác minh dữ liệu mẫu: cả 102 địa điểm và 2 tuyến vẫn `isSample: true`. Cần người dùng hoặc tỉnh xác minh (đặc biệt mô tả các Địa chỉ đỏ) trước khi bỏ cờ mẫu.
+- Phân công quản trị nội dung theo trụ cột (mục 10.6): chưa có; hiện chỉ chủ dự án sửa qua CMS. Nên làm trước khi mở cho người khác sửa: mỗi người dùng một token GitHub riêng (cách tạo token ở `content/README.md`) để biết ai sửa gì.
+- Nên đọc lại bản dịch giao diện do Claude viết (`src/i18n.ts`, nhãn lớp trong `layers.data.json`, chủ đề trong `routes.data.json`), đặc biệt tên lớp "Địa chỉ đỏ" đang dịch là "Red Address sites (revolutionary heritage)".
+
+*Việc kỹ thuật, làm khi được yêu cầu:*
+- Tuyến nông nghiệp và tuyến học tập ngoại khóa: cần người dùng nhập thêm điểm (nông sản cùng khu vực; trải nghiệm STEM, trường, bảo tàng). Cách tạo tuyến: CMS mục "Tuyến trải nghiệm", không cần sửa code.
+- Phase 3: đổi nguồn quản trị nếu cần (hiện đã dùng Sveltia CMS), tìm theo tên cũ trước sáp nhập (cần dữ liệu gis.vn, chưa rõ giấy phép), đổ bóng địa hình DEM, mở rộng cấp vùng.
+- Tuyến: chỉ có đường bộ OSM thuộc các cấp motorway, trunk, primary, secondary, tertiary; điểm dừng cách đường > 3 km hoặc không nối được thì vẽ đường thẳng nét đứt (build có cảnh báo). Chưa lưu tuyến vào mục "Đã lưu".
+- Song ngữ: chưa dịch tên tỉnh lân cận trên bản đồ (theo quyết định giữ tiếng Việt); tên đơn vị cũ (Phase 3) và các trang tĩnh (`index.html`, thẻ `noscript`) vẫn tiếng Việt. Thêm ngôn ngữ thứ ba cần thêm bộ chuỗi cùng kiểu `Strings`, mở rộng `Lang`/`LANGS` và các trường `*Xx` trong dữ liệu.
 - `npm audit`: 8 mục (1 critical, 4 high, 3 moderate), **tất cả nằm trong devDependencies**; `npm audit --omit=dev` báo 0. Hai gốc: `mapshaper` (kéo theo `adm-zip`, `fflate`, `@xmldom/xmldom`, `@ngageoint/geopackage` → `file-type`, `image-size`) và `osmtogeojson` (kéo theo `@xmldom/xmldom` 0.8.3). `sharp` không liên quan. Hai gói này chỉ chạy trong `data:build` / `data:fetch` trên máy, với dữ liệu tải từ nguồn đã biết; app web chỉ import `maplibre-gl` và `@fontsource`. Không chạy `npm audit fix --force` vì sẽ hạ mapshaper xuống 0.6.13 và osmtogeojson xuống 2.2.12 (đổi phiên bản lớn). Chờ hai gói này cập nhật phụ thuộc.
 - Dung lượng `wards.geojson` (906 KB, gzip khoảng 230 KB): chưa chia tile; chỉ làm nếu thấy chậm trên điện thoại.
-- Phase 2: song ngữ **đã có khung** (xem mục 11), còn thiếu **nội dung tiếng Anh do người dùng nhập** (mô tả 0/102 địa điểm, tên 18/102, 2 tuyến). Tuyến trải nghiệm mới có 2 tuyến mẫu về nguồn; chưa có tuyến nông nghiệp (cần thêm điểm nông sản do người dùng nhập) và tuyến học tập ngoại khóa (cần thêm điểm STEM).
-- Phân công quản trị nội dung theo trụ cột (mục 10.6): chưa có; hiện chỉ chủ dự án sửa qua CMS.
