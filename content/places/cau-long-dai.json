@@ -2,7 +2,16 @@
   "layer": "di-tich",
   "name": "Cầu Long Đại",
   "latLng": "17.324795, 106.623748",
-  "summary": "Cầu bắc qua sông Long Đại, gắn với trọng điểm giao thông trên tuyến đường Trường Sơn thời chiến.",
+  "summary": "Cầu bắc qua sông Long Đại, gắn với trọng điểm giao thông trên tuyến đường Trường Sơn thời chiến.\nQuảng Trị ngoài vẻ đẹp thiên nhiên hùng vỹ mà tạo hóa đã ban tặng để hôm nay du khách khắp bốn phương ai cũng tìm đến, thì bên cạnh đó những người con tồn tại trong chế độ chiến tranh đã để lại những sự đau thương da diết cho đời sau, bến Phà Long Đại lâu nay đã đi vào lịch sử, đã là địa chỉ đó cho tất cả các chiến sỹ cả nước về thắp nén hương thơm tri ân các anh hùng liệt sỹ.",
+  "images": [
+    {
+      "src": "/images/places/cau-long-dai-d0da21e23cc8.webp",
+      "alt": "Cầu Long Đại",
+      "altEn": "Long Dai bridge",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/5334861321",
