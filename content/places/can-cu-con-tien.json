@@ -3,6 +3,14 @@
   "name": "Di tích căn cứ Cồn Tiên",
   "latLng": "16.908182, 106.982757",
   "summary": "Di tích căn cứ quân sự thuộc tuyến phòng thủ phía Nam vĩ tuyến 17 trong thời kỳ chiến tranh.",
+  "images": [
+    {
+      "src": "/images/places/can-cu-con-tien-1fea3a9c0908.webp",
+      "alt": "Di tích căn cứ Cồn Tiên",
+      "credit": "Di tích căn cứ Cồn Tiên",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4667117489",
