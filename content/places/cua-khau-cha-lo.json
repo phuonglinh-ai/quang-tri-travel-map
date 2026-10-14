@@ -3,6 +3,14 @@
   "name": "Cửa khẩu quốc tế Cha Lo",
   "latLng": "17.678497, 105.76631",
   "summary": "Cửa khẩu quốc tế trên Quốc lộ 12A, nối Việt Nam với Lào.",
+  "images": [
+    {
+      "src": "/images/places/cua-khau-cha-lo-8d8ce6c807f3.webp",
+      "alt": "Cửa khẩu quốc tế Cha Lo",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý"
+    }
+  ],
   "isSample": true,
   "icon": "🛂",
   "source": {
