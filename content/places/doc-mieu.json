@@ -3,6 +3,14 @@
   "name": "Di tích Dốc Miếu",
   "latLng": "16.953038, 107.071949",
   "summary": "Di tích gắn với hệ thống hàng rào điện tử McNamara, nay trưng bày một số hiện vật chiến tranh ngoài trời.",
+  "images": [
+    {
+      "src": "/images/places/doc-mieu-244c0a3641e1.webp",
+      "alt": "Di tích Dốc Miếu",
+      "credit": "Di tích Dốc Miếu",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4411036389",
