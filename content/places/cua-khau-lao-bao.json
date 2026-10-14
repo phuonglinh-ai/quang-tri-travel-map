@@ -3,6 +3,14 @@
   "name": "Cửa khẩu quốc tế Lao Bảo",
   "latLng": "16.624181, 106.591053",
   "summary": "Cửa khẩu quốc tế trên Quốc lộ 9, nối Việt Nam với Lào.",
+  "images": [
+    {
+      "src": "/images/places/cua-khau-lao-bao-3ac233200e2b.webp",
+      "alt": "Cửa khẩu quốc tế Lao Bảo",
+      "credit": "Quảng Trị",
+      "license": "Do cơ quan cung cấp, có văn bản đồng ý"
+    }
+  ],
   "isSample": true,
   "icon": "🛂",
   "source": {
