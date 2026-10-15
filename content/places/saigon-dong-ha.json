@@ -3,6 +3,14 @@
   "name": "Saigon-Dong Ha",
   "latLng": "16.82461, 107.101128",
   "summary": "Cơ sở lưu trú tại khu vực Đông Hà. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/saigon-dong-ha-ea062a54b581.webp",
+      "alt": "Saigon-Dong Ha",
+      "credit": "Saigon-Dong Ha",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/318553035",
