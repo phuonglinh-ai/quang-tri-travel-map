@@ -4,6 +4,14 @@
   "nameEn": "Hue University – Quang Tri Branch",
   "latLng": "16.788277, 107.097505",
   "summary": "Phân hiệu đào tạo đại học tại Đông Hà.",
+  "images": [
+    {
+      "src": "/images/places/phan-hieu-dh-hue-456128c555ba.webp",
+      "alt": "Phân hiệu Đại học Huế tại Quảng Trị",
+      "credit": "Phân hiệu Đại học Huế tại Quảng Trị",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/1078527258",
