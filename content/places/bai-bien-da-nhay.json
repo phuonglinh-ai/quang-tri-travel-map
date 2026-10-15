@@ -4,6 +4,14 @@
   "nameEn": "Da Nhay Beach",
   "latLng": "17.655376, 106.518813",
   "summary": "Bãi biển có những bãi đá ven bờ, cảnh quan kết hợp giữa núi và biển.",
+  "images": [
+    {
+      "src": "/images/places/bai-bien-da-nhay-06b8a3939492.webp",
+      "alt": "Bãi biển Đá Nhảy",
+      "credit": "Bãi biển Đá Nhảy",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/10133138818",
