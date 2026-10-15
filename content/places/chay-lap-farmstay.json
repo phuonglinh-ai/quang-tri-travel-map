@@ -3,7 +3,16 @@
   "name": "Chày Lập Farmstay",
   "nameEn": "Chay Lap Farmstay",
   "latLng": "17.601666, 106.254693",
-  "summary": "Cơ sở lưu trú tại khu vực Phong Nha. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "summary": "Chày Lập Farmstay là nơi lưu giữ những giá trị mộc mạc, bền vững và mang đậm dấu ấn của cộng đồng địa phương. Tại đây, những lát cắt của đời sống thôn quê bình dị trở thành một phần của trải nghiệm nghỉ dưỡng. Nhiều hoạt động nhẹ nhàng như đạp xe qua làng, tản bộ trong vườn cây, chèo kayak trên sông Chày hay khám phá các địa điểm tham quan nổi tiếng của vùng di sản sẽ mang du khách đến gần hơn với vùng đất Phong Nha. Đặc biệt, các trải nghiệm này đều gắn liền với nhiều mục tiêu xanh: từ vật liệu xây dựng thân thiện với môi trường, năng lượng mặt trời, đến việc duy trì sử dụng nguồn nông sản sạch tại địa phương.",
+  "images": [
+    {
+      "src": "/images/places/chay-lap-farmstay-50e094cc6353.webp",
+      "alt": "Chày Lập Farmstay",
+      "altEn": "Chày Lập Farmstay",
+      "credit": "Chày Lập Farmstay",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4318935589",
