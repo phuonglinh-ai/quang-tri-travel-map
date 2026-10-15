@@ -4,6 +4,14 @@
   "nameEn": "Nam Ly Bus Station",
   "latLng": "17.468149, 106.604019",
   "summary": "Bến xe khách tại Đồng Hới.",
+  "images": [
+    {
+      "src": "/images/places/ben-xe-nam-ly-42274539b7b6.webp",
+      "alt": "Bến xe Nam Lý",
+      "credit": "Bến xe Nam Lý",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "icon": "🚌",
   "source": {
