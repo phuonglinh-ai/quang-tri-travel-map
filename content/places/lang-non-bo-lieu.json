@@ -4,6 +4,14 @@
   "nameEn": "Bo Lieu Conical Hat Village",
   "latLng": "16.799738, 107.183723",
   "summary": "Làng nghề làm nón lá truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "images": [
+    {
+      "src": "/images/places/lang-non-bo-lieu-8605e80b3a4c.webp",
+      "alt": "Làng làm nón lá Bố Liêu",
+      "credit": "Làng làm nón lá Bố Liêu",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9959986721",
