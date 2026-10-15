@@ -4,6 +4,14 @@
   "nameEn": "Pho Lai Paper and Lime Village",
   "latLng": "16.840419, 107.083687",
   "summary": "Làng nghề thủ công truyền thống làm giấy và vôi. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "images": [
+    {
+      "src": "/images/places/lang-pho-lai-32f694b3eb75.webp",
+      "alt": "Làng làm giấy và vôi Phổ Lại",
+      "credit": "Làng làm giấy và vôi Phổ Lại",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9959987918",
