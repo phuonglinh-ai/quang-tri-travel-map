@@ -3,6 +3,14 @@
   "name": "Ho Khanh's homestay",
   "latLng": "17.595017, 106.286325",
   "summary": "Cơ sở lưu trú tại khu vực Phong Nha. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/ho-khanh-homestay-da2474036e51.webp",
+      "alt": "Ho Khanh's homestay",
+      "credit": "Ho Khanh's homestay",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4316748304",
