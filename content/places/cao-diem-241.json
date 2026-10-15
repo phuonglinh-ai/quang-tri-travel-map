@@ -4,6 +4,14 @@
   "nameEn": "Hill 241 (Tan Lam)",
   "latLng": "16.771908, 106.928261",
   "summary": "Di tích cao điểm quân sự trong thời kỳ kháng chiến chống Mỹ, nằm gần Quốc lộ 9.",
+  "images": [
+    {
+      "src": "/images/places/cao-diem-241-736dbe96ba92.webp",
+      "alt": "Cao điểm 241",
+      "credit": "Cao điểm 241",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/1077141940",
