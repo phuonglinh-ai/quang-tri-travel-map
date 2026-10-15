@@ -4,6 +4,14 @@
   "nameEn": "Thai Ninh Hotel",
   "latLng": "16.626431, 106.733409",
   "summary": "Cơ sở lưu trú tại khu vực Khe Sanh. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/khach-san-thai-ninh-8528fc209b83.webp",
+      "alt": "Thai Ninh Hotel",
+      "credit": "Thai Ninh Hotel",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/867317145",
