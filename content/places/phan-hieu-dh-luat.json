@@ -4,6 +4,14 @@
   "nameEn": "Ho Chi Minh City University of Law – Quang Tri Campus",
   "latLng": "17.481584, 106.571435",
   "summary": "Phân hiệu đào tạo ngành luật tại Đồng Hới.",
+  "images": [
+    {
+      "src": "/images/places/phan-hieu-dh-luat-b3aaae676f61.webp",
+      "alt": "Trường Đại học Luật TP. Hồ Chí Minh – Phân hiệu Quảng Trị",
+      "credit": "Trường Đại học Luật TP. Hồ Chí Minh – Phân hiệu Quảng Trị",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/970128268",
