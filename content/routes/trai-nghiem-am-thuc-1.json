@@ -1,0 +1,26 @@
+{
+  "name": "Trải nghiệm ẩm thực 1",
+  "theme": "nong-nghiep",
+  "summary": "Tuyến trải nghiệm ẩm thực 1",
+  "duration": "1 ngày",
+  "audience": "Các bạn trẻ thích khám phá ẩm thực",
+  "stops": [
+    {
+      "place": "banh-bot-loc-my-chanh-quang-tri",
+      "note": "Điểm khởi hành"
+    },
+    {
+      "place": "bun-cam-thach",
+      "note": "Ghé Làng Bún"
+    },
+    {
+      "place": "thit-trau-la-trong-dong-ha",
+      "note": "Ghé ăn thịt trâu"
+    },
+    {
+      "place": "banh-beo-ngoc-anh",
+      "note": "Chốt ăn bánh bèo"
+    }
+  ],
+  "isSample": true
+}
