@@ -4,6 +4,14 @@
   "nameEn": "Phuong Ngan Paper Fan Craft Village",
   "latLng": "16.795249, 107.172665",
   "summary": "Làng nghề làm quạt giấy truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "images": [
+    {
+      "src": "/images/places/quat-giay-phuong-ngan-02be5c96056d.webp",
+      "alt": "Làng nghề quạt giấy Phương Ngạn",
+      "credit": "Làng nghề quạt giấy Phương Ngạn",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9960011618",
