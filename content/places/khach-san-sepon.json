@@ -4,6 +4,14 @@
   "nameEn": "Sepon Hotel",
   "latLng": "16.618616, 106.6001",
   "summary": "Cơ sở lưu trú tại khu vực Lao Bảo. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/khach-san-sepon-ff7ab79b8da7.webp",
+      "alt": "Khách sạn Sepon",
+      "credit": "Khách sạn Sepon",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/3514557376",
