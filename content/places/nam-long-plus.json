@@ -3,6 +3,14 @@
   "name": "Nam Long Plus Hotel",
   "latLng": "17.478438, 106.623117",
   "summary": "Cơ sở lưu trú tại khu vực Đồng Hới. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/nam-long-plus-66f41231ee2a.webp",
+      "alt": "Nam Long Plus Hotel",
+      "credit": "Nam Long Plus Hotel",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/3525363454",
