@@ -1,0 +1,22 @@
+{
+  "layer": "danh-thang",
+  "name": "Khe Nước Lạnh Quảng Trị",
+  "latLng": "17.23318497480196, 106.59757303376068",
+  "summary": "Khu du lịch sinh thái Khe Nước Lạnh Quảng Bình nay thuộc tỉnh Quảng Trị – Địa điểm hot nhất mùa hè này! Khe Nước Lạnh Quảng Trị là một trong những điểm dừng chân tắm mát, trải nghiệm ẩm thực và khám phá thiên nhiên thơ mộng, nên thơ được nhiều người yêu thích. Giữa thành phố xô bồ, đông đúc, giữa bộn bề công việc chất đống, áp lực trên vai, Khe Nước Lạnh được tìm đến như là một nơi yên bình và thanh mát để “chữa lành” cho mọi tâm hồn.",
+  "images": [
+    {
+      "src": "/images/places/khe-nuoc-lanh-quang-tri-9fd82f34b010.webp",
+      "alt": "Khe nước lạnh Quảng Trị",
+      "credit": "Khe nước lạnh Quảng Trị",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
+  "months": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "isSample": true
+}
