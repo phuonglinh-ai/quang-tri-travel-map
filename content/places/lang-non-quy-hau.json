@@ -4,6 +4,14 @@
   "nameEn": "Quy Hau Conical Hat Village",
   "latLng": "17.216338, 106.797689",
   "summary": "Làng nghề làm nón lá truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "images": [
+    {
+      "src": "/images/places/lang-non-quy-hau-0e980bfa8a58.webp",
+      "alt": "Làng nón Quy Hậu",
+      "credit": "Làng nón Quy Hậu",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9959967920",
