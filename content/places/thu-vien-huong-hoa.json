@@ -4,6 +4,14 @@
   "nameEn": "Huong Hoa Library",
   "latLng": "16.626998, 106.736352",
   "summary": "Thư viện công cộng tại khu vực Khe Sanh.",
+  "images": [
+    {
+      "src": "/images/places/thu-vien-huong-hoa-d475e3cf7cdc.webp",
+      "alt": "Thư viện Hướng Hóa",
+      "credit": "Thư viện Hướng Hóa",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/866330392",
