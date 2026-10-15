@@ -1,6 +1,7 @@
 {
   "layer": "luu-tru",
   "name": "Chày Lập Farmstay",
+  "nameEn": "Chay Lap Farmstay",
   "latLng": "17.601666, 106.254693",
   "summary": "Cơ sở lưu trú tại khu vực Phong Nha. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
   "isSample": true,

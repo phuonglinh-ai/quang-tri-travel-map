@@ -1,6 +1,7 @@
 {
   "layer": "giao-thong",
   "name": "Bến xe Nam Lý",
+  "nameEn": "Nam Ly Bus Station",
   "latLng": "17.468149, 106.604019",
   "summary": "Bến xe khách tại Đồng Hới.",
   "isSample": true,

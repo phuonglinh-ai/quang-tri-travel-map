@@ -1,6 +1,7 @@
 {
   "layer": "luu-tru",
   "name": "Khách sạn Thành Phát",
+  "nameEn": "Thanh Phat Hotel",
   "latLng": "17.018538, 107.11127",
   "summary": "Cơ sở lưu trú tại khu vực Cửa Tùng. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
   "isSample": true,

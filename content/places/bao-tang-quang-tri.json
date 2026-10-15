@@ -1,6 +1,7 @@
 {
   "layer": "bao-tang-thu-vien",
   "name": "Bảo tàng Quảng Trị",
+  "nameEn": "Quang Tri Museum",
   "latLng": "16.819164, 107.090531",
   "summary": "Bảo tàng tại Đông Hà, trưng bày hiện vật về lịch sử, văn hóa của vùng đất Quảng Trị.",
   "isSample": true,

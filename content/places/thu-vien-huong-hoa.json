@@ -1,6 +1,7 @@
 {
   "layer": "bao-tang-thu-vien",
   "name": "Thư viện Hướng Hóa",
+  "nameEn": "Huong Hoa Library",
   "latLng": "16.626998, 106.736352",
   "summary": "Thư viện công cộng tại khu vực Khe Sanh.",
   "isSample": true,

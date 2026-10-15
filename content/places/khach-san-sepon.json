@@ -1,6 +1,7 @@
 {
   "layer": "luu-tru",
   "name": "Khách sạn Sepon",
+  "nameEn": "Sepon Hotel",
   "latLng": "16.618616, 106.6001",
   "summary": "Cơ sở lưu trú tại khu vực Lao Bảo. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
   "isSample": true,

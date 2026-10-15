@@ -1,6 +1,7 @@
 {
   "layer": "luu-tru",
   "name": "Khách sạn Thái Ninh",
+  "nameEn": "Thai Ninh Hotel",
   "latLng": "16.626431, 106.733409",
   "summary": "Cơ sở lưu trú tại khu vực Khe Sanh. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
   "isSample": true,
