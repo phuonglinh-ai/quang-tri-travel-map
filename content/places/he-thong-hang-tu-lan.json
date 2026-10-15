@@ -4,6 +4,14 @@
   "nameEn": "Tu Lan Cave System",
   "latLng": "17.764496, 106.069003",
   "summary": "Hệ thống hang động và thung lũng ở vùng Tân Hóa, dành cho các tour thám hiểm, bơi hang.",
+  "images": [
+    {
+      "src": "/images/places/he-thong-hang-tu-lan-377f96473015.webp",
+      "alt": "Hệ thống hang Tú Làn",
+      "credit": "Hệ thống hang Tú Làn",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "mapZoom": 11.5,
   "source": {
