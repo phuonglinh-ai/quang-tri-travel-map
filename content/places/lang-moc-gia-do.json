@@ -4,6 +4,14 @@
   "nameEn": "Gia Do Carpentry Village",
   "latLng": "16.844012, 107.128952",
   "summary": "Làng nghề mộc truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "images": [
+    {
+      "src": "/images/places/lang-moc-gia-do-b8c06a33dcac.webp",
+      "alt": "Làng mộc Gia Độ",
+      "credit": "Làng mộc Gia Độ",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9959986717",
