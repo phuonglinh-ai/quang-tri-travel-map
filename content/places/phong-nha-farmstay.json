@@ -3,6 +3,14 @@
   "name": "Phong Nha Farmstay",
   "latLng": "17.62423, 106.385183",
   "summary": "Cơ sở lưu trú tại khu vực Phong Nha. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/phong-nha-farmstay-a389b655652f.webp",
+      "alt": "Phong Nha Farmstay",
+      "credit": "Phong Nha Farmstay",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/1914591738",
