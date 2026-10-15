@@ -4,6 +4,14 @@
   "nameEn": "Thanh Phat Hotel",
   "latLng": "17.018538, 107.11127",
   "summary": "Cơ sở lưu trú tại khu vực Cửa Tùng. Tên và vị trí lấy từ OpenStreetMap, chưa được xác minh.",
+  "images": [
+    {
+      "src": "/images/places/khach-san-thanh-phat-c06ebe353668.webp",
+      "alt": "Khách sạn Thành Phát",
+      "credit": "Khách sạn Thành Phát",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/1016630735",
