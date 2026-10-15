@@ -4,6 +4,14 @@
   "nameEn": "Cam Thach Rice Vermicelli Village",
   "latLng": "16.845572, 107.087498",
   "summary": "Làng nghề làm bún truyền thống. Có thể kết hợp tham quan, tìm hiểu quy trình làm sản phẩm.",
+  "images": [
+    {
+      "src": "/images/places/bun-cam-thach-99f8780b7c9c.webp",
+      "alt": "Làng bún Cẩm Thạch",
+      "credit": "Làng bún Cẩm Thạch",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/9960036518",
