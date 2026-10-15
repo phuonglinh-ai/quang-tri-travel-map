@@ -1,0 +1,16 @@
+{
+  "layer": "danh-thang",
+  "name": "Hang Chà Lòi Quảng Trị",
+  "nameEn": "Cha Loi Cave",
+  "latLng": "17.200240090283586, 106.59969255144392",
+  "summary": "Hang Chà Lòi nằm tại bản Cây Sung, xã Ngân Thủy, huyện Lệ Thủy, tỉnh Quảng Bình ( nay là xã Kim Ngân, tỉnh Quảng Trị)  – thuộc khu vực phía tây bắc, giáp ranh Vườn quốc gia Phong Nha – Kẻ Bàng Địa điểm này cách trung tâm thành phố Đồng Hới khoảng 40 km về hướng tây nam. Hang ẩn mình dưới chân dãy núi đá vôi lớn, bao quanh bởi rừng núi nguyên sơ đặc trưng của vùng đất được mệnh danh là “vương quốc hang động” Quảng Bình. Hang Chà Lòi còn được người dân địa phương gọi là “hang Đại tướng” hoặc “hang Ông Giáp” do trong thời kháng chiến, Đại tướng Võ Nguyên Giáp cùng bộ đội từng dừng chân trú ẩn tại đây, để lại nhiều dấu tích lịch sử chống Mỹ.",
+  "images": [
+    {
+      "src": "/images/places/hang-cha-loi-quang-tri-7e1b129f2406.webp",
+      "alt": "Hang Chà Lòi",
+      "credit": "Hang Chà Lòi",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
+  "isSample": true
+}
