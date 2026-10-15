@@ -4,6 +4,14 @@
   "nameEn": "Quang Tri Museum",
   "latLng": "16.819164, 107.090531",
   "summary": "Bảo tàng tại Đông Hà, trưng bày hiện vật về lịch sử, văn hóa của vùng đất Quảng Trị.",
+  "images": [
+    {
+      "src": "/images/places/bao-tang-quang-tri-725dc190a2b2.webp",
+      "alt": "Bảo tàng Quảng Trị",
+      "credit": "Bảo tàng Quảng Trị",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/344918978",
