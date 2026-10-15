@@ -4,6 +4,14 @@
   "nameEn": "Quang Tri Technical College of Industry and Agriculture",
   "latLng": "17.45476, 106.599369",
   "summary": "Cơ sở đào tạo nghề kỹ thuật công nghiệp và nông nghiệp.",
+  "images": [
+    {
+      "src": "/images/places/cd-ky-thuat-cong-nong-758c0d857a38.webp",
+      "alt": "Trường Cao đẳng Kỹ thuật Công – Nông nghiệp",
+      "credit": "Trường Cao đẳng Kỹ thuật Công – Nông nghiệp",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/880782265",
