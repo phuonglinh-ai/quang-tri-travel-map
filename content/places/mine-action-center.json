@@ -1,8 +1,17 @@
 {
   "layer": "bao-tang-thu-vien",
-  "name": "Mine Action Visitor Center",
+  "name": "Bảo tàng Khắc phục hậu quả bom mìn",
+  "nameEn": "Mine Action Visitor Center",
   "latLng": "16.798937, 107.105173",
   "summary": "Điểm tham quan tìm hiểu về bom mìn, vật liệu nổ còn sót lại sau chiến tranh và công tác khắc phục hậu quả.",
+  "images": [
+    {
+      "src": "/images/places/mine-action-center-b2c4631ac602.webp",
+      "alt": "Bảo tàng Khắc phục hậu quả bom mìn",
+      "credit": "Bảo tàng Khắc phục hậu quả bom mìn",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "way/344918977",
