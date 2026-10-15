@@ -4,6 +4,14 @@
   "nameEn": "Chenh Venh Waterfall",
   "latLng": "16.777106, 106.579813",
   "summary": "Thác nước giữa núi rừng miền Tây, phù hợp cho những chuyến dã ngoại.",
+  "images": [
+    {
+      "src": "/images/places/thac-chenh-venh-2510e62cd4ee.webp",
+      "alt": "Thác Chênh Vênh",
+      "credit": "Thác Chênh Vênh",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/8018640188",
