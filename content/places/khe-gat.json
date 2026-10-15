@@ -4,6 +4,14 @@
   "nameEn": "Khe Gat Martyrs Memorial House",
   "latLng": "17.66115, 106.251761",
   "summary": "Công trình tưởng niệm các liệt sĩ tại trọng điểm Khe Gát trên tuyến đường Trường Sơn.",
+  "images": [
+    {
+      "src": "/images/places/khe-gat-9adf157a0466.webp",
+      "alt": "Nhà tưởng niệm liệt sĩ Khe Gát",
+      "credit": "Nhà tưởng niệm liệt sĩ Khe Gát",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "source": {
     "osm": "node/4408964589",
