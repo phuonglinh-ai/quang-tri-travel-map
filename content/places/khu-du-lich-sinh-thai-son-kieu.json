@@ -1,0 +1,15 @@
+{
+  "layer": "danh-thang",
+  "name": "Khu Du Lịch Sinh Thái Sơn Kiều",
+  "latLng": "17.208522875775635, 106.57175346112392",
+  "summary": "Sơn Kiều ra đời từ một tình yêu giản dị — tình yêu với núi rừng Trường Sơn hùng vĩ, với những dòng suối trong vắt ẩn mình giữa đại ngàn, và với những hang động triệu năm tuổi còn giữ nguyên vẻ hoang sơ nguyên thuỷ.",
+  "images": [
+    {
+      "src": "/images/places/khu-du-lich-sinh-thai-son-kieu-6542e08dfae6.webp",
+      "alt": "Khu Du Lịch Sinh Thái Sơn Kiều",
+      "credit": "Khu Du Lịch Sinh Thái Sơn Kiều",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
+  "isSample": true
+}
