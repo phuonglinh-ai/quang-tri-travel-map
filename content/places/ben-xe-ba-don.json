@@ -4,6 +4,14 @@
   "nameEn": "Ba Don Bus Station",
   "latLng": "17.752954, 106.425217",
   "summary": "Bến xe khách tại Ba Đồn.",
+  "images": [
+    {
+      "src": "/images/places/ben-xe-ba-don-b7d509b2acb9.webp",
+      "alt": "Bến xe khách Ba Đồn",
+      "credit": "Bến xe khách Ba Đồn",
+      "license": "Ảnh tự chụp, tác giả đồng ý cho sử dụng"
+    }
+  ],
   "isSample": true,
   "icon": "🚌",
   "source": {
