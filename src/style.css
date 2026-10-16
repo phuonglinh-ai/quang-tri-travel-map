@@ -85,6 +85,33 @@ a { color: var(--brand); }
 .search-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: 0; background: none; font-size: 1.3rem; width: 32px; height: 32px; color: var(--muted); }
 
 .section-title { margin: 0 0 10px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.collapse > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--sand);
+  cursor: pointer;
+  list-style: none;
+}
+.collapse > summary::-webkit-details-marker { display: none; }
+.collapse > summary:hover { border-color: var(--brand); }
+.collapse > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.collapse > summary .section-title { flex: 1; margin: 0; }
+.collapse-meta { font-size: 0.78rem; color: var(--muted); }
+.collapse > summary .chev { transition: transform 0.15s; }
+.collapse[open] > summary .chev { transform: rotate(90deg); }
+.collapse-body { padding-top: 10px; }
+@media (prefers-reduced-motion: reduce) { .collapse > summary .chev { transition: none; } }
+
+.chips.chips-scroll { flex-wrap: nowrap; overflow-x: auto; margin: 0 0 10px; padding-bottom: 6px; scrollbar-width: thin; }
+.chips.chips-scroll .chip { flex: none; white-space: nowrap; }
+.chip[aria-pressed='true'] { background: var(--c, var(--brand)); border-color: var(--c, var(--brand)); color: #fff; }
+.chip[aria-pressed='true']:hover { color: #fff; }
+
 .group-title { margin: 14px 0 6px; font-size: 0.85rem; font-weight: 600; color: var(--brand-ink); }
 .group-title:first-child { margin-top: 0; }
 

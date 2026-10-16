@@ -3,7 +3,7 @@
 // Nút "Quay lại" gỡ lần lượt từng tầng, nên không cần ngăn xếp điều hướng riêng.
 import { PROVINCE, fastTravelLabel, provinceFullName, provinceMergedFrom, provinceName } from '../config/province';
 import { GROUPS, LAYERS, LAYER_BY_ID, layerLabel, layerPendingNote, type LayerDef } from '../config/layers';
-import { THEME_BY_ID, themeLabel } from '../config/routes';
+import { ROUTE_THEMES, THEME_BY_ID, themeLabel } from '../config/routes';
 import {
   assetPath, imageAlt, imageLicense, linkLabel, matchScore, placeAltName, placeName, placeSummary, placeSummaryUntranslated,
   type IndexedPlace, type PlaceImage,
@@ -18,6 +18,7 @@ import { LANGS, getLang, isUntranslated, localized, numberLocale, t, type Lang }
 import { distanceKm, esc, fold } from '../lib/text';
 import { feedbackUrl } from '../lib/feedback';
 import { formatMonths, MONTHS } from '../lib/months';
+import { readJson, writeJson } from '../lib/storage';
 
 export const BASE_LAYERS = [
   { ids: ['ward-line'] },
@@ -26,6 +27,9 @@ export const BASE_LAYERS = [
   { ids: ['rail'] },
   { ids: ['water-area', 'river', 'river-label'] },
 ];
+
+type Section = 'routes' | 'layers';
+const UI_KEY = `travel-map:${PROVINCE.code}:ui`;
 
 type ListView = { kind: 'layer'; id: string } | { kind: 'saved' } | { kind: 'shared' };
 
@@ -55,6 +59,12 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
   let query = '';
   let list: ListView | null = null;
   let layerFilter = '';
+  let routeTheme = '';
+  // Trạng thái đóng/mở các mục thu gọn ở trang chủ: mặc định đóng, nhớ giữa các lần mở trang.
+  // Lưu trong biến (không dựa vào DOM) vì panel dựng lại HTML mỗi khi bật/tắt lớp, đổi tháng…
+  const saved = readJson<Partial<Record<Section, unknown>>>(UI_KEY, {});
+  const ui: Record<Section, boolean> = { routes: saved.routes === true, layers: saved.layers === true };
+  const persistUi = () => writeJson(UI_KEY, ui);
   const scrollMemory = new Map<string, number>();
   let currentKey = '';
 
@@ -151,6 +161,10 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       case 'route':
         actions.selectRoute(id!);
         break;
+      case 'route-theme':
+        routeTheme = id ?? '';
+        render();
+        break;
       case 'route-start':
         actions.selectPlace(routeById.get(id!)!.stops[0].place);
         break;
@@ -190,6 +204,15 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
         break;
     }
   });
+  // Sự kiện `toggle` của <details> không nổi bọt nên nghe ở pha bắt (capture).
+  body.addEventListener('toggle', (e) => {
+    const el = e.target as HTMLDetailsElement;
+    const key = el.dataset?.section as Section | undefined;
+    if (key && key in ui && ui[key] !== el.open) {
+      ui[key] = el.open;
+      persistUi();
+    }
+  }, true);
   body.addEventListener('change', (e) => {
     const el = e.target as HTMLInputElement;
     if (el.dataset.toggleLayer) store.toggleLayer(el.dataset.toggleLayer, el.checked);
@@ -216,7 +239,10 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       if (list.kind === 'shared') store.set({ sharedList: null });
       list = null;
       render();
-    } else if (s.route) actions.selectRoute(null);
+    } else if (s.route) {
+      ui.routes = true; // về trang chủ thì mở sẵn mục tuyến để thấy lại tuyến vừa xem (không ghi đè lựa chọn đã lưu)
+      actions.selectRoute(null);
+    }
     else if (s.selectedWard) actions.selectWard(null);
     else return false;
     return true;
@@ -247,9 +273,18 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
     </button></li>`;
   };
 
+  /** Mục thu gọn ở trang chủ: tiêu đề kèm số lượng, bấm để mở/đóng. */
+  const collapse = (key: Section, title: string, meta: string, content: string) => `
+    <details class="collapse" data-section="${key}"${ui[key] ? ' open' : ''}>
+      <summary><h2 class="section-title">${esc(title)}</h2>${meta ? `<span class="collapse-meta">${esc(meta)}</span>` : ''}<span class="chev" aria-hidden="true">›</span></summary>
+      <div class="collapse-body">${content}</div>
+    </details>`;
+
   function homeHtml() {
     const s = store.get();
     const featured = places.filter((p) => p.featured);
+    const toggleable = LAYERS.filter((l) => counts.get(l.id)).length;
+    const activeCount = LAYERS.filter((l) => counts.get(l.id) && s.activeLayers.has(l.id)).length;
     return `
       <section>
         <h2 class="section-title">${t.featured}</h2>
@@ -270,8 +305,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
       </section>
       ${routesHtml()}
       ${seasonHtml()}
-      <section>
-        <h2 class="section-title">${t.layers}</h2>
+      ${collapse('layers', `${t.layers} (${LAYERS.length})`, t.layersOn(activeCount, toggleable), `
         ${GROUPS.map(
           (g) => `
           <h3 class="group-title">${esc(layerLabel(g))}</h3>
@@ -294,8 +328,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
               })
               .join('')}
           </ul>`,
-        ).join('')}
-      </section>
+        ).join('')}`)}
       <section>
         <h2 class="section-title">${t.fastTravel}</h2>
         <div class="chips">
@@ -330,10 +363,21 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
 
   function routesHtml() {
     if (!routes.length) return '';
-    return `<section>
-      <h2 class="section-title">${t.routes}</h2>
+    const themes = ROUTE_THEMES.filter((th) => routes.some((r) => r.theme === th.id));
+    if (!themes.some((th) => th.id === routeTheme)) routeTheme = '';
+    const shown = routes.filter((r) => !routeTheme || r.theme === routeTheme);
+    const chip = (id: string, label: string, color?: string) =>
+      `<button class="chip" type="button" data-action="route-theme" data-id="${id}" aria-pressed="${routeTheme === id}"${color ? ` style="--c:${color}"` : ''}>${label}</button>`;
+    const filter =
+      themes.length > 1
+        ? `<div class="chips chips-scroll" role="group" aria-label="${esc(t.routeFilterLabel)}">
+          ${chip('', `${esc(t.routeFilterAll)} (${routes.length})`)}
+          ${themes.map((th) => chip(th.id, `${th.icon} ${esc(themeLabel(th))} (${routes.filter((r) => r.theme === th.id).length})`, th.color)).join('')}
+        </div>`
+        : '';
+    return collapse('routes', `${t.routes} (${routes.length})`, '', `${filter}
       <ul class="route-cards">
-        ${routes
+        ${shown
           .map((r) => {
             const theme = THEME_BY_ID.get(r.theme)!;
             return `<li><button class="route-card" data-action="route" data-id="${r.id}" style="--c:${theme.color}">
@@ -347,8 +391,7 @@ export function createPanel(root: HTMLElement, store: Store, places: IndexedPlac
             </button></li>`;
           })
           .join('')}
-      </ul>
-    </section>`;
+      </ul>`);
   }
 
   function routeHtml(r: TravelRoute) {
