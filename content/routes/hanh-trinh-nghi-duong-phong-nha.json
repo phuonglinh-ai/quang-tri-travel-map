@@ -1,0 +1,22 @@
+{
+  "name": "Hành trình nghỉ dưỡng sinh thái Phong Nha",
+  "nameEn": "Phong Nha ecotourism and retreat journey",
+  "theme": "sinh-thai",
+  "summary": "Từ Suối nước Moọc đến các điểm lưu trú Chày Lập Farmstay, Greenfield Ecostay và Phong Nha Farmstay trong vùng Phong Nha – Kẻ Bàng.",
+  "summaryEn": "From Nuoc Mooc Stream to Chay Lap Farmstay, Greenfield Ecostay and Phong Nha Farmstay in the Phong Nha – Ke Bang area.",
+  "stops": [
+    {
+      "place": "suoi-nuoc-mooc"
+    },
+    {
+      "place": "chay-lap-farmstay"
+    },
+    {
+      "place": "greenfield-ecostay"
+    },
+    {
+      "place": "phong-nha-farmstay"
+    }
+  ],
+  "isSample": true
+}

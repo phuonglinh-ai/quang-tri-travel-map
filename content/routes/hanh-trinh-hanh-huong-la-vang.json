@@ -1,0 +1,22 @@
+{
+  "name": "Hành trình hành hương La Vang – Tam Tòa",
+  "nameEn": "La Vang – Tam Toa pilgrimage journey",
+  "theme": "tam-linh",
+  "summary": "Từ Trung tâm hành hương Đức Mẹ La Vang và Nhà thờ Long Hưng, qua chùa Hoằng Phúc, đến Thánh đường Giáo xứ Tam Tòa ở Đồng Hới.",
+  "summaryEn": "From the Our Lady of La Vang Shrine and Long Hung Church, past Hoang Phuc Pagoda, to Tam Toa Parish Church in Dong Hoi.",
+  "stops": [
+    {
+      "place": "la-vang"
+    },
+    {
+      "place": "nha-tho-long-hung"
+    },
+    {
+      "place": "chua-hoang-phuc"
+    },
+    {
+      "place": "thanh-duong-tam-toa"
+    }
+  ],
+  "isSample": true
+}

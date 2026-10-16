@@ -1,0 +1,19 @@
+{
+  "name": "Hành trình hang động Phong Nha",
+  "nameEn": "Phong Nha cave journey",
+  "theme": "hang-dong",
+  "summary": "Tham quan Động Phong Nha, rồi đến Suối nước Moọc và Động Thiên Đường trong vùng Phong Nha – Kẻ Bàng.",
+  "summaryEn": "Visit Phong Nha Cave, then Nuoc Mooc Stream and Paradise Cave in the Phong Nha – Ke Bang area.",
+  "stops": [
+    {
+      "place": "dong-phong-nha"
+    },
+    {
+      "place": "suoi-nuoc-mooc"
+    },
+    {
+      "place": "dong-thien-duong"
+    }
+  ],
+  "isSample": true
+}

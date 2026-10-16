@@ -483,6 +483,34 @@
             {
               "label": "📚 Học tập ngoại khóa",
               "value": "hoc-tap"
+            },
+            {
+              "label": "🍜 Trải nghiệm ẩm thực",
+              "value": "am-thuc"
+            },
+            {
+              "label": "🦇 Khám phá hang động",
+              "value": "hang-dong"
+            },
+            {
+              "label": "🏖️ Biển và đảo",
+              "value": "bien-dao"
+            },
+            {
+              "label": "🙏 Hành hương và tâm linh",
+              "value": "tam-linh"
+            },
+            {
+              "label": "🛂 Hành trình biên giới",
+              "value": "bien-gioi"
+            },
+            {
+              "label": "🌿 Sinh thái và nghỉ dưỡng",
+              "value": "sinh-thai"
+            },
+            {
+              "label": "🧺 Làng nghề",
+              "value": "lang-nghe"
             }
           ]
         },

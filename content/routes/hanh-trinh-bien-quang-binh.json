@@ -1,0 +1,22 @@
+{
+  "name": "Hành trình dải biển phía bắc Đồng Hới",
+  "nameEn": "Coastal journey north of Dong Hoi",
+  "theme": "bien-dao",
+  "summary": "Từ Vũng Chùa – Đảo Yến và bãi biển Đá Nhảy xuôi về bãi biển Nhật Lệ, kết thúc ở làng nghề nước mắm Bảo Ninh.",
+  "summaryEn": "From Vung Chua – Yen Island and Da Nhay Beach down to Nhat Le Beach, ending at the Bao Ninh fish sauce craft village.",
+  "stops": [
+    {
+      "place": "vung-chua"
+    },
+    {
+      "place": "bai-bien-da-nhay"
+    },
+    {
+      "place": "bai-bien-nhat-le"
+    },
+    {
+      "place": "nuoc-mam-bao-ninh"
+    }
+  ],
+  "isSample": true
+}

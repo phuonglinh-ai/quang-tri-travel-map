@@ -1,0 +1,19 @@
+{
+  "name": "Hành trình cửa khẩu Lao Bảo",
+  "nameEn": "Lao Bao border gate journey",
+  "theme": "bien-gioi",
+  "summary": "Từ di tích chiến thắng Làng Vây đến Nhà tù Lao Bảo, kết thúc ở Cửa khẩu quốc tế Lao Bảo trên tuyến Đường 9.",
+  "summaryEn": "From the Lang Vay Victory Historic Site to Lao Bao Prison, ending at the Lao Bao International Border Gate on Road 9.",
+  "stops": [
+    {
+      "place": "di-tich-lang-vay"
+    },
+    {
+      "place": "nha-tu-lao-bao"
+    },
+    {
+      "place": "cua-khau-lao-bao"
+    }
+  ],
+  "isSample": true
+}

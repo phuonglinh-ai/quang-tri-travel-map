@@ -1,0 +1,28 @@
+{
+  "name": "Hành trình làng nghề vùng Quảng Trị",
+  "nameEn": "Craft villages of Quang Tri",
+  "theme": "lang-nghe",
+  "summary": "Đi qua các làng nghề Lan Đình, Cẩm Thạch, Phổ Lại, Phương Ngạn, Bố Liêu, kết thúc ở nghề nấu rượu Kim Long.",
+  "summaryEn": "A route through the craft villages of Lan Dinh, Cam Thach, Pho Lai, Phuong Ngan and Bo Lieu, ending at Kim Long rice wine distilling.",
+  "stops": [
+    {
+      "place": "may-tre-lan-dinh"
+    },
+    {
+      "place": "bun-cam-thach"
+    },
+    {
+      "place": "lang-pho-lai"
+    },
+    {
+      "place": "quat-giay-phuong-ngan"
+    },
+    {
+      "place": "lang-non-bo-lieu"
+    },
+    {
+      "place": "ruou-kim-long"
+    }
+  ],
+  "isSample": true
+}
